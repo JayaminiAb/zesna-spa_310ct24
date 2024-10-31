@@ -1,0 +1,17 @@
+.calendar-container {
+    width: 100%; /* Make the container take the full width */
+    padding: 0; /* Optional: Remove padding if any */
+    margin: 0; /* Optional: Remove margin if any */
+  }
+  
+  full-calendar {
+    width: 100%; /* Ensure FullCalendar takes the full width of the container */
+    height: auto; /* Adjust height as needed */
+  }
+  
+  .fc-header-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }

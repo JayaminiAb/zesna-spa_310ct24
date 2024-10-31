@@ -1,0 +1,73 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<h5>Petty Cash</h5>
+			<div class="p-fluid p-formgrid grid">
+
+				<div class="field col-12 md:col-3">
+                    <label htmlFor="state">Select Estate</label>
+                    <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
+                        (onChange)="onEstateChange($event)">
+                    </p-dropdown>
+                </div>
+				
+
+				<div class="field col-12 md:col-3">
+					<label htmlFor="state">Reimbursement Amount</label>
+					
+					<div class="display_flex_center">
+						<input pInputText id="reimbursementAmount" type="number" [(ngModel)]="reimbursementAmount" />
+						<button class="submit_btn" pButton label="Reimburse" (click)="reimbursePettyCash()"></button>
+					</div>
+					
+					
+				</div>
+
+				<div class="field col-12 md:col-3">
+					
+					<label htmlFor="state">Remaining Amount</label>
+					
+					<ng-container *ngIf="selectedEstate else notAvailable">
+						<div class="font-bold text-38px text-align-right">
+							<label for="" class="text-blue-600">{{selectedCompanyDetails.RemainingPettyCashAmount | currency: 'Rs'}}</label>
+							
+						</div>
+					</ng-container>
+					<ng-template #notAvailable>
+						<div class="font-bold text-38px text-align-right">
+							<label for="" class="text-blue-600">N/A</label>
+							
+						</div>
+					</ng-template>
+					
+				</div>
+
+				
+				<!-- Petty Cash History Table -->
+				<p-table [value]="pettyCashHistory"  styleClass="p-datatable-striped" 
+				[tableStyle]="{'width': '100%'}">
+					<ng-template pTemplate="header">
+						<tr>
+							<th>Reimbursed By</th>
+							
+							<th>Amount</th>
+							
+							<th>Date</th>
+						</tr>
+					</ng-template>
+					<ng-template pTemplate="body" let-rowData>
+						<tr>
+							<td>{{ rowData.reimbursedUser }}</td>
+							
+							<td>{{ rowData.amount| currency: 'Rs' }}</td>
+							
+							<td>{{ rowData.date | date }}</td>
+						</tr>
+					</ng-template>
+				</p-table>
+
+				
+			</div>
+		</div>
+	</div>
+</div>

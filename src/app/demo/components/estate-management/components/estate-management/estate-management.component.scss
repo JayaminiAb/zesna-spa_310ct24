@@ -1,0 +1,72 @@
+.btn_panel{
+    button{
+        width: 100px;
+    }
+}
+::ng-deep p-table {
+    width: 100% !important;
+}
+
+::ng-deep .p-sidebar .p-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h5 {
+        margin-bottom: 0px;
+    }
+}
+
+.no_bg_color{
+    
+    button{
+        background-color: transparent;
+        width: max-content;
+        padding: 0;
+        color: #fb6d02;
+        padding: 3px 5px;
+    }
+    .p-button-success{
+        color: #fb6d02;
+    }
+    .p-button-info{
+        color: #fb6d02;
+    }
+    .p-button-danger{
+        color: #fb6d02;
+    }
+    .disabled_button{
+        cursor: not-allowed;
+    }
+    
+}
+
+::ng-deep p-sidebar .p-sidebar-right {
+    width: 30%;
+
+    /* Default to 30% for large screens */
+    /* Medium screens (e.g., MD) */
+    @media (max-width: 991px) {
+
+        width: 60%;
+        /* 60% width for medium screens */
+
+    }
+
+    @media (max-width: 767px) {
+
+        width: 100%;
+        /* 100% width for small screens */
+
+    }
+}
+::ng-deep .p-datatable .p-datatable-tbody > tr > td{
+    padding:  5px;
+}
+::ng-deep .p-datatable .p-datatable-thead > tr > th{
+    padding:  5px;
+}
+
+
+
+/* Small screens (e.g., SM and XS) */

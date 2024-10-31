@@ -1,0 +1,28 @@
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .report-table th {
+    text-align: left;
+    font-size: 20px;
+    padding: 8px;
+    background-color: #f4f4f4;
+  }
+  
+  .report-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .report-table td:first-child {
+    font-weight: bold;
+  }
+  
+  /* Highlight the total amount row */
+  .highlight {
+    background-color: #ffd700; /* Gold background */
+    font-weight: bold;
+    color: #000;
+  }
+  

@@ -1,0 +1,64 @@
+::ng-deep p-table{
+    width: 100% !important;
+}
+
+.display_flex_center{
+    display: flex;
+    align-items: center;
+}
+
+.text-38px{
+    font-size: 38px;
+}
+.text-align-right{
+    text-align: right;
+}
+
+.set_width150{
+    width: 150px;
+}
+.no_bg_color{
+    
+    button{
+        background-color: transparent;
+        width: max-content;
+        padding: 0;
+        color: #fb6d02;
+        padding: 3px 5px;
+    }
+    .p-button-success{
+        color: #fb6d02;
+    }
+    .p-button-info{
+        color: #fb6d02;
+    }
+    .p-button-danger{
+        color: #fb6d02;
+    }
+    .disabled_button{
+        cursor: not-allowed;
+    }
+    
+}
+.font_bold_underline{
+    font-weight: bold !important;
+    text-decoration: underline  !important;
+
+}
+.font_bold{
+    font-weight: bold  !important;
+}
+.custom_placement{
+    justify-content: end;
+    margin: 0;
+}
+.min-width150{
+    min-width: 150px;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td{
+    padding:  5px;
+}
+::ng-deep .p-datatable .p-datatable-thead > tr > th{
+    padding:  5px;
+}

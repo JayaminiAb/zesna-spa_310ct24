@@ -1,0 +1,127 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Petty Cash Report</h5>
+            <div class="p-fluid p-formgrid grid">
+
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="state">Select Estate</label>
+                    <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
+                        (onChange)="onEstateChange($event)">
+                    </p-dropdown>
+                </div>
+
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="state">Select Date</label>
+                    <!-- Date Range Selection -->
+                    <p-calendar [(ngModel)]="selectedDate" (onSelect)="onDateRangeChange($event)"
+                        placeholder="Select Date"></p-calendar>
+                </div>
+
+
+                <div class="field col-12 md:col-3">
+
+                    <label htmlFor="state">Total expenses</label>
+
+                    <ng-container *ngIf="selectedEstate else notAvailable">
+                        <div class="font-bold text-38px text-align-right">
+                            <label for="" class="text-blue-600">{{0 |
+                                currency: 'Rs'}}</label>
+
+                        </div>
+                    </ng-container>
+                    <ng-template #notAvailable>
+                        <div class="font-bold text-38px text-align-right">
+                            <label for="" class="text-blue-600">N/A</label>
+
+                        </div>
+                    </ng-template>
+
+                </div>
+
+
+
+
+            </div>
+
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-3">
+                    
+                    <button pButton type="button" label="Add New Expense" icon="pi pi-plus" (click)="addNewExpense()"></button>
+                </div>
+
+            </div>
+            <div class="p-fluid p-formgrid grid">
+                <!-- Petty Cash History Table -->
+                <p-treeTable [value]="files" [columns]="cols" [scrollable]="true" [tableStyle]="{'min-width':'50rem'}">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns; let i = index" [ngClass]="i ==1 || i ==2 || i==3 || i==4 ? 'set_width150' : ''">
+                                {{ col.header }}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+                        <tr [ttRow]="rowNode">
+                            <td *ngFor="let col of columns; let i = index" ttEditableColumn [ngClass]="i ==1 || i ==2 || i==3 || i==4 ? 'set_width150' : ''">
+                                <!-- <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler> -->
+                
+                                <p-treeTableCellEditor>
+                                    <ng-template pTemplate="input" *ngIf="col.field != 'action'">
+                                        <input pInputText type="text" [(ngModel)]="rowData[col.field]" />
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        <div *ngIf="col.field != 'action'">
+                                            <!-- Display the row number in the first column -->
+                                            <label [ngClass]="i === 0 && rowNode.level == 0 ? 'font_bold_underline' : i === 0 && rowNode.level == 1 ? 'font_bold' : ''" *ngIf="i === 0">{{ rowData['rowNumber'] }} </label>
+                                            <label [ngClass]="i === 0 && rowNode.level == 0 ? 'font_bold_underline' : i === 0 && rowNode.level == 1 ? 'font_bold' : ''">{{ rowData[col.field] }}</label>
+                                            
+                                        </div>
+                                        <div *ngIf="col.field == 'action'" class="flex flex-wrap gap-2 no_bg_color" (click)="$event.stopPropagation();">
+                                            <button *ngIf="rowNode.level == 0" pButton type="button" class=""  (click)="addExpenseTop(rowData['rowNumber'])">
+                                                <i class="fa fa-level-up" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 0" pButton  class=" p-button-success"(click)="addExpenseBottom(rowData['rowNumber'])">
+                                                <i class="fa fa-level-down" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 0" pButton  class=" p-button-info" (click)="addSubExpenseFromMain(rowData['rowNumber'])">
+                                                <i class="fa fa-indent" aria-hidden="true"></i>
+                                            </button>
+
+                                            <button *ngIf="rowNode.level == 1" pButton type="button" class=""  (click)="addSubExpenseTop(rowData['rowNumber'])">
+                                                <i class="fa fa-level-up" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 1" pButton  class=" p-button-success"(click)="addSubExpenseBottom(rowData['rowNumber'])">
+                                                <i class="fa fa-level-down" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 1" pButton  class=" p-button-info" (click)="addThirdLevelExpenseFromSub(rowData['rowNumber'])">
+                                                <i class="fa fa-indent" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 2" pButton type="button" class=""  (click)="addThirdLevelExpenseTop(rowData['rowNumber'])">
+                                                <i class="fa fa-level-up" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 2" pButton  class=" p-button-success"(click)="addThirdLevelExpenseBottom(rowData['rowNumber'])">
+                                                <i class="fa fa-level-down" aria-hidden="true"></i>
+                                            </button>
+                                            <button *ngIf="rowNode.level == 2" [disabled]="true" pButton  class=" p-button-info disabled_button" >
+                                                <i class="fa fa-indent" aria-hidden="true"></i>
+                                            </button>
+                                            <!-- <button pButton icon="pi pi-pencil" class=" p-button-secondary" ></button> -->
+                                            <button pButton  class=" p-button-danger" (click)="onDateRangeChange(rowNode)">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </ng-template>
+                                </p-treeTableCellEditor>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-treeTable>
+                
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>

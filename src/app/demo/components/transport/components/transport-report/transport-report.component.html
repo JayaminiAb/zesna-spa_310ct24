@@ -1,0 +1,65 @@
+<p-table [value]="[selectedTransportFullDetails]" class="report-table">
+   
+    <ng-template pTemplate="body" let-transport>
+      <tr>
+        <td><strong>Vehicle Number:</strong></td>
+        <td>{{ transport.VehicleNumber }}</td>
+      </tr>
+      <tr>
+        <td><strong>Transported Item:</strong></td>
+        <td>{{ transport.TransportedItem }}</td>
+      </tr>
+      <tr>
+        <td><strong>Trip Start Date:</strong></td>
+        <td>{{ transport.TripStartDate | date: 'short' }}</td>
+      </tr>
+      <tr>
+        <td><strong>Trip End Date:</strong></td>
+        <td>{{ transport.TripEndDate | date: 'short' }}</td>
+      </tr>
+      <tr>
+        <td><strong>Report Created Date:</strong></td>
+        <td>{{ transport.ReportCreatedDate | date: 'short' }}</td>
+      </tr>
+      <tr>
+        <td><strong>Fuel Expense:</strong></td>
+        <td>{{ transport.FuelExpense | currency }}</td>
+      </tr>
+      <tr>
+        <td><strong>Driver Payment:</strong></td>
+        <td>{{ transport.DriverPayment | currency }}</td>
+      </tr>
+      <tr>
+        <td><strong>Driver Meals Expense:</strong></td>
+        <td>{{ transport.DriverMealsExpense | currency }}</td>
+      </tr>
+      <tr>
+        <td><strong>Helper Payment:</strong></td>
+        <td>{{ transport.HelperPayment | currency }}</td>
+      </tr>
+      <tr>
+        <td><strong>Helper Meals Expense:</strong></td>
+        <td>{{ transport.HelperMealsExpense | currency }}</td>
+      </tr>
+      <tr>
+        <td><strong>Highway Charges:</strong></td>
+        <td>{{ transport.HighwayCharges | currency }}</td>
+      </tr>
+      <tr>
+        <td><strong>Bus Pair Parking:</strong></td>
+        <td>{{ transport.BusPairParking | currency }}</td>
+      </tr>
+      <!-- Highlighted Total Amount Row -->
+      <tr class="highlight">
+        <td><strong>Total Amount (Calculated):</strong></td>
+        <td>
+          {{
+            transport.FuelExpense + transport.DriverPayment + transport.DriverMealsExpense +
+            transport.HelperPayment + transport.HelperMealsExpense + transport.HighwayCharges +
+            transport.BusPairParking | currency
+          }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  

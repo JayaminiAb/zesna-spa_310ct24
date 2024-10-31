@@ -1,0 +1,78 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<h5>Estate List</h5>
+			<div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-3">
+					<button pButton type="button" label="Add New Estate" icon="pi pi-plus"
+						(click)="addNewState()"></button>
+				</div>
+
+
+				<p-table [value]="estatesDetails">
+					<ng-template pTemplate="header">
+						<tr>
+							<th>State Name</th>
+							<th>Address</th>
+							<th>Contact Number</th>
+							<th>Other Details</th>
+							<th>Actions</th>
+						</tr>
+					</ng-template>
+					<ng-template pTemplate="body" let-state>
+						<tr>
+							<td>{{state.name}}</td>
+							<td>{{state.address}}</td>
+							<td>{{state.contactNumber}}</td>
+							<td>{{state.otherDetails}}</td>
+							<td class="flex flex-wrap gap-2 no_bg_color">
+
+								<button pButton icon="pi pi-eye" class="p-button-success"
+									(click)="viewState(state)"></button>
+								<button pButton icon="pi pi-pencil" class="p-button-info"
+									(click)="editState(state)"></button>
+								<button pButton icon="pi pi-trash" class="p-button-danger"
+									(click)="deleteState(state)"></button>
+							</td>
+						</tr>
+					</ng-template>
+				</p-table>
+
+				<p-sidebar [(visible)]="displaySlider" position="right" [modal]="true">
+					<ng-template pTemplate="header">
+						<h5>{{ selectedEstate.Id === 0 ? 'Add New Estate' : 'Update '+ selectedEstate.Name + ' Estate'}}</h5>
+					</ng-template>
+					
+					<div class="p-fluid p-formgrid grid">
+
+						<div class="field col-12 ">
+							<label for="name">Name:</label>
+							<input pInputText id="name" [(ngModel)]="selectedEstate.Name" />
+						</div>
+						<div class="field col-12 ">
+							<label for="address">Address:</label>
+						<input pInputText id="address" [(ngModel)]="selectedEstate.AddressDetails" />
+						</div>
+						<div class="field col-12 ">
+							<label for="contactNumber">Contact Number:</label>
+							<input pInputText id="contactNumber" [(ngModel)]="selectedEstate.ContactNumber" />
+						</div>
+						<div class="field col-12 ">
+							<label for="otherDetails">Other Details:</label>
+						<input pInputText id="otherDetails" [(ngModel)]="selectedEstate.OtherDetails" />
+						</div>
+						<div class=" field col-12 flex flex-wrap gap-2 btn_panel">
+							<button pButton type="button" [label]="selectedEstate.Id === 0 ? 'Create' : 'Update'" (click)="saveState(selectedEstate.Id === 0 ? 'INSERT' : 'UPDATE')"></button>
+							<button pButton type="button" label="Cancel" class="p-button-danger"
+								(click)="hideSlider()"></button>
+						</div>
+					</div>
+
+					
+
+				</p-sidebar>
+
+			</div>
+		</div>
+	</div>
+</div>

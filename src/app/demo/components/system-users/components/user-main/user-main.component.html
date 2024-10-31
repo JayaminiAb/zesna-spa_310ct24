@@ -1,0 +1,83 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<h5>User List</h5>
+			<div class="p-fluid p-formgrid grid">
+                
+				<div class="field col-12 md:col-3">
+					<label htmlFor="state">Select Estate</label>
+					<p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
+					  (onChange)="onCompanyChange($event)">
+					</p-dropdown>
+				  </div>
+		  
+			
+
+				
+			</div>
+			<div class="p-fluid p-formgrid grid">
+                
+                <div class="field col-12 md:col-3">
+                  
+					<button pButton type="button" label="Add New User" icon="pi pi-plus" (click)="addNewUser()"></button>
+                  
+                  </div>
+			
+
+				
+			</div>
+			<p-table [value]="usersDetails">
+				<ng-template pTemplate="header">
+					<tr>
+						<th>Username</th>
+						<th>Email</th>
+						<th>Role</th>
+						<th>Status</th>
+						<th>Actions</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-user>
+					<tr>
+						<td>{{user.Fullname}}</td>
+						<td>{{user.Email}}</td>
+						<td>{{user.UserRoleDetails.Name}}</td>
+						<td>{{user.IsActive}}</td>
+						<td class="flex flex-wrap gap-2 no_bg_color">
+							<button pButton icon="pi pi-eye" class="p-button-success" (click)="viewUser(user)"></button>
+							<button pButton icon="pi pi-pencil" class="p-button-info" (click)="editUser(user)"></button>
+							<button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteUser(user)"></button>
+						</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+</div>
+<p-sidebar [(visible)]="displayUserSlider" position="right" [modal]="true">
+	<ng-template pTemplate="header">
+		<h5>{{selectedUserDetails.Id === 0 ? 'Add New User' : 'Update '+ selectedUserDetails.Fullname}}</h5>
+	</ng-template>
+	
+	<div class="p-fluid p-formgrid grid">
+		<div class="field col-12">
+			<label for="username">Username:</label>
+			<input pInputText id="username" [(ngModel)]="selectedUserDetails.Fullname" />
+		</div>
+		<div class="field col-12">
+			<label for="email">Email:</label>
+			<input pInputText id="email" [(ngModel)]="selectedUserDetails.Email" />
+		</div>
+		<div class="field col-12">
+			<label for="role">Role:</label>
+			<input pInputText id="role" [(ngModel)]="selectedUserDetails.UserRoleDetails.Name" />
+		</div>
+		<div class="field col-12">
+			<label for="status">Status:</label>
+			<input pInputText id="status" [(ngModel)]="selectedUserDetails.IsActive" />
+		</div>
+		<div class="field col-12 flex flex-wrap gap-2 btn_panel">
+			<button pButton type="button" [label]="selectedUserDetails.Id === 0 ? 'Create' : 'Update '" (click)="saveUser(selectedUserDetails.Id === 0 ? 'INSERT' : 'UPDATE')"></button>
+			<button pButton type="button" label="Cancel" class="p-button-danger" (click)="hideUserSlider()"></button>
+		</div>
+	</div>
+</p-sidebar>

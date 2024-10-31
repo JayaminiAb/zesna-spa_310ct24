@@ -1,0 +1,24 @@
+::ng-deep p-table{
+    width: 100% !important;
+}
+
+.display_flex_center{
+    display: flex;
+    align-items: center;
+}
+.submit_btn{
+    margin-left: 10px;
+}
+.text-38px{
+    font-size: 38px;
+}
+.text-align-right{
+    text-align: right;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td{
+    padding:  5px;
+}
+::ng-deep .p-datatable .p-datatable-thead > tr > th{
+    padding:  5px;
+}

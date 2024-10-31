@@ -1,0 +1,197 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Transport Reports</h5>
+            <div class="p-fluid p-formgrid grid">
+
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="state">Select Estate</label>
+                    <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
+                        (onChange)="onEstateChange($event)">
+                    </p-dropdown>
+                </div>
+
+
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="state">Search by vehicle number</label>
+
+                    <div class="display_flex_center">
+                        <input pInputText id="reimbursementAmount" type="text" />
+
+                    </div>
+
+
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="state">Search by transport item</label>
+
+                    <div class="display_flex_center">
+                        <input pInputText id="reimbursementAmount" type="text" />
+
+                    </div>
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="state">Reported Within</label>
+
+                    <div class="display_flex_center">
+
+                        <p-calendar [(ngModel)]="filter.DatesWithin" selectionMode="range" [readonlyInput]="true" (onSelect)="getEstateTransportReports()" />
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-3">
+
+
+                    <div class="display_flex_center">
+
+
+                        <button pButton type="button" label="Add New Report" icon="pi pi-plus"
+                            (click)="addNewReport()"></button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Petty Cash History Table -->
+            <p-table [value]="transportReports" styleClass="p-datatable-striped" [tableStyle]="{'width': '100%'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Vehicle Number</th>
+                        <th>Transported Item</th>
+                        <th>Route</th>
+                        <th>Trip Start Date</th>
+                        <th>Trip End Date</th>
+                        <th>Report Created Date</th>
+                        <th>Total Amount</th>
+
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-transportDetail>
+                    <tr>
+                        <td>{{ transportDetail.VehicleNumber }}</td>
+                        <td>{{ transportDetail.TransportedItem }}</td>
+                        <td>{{ transportDetail.Route }}</td>
+                        <td>{{ transportDetail.TripStartDate | date: 'shortDate' }}</td>
+                        <td>{{ transportDetail.TripEndDate | date: 'shortDate' }}</td>
+                        <td>{{ transportDetail.ReportCreatedDate | date: 'shortDate' }}</td>
+                        <td>{{ transportDetail.TotalAmount | currency }}</td>
+
+                        <td class="flex flex-wrap gap-2 no_bg_color">
+
+                            <button pButton icon="pi pi-eye" class="p-button-success"
+                                (click)="viewReport(transportDetail)"></button>
+                            <button pButton icon="pi pi-pencil" class="p-button-info"
+                                (click)="editReport(transportDetail)"></button>
+                            <button pButton icon="pi pi-trash" class="p-button-danger"
+                                (click)="deleteReport(transportDetail)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+
+        </div>
+    </div>
+
+</div>
+
+<p-sidebar [(visible)]="displayTransportSlider" position="right" [modal]="true">
+    <ng-template pTemplate="header">
+        <h5>{{editingTransport ? 'Edit Transport Details' : 'Add New Transport Details'}}</h5>
+    </ng-template>
+
+    <div class="p-fluid p-formgrid grid">
+        <!-- Vehicle Number -->
+        <div class="field col-12">
+            <label for="vehicleNumber">Vehicle Number:</label>
+            <input pInputText id="vehicleNumber" [(ngModel)]="newTransportDetails.VehicleNumber" />
+        </div>
+
+        <!-- Transported Item -->
+        <div class="field col-12">
+            <label for="transportedItem">Transported Item:</label>
+            <input pInputText id="transportedItem" [(ngModel)]="newTransportDetails.TransportedItem" />
+        </div>
+
+        <!-- Trip Start Date -->
+        <div class="field col-12">
+            <label for="tripStartDate">Trip Start Date:</label>
+            <p-calendar [(ngModel)]="newTransportDetails.TripStartDate" dateFormat="yy-mm-dd"></p-calendar>
+        </div>
+
+        <!-- Trip End Date -->
+        <div class="field col-12">
+            <label for="tripEndDate">Trip End Date:</label>
+            <p-calendar [(ngModel)]="newTransportDetails.TripEndDate" dateFormat="yy-mm-dd"></p-calendar>
+        </div>
+
+        <!-- Total Amount -->
+        <div class="field col-12">
+            <label for="totalAmount">Total Amount:</label>
+            <input pInputText id="totalAmount" [(ngModel)]="newTransportDetails.TotalAmount" />
+        </div>
+
+        <!-- Route -->
+        <div class="field col-12">
+            <label for="route">Route:</label>
+            <input pInputText id="route" [(ngModel)]="newTransportDetails.Route" />
+        </div>
+
+        <!-- Fuel Expense -->
+        <div class="field col-12">
+            <label for="fuelExpense">Fuel Expense:</label>
+            <input pInputText id="fuelExpense" [(ngModel)]="newTransportDetails.FuelExpense" />
+        </div>
+
+        <!-- Driver Payment -->
+        <div class="field col-12">
+            <label for="driverPayment">Driver Payment:</label>
+            <input pInputText id="driverPayment" [(ngModel)]="newTransportDetails.DriverPayment" />
+        </div>
+
+        <!-- Driver Meals Expense -->
+        <div class="field col-12">
+            <label for="driverMealsExpense">Driver Meals Expense:</label>
+            <input pInputText id="driverMealsExpense" [(ngModel)]="newTransportDetails.DriverMealsExpense" />
+        </div>
+
+        <!-- Helper Payment -->
+        <div class="field col-12">
+            <label for="helperPayment">Helper Payment:</label>
+            <input pInputText id="helperPayment" [(ngModel)]="newTransportDetails.HelperPayment" />
+        </div>
+
+        <!-- Helper Meals Expense -->
+        <div class="field col-12">
+            <label for="helperMealsExpense">Helper Meals Expense:</label>
+            <input pInputText id="helperMealsExpense" [(ngModel)]="newTransportDetails.HelperMealsExpense" />
+        </div>
+
+        <!-- Highway Charges -->
+        <div class="field col-12">
+            <label for="highwayCharges">Highway Charges:</label>
+            <input pInputText id="highwayCharges" [(ngModel)]="newTransportDetails.HighwayCharges" />
+        </div>
+
+        <!-- Bus Pair Parking -->
+        <div class="field col-12">
+            <label for="busPairParking">Bus Pair Parking:</label>
+            <input pInputText id="busPairParking" [(ngModel)]="newTransportDetails.BusPairParking" />
+        </div>
+
+        <!-- Save and Cancel Buttons -->
+        <div class="field col-12 margin_bottom0 flex flex-wrap gap-2 btn_panel">
+            <button pButton type="button" label="Save" (click)="saveTransportDetails()"></button>
+            <button pButton type="button" label="Cancel" class="p-button-danger"
+                (click)="hideTransportSlider()"></button>
+        </div>
+    </div>
+</p-sidebar>
