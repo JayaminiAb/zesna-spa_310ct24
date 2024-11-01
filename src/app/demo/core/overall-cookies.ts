@@ -7,6 +7,6 @@ export interface OverallCookies {
     GetUserFullName(): string;
     GetUserId(): string;
     GetUserEmail(): string;
-    GetUserEstateId(): string;
     GetUserRole(): string;
+    GetUserInitialToken(): string;
 }

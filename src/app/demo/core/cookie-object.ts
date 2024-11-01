@@ -5,6 +5,7 @@ export class CookieObject {
     LoggedUserFullName: string;
     LoggedUserId: string;
     LoggedUserEmail: string;
-    LoggedUserEstate: string;
     LoggedUserRole: string;
+    InitialToken: string;
+   
 }

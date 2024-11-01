@@ -6,22 +6,34 @@ import { Router } from '@angular/router';
 import { UserDetails } from '../../core/user/user-details';
 import { catchError } from 'rxjs';
 import { ErrorMessage } from '../../core/error-message';
+import { RoleDetails } from '../../core/role-details';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ZesnaUserService {
+  
 
 
   private GetAllUserInfoDetailsWithPGUrl = API$DOMAIN + 'api/UserManagement/GetAllUserInfoDetailsWithPG';
   private SetUserInfoDetailsUrl = API$DOMAIN + 'api/UserManagement/SetlUserInfoDetails';
+  private GetRoleDetailsUrl = API$DOMAIN + 'api/Authentication/GetRoleDetails';
 
 
   // Constructor
   constructor(private http: HttpClient, private router: Router) {
 
   }
+  GetUserRoleList() {
+    
 
+
+  return this.http.get<RoleDetails[]>(this.GetRoleDetailsUrl).pipe(
+    catchError(error => {
+      return this.handleError('GetUserRoleList', error)
+    })
+  );
+}
   // Authenticating the login
   GetAllUserInfoDetailsWithPG(filter: Filter, estateId: number) {
     // Setting the params

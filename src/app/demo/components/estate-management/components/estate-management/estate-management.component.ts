@@ -46,9 +46,9 @@ export class EstateManagementComponent {
   }
 
   ngOnInit(): void {
-    if(this.runningMode != 'TESTING'){
+    
       this.getAllEstatesWithPG();
-    }
+    
     
   }
 
@@ -83,9 +83,24 @@ export class EstateManagementComponent {
   }
 
   saveState(type: string): void {
-    this.zesnaEstateModel.SetEstateDetails(type,this.selectedEstate);
-    this.getAllEstatesWithPG();
-    this.hideSlider();
+    this.zesnaEstateModel.SetEstateDetails(type,this.selectedEstate).then(
+      (data) =>{
+        if(data){
+          this.selectedEstate = this.deep({
+            Id: 0,
+            Name: '',
+            AddressDetails: '',
+            ContactNumber: '',
+            OtherDetails: '',
+            Balance: 0,
+            Total: 0
+          });
+          this.getAllEstatesWithPG();
+          this.hideSlider();
+        }
+      }
+    );
+   
   }
 
   addNewState() {

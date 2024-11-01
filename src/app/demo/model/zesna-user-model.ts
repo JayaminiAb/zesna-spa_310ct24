@@ -2,8 +2,10 @@ import { Subscription } from "rxjs";
 import { ZesnaUserService } from "../service/zesna-services/zesna-user.service";
 import { Filter } from "../core/filter";
 import { UserDetails } from "../core/user/user-details";
+import { RoleDetails } from "../core/role-details";
 
 export class ZesnaUserModel{
+  
     //Store subscriptions
     allSubscriptions: Subscription[] = [];
 
@@ -21,6 +23,19 @@ export class ZesnaUserModel{
         // End of Loop through the services
     }
 
+    GetUserRoleList() {
+        var promise = new Promise((resolve, reject) => {
+            this.allSubscriptions.push(this._zesnaUserService.GetUserRoleList().subscribe(
+                data => {
+                    let returnData = <RoleDetails[]>data;
+                    // Resolve the promise
+                    resolve(returnData);
+                })
+            );
+        });
+        // return the promise
+        return promise;
+      }
      // Check if the email exists
      GetAllUserInfoDetailsWithPG(filter: Filter, estateId: number) {
         var promise = new Promise((resolve, reject) => {

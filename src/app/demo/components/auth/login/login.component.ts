@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LOGIN$USER_EMAIL$LIMIT, LOGIN$USER_PASSWORD$LIMIT } from 'src/app/demo/core/api-configs';
 import { IErrorMessage } from 'src/app/demo/core/i-error-message';
 import { OverallCookies } from 'src/app/demo/core/overall-cookies';
+import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
 import { ZesnaLoginModel } from 'src/app/demo/model/zesna-login-model';
 import { ZesnaLoginService } from 'src/app/demo/service/zesna-services/zesna-login.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
@@ -10,6 +11,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
+    styleUrl: './login.component.scss',
     styles: [`
         :host ::ng-deep .pi-eye,
         :host ::ng-deep .pi-eye-slash {
@@ -43,6 +45,7 @@ export class LoginComponent {
 
     constructor(public layoutService: LayoutService, private router: Router, private _zesnaLoginService: ZesnaLoginService) {
         this.zesnaLoginModel = new ZesnaLoginModel(this._zesnaLoginService);
+        this.overallCookieInterface = new OverallCookieModel();
     }
 
     ngOnDestroy() {
@@ -100,7 +103,7 @@ export class LoginComponent {
                                 // Setting the user token
                                 this.overallCookieInterface.SetUserToken(loginToken);
                                 // Navigate to the layout
-                                this.router.navigate(['/layout']);
+                                this.router.navigate(['/main/dashboard']);
                             }
                             // End of Check if the token is valid
                         }

@@ -15,6 +15,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { UserMainComponent } from './components/user-main/user-main.component';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 
 
@@ -37,7 +38,8 @@ import { UserMainComponent } from './components/user-main/user-main.component';
 		MultiSelectModule,
 		InputTextareaModule,
 		InputTextModule,
-		TableModule
+		TableModule,
+		InputSwitchModule
     ]
 })
 export class SystemUsersModule { }

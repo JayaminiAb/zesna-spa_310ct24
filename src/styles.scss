@@ -70,3 +70,45 @@ $gutter: 1rem; //for primeflex grid system
     background-color: #fbe6d5;
 }
 
+// .p-inputswitch {
+//     width: 3rem;
+//     height: 1.25rem;
+// }
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+    background: #fb6d02;
+}
+.p-inputswitch.p-focus .p-inputswitch-slider {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0.2rem #ffe4d0 !important;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+    border-color: #fb6d02;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+    color: #fb6d02;
+    background: #fbe6d5;
+}
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+    background: #fae3d0;
+}
+.p-dropdown:not(.p-disabled).p-focus {
+    border-color: #fb6d02;
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0.2rem #ffe4d0 !important;
+
+}
+// .p-inputswitch .p-inputswitch-slider:before {
+//     background: #ffffff;
+//     width: 1rem;
+//     height: 1rem;
+//     margin-top: -0.5rem;
+//     left: ;
+//     border-radius: 50%;
+//     transition-duration: 0.2s;
+// }
+
+

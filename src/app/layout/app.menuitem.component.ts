@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MenuService } from './app.menu.service';
 import { LayoutService } from './service/app.layout.service';
+import { OverallCookies } from '../demo/core/overall-cookies';
+import { OverallCookieModel } from '../demo/model/zesna-cookie-model';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -64,8 +66,14 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
     menuResetSubscription: Subscription;
 
     key: string = "";
+     //Store logged user details
+    loggedUserId: number = 0;
+    loggedUserRole: string = '';
+// Store the cookie interface
+overallCookieInterface: OverallCookies;
 
     constructor(public layoutService: LayoutService, private cd: ChangeDetectorRef, public router: Router, private menuService: MenuService) {
+        this.overallCookieInterface = new OverallCookieModel();
         this.menuSourceSubscription = this.menuService.menuSource$.subscribe(value => {
             Promise.resolve(null).then(() => {
                 if (value.routeEvent) {
@@ -92,8 +100,14 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        
+        this.loggedUserRole = this.overallCookieInterface.GetUserRole();
         this.key = this.parentKey ? this.parentKey + '-' + this.index : String(this.index);
-
+        if(this.item.enableFor){
+            if(!this.item.enableFor.includes(this.loggedUserRole)){
+                this.item.visible = false;
+            }
+        }
         if (this.item.routerLink) {
             this.updateActiveStateFromRoute();
         }
