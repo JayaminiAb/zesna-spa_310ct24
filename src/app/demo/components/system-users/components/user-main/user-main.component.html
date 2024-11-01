@@ -6,8 +6,8 @@
                 
 				<div class="field col-12 md:col-3">
 					<label htmlFor="state">Select Estate</label>
-					<p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
-					  (onChange)="onCompanyChange($event)">
+					<p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate" optionLabel="Name" 
+					  (onChange)="onEstateChange($event)">
 					</p-dropdown>
 				  </div>
 		  
@@ -41,7 +41,7 @@
 						<td>{{user.Fullname}}</td>
 						<td>{{user.Email}}</td>
 						<td>{{user.UserRoleDetails.Name}}</td>
-						<td>{{user.IsActive}}</td>
+						<td>{{user.IsActive ? 'Active' : 'Blocked'}}</td>
 						<td class="flex flex-wrap gap-2 no_bg_color">
 							<button pButton icon="pi pi-eye" class="p-button-success" (click)="viewUser(user)"></button>
 							<button pButton icon="pi pi-pencil" class="p-button-info" (click)="editUser(user)"></button>
@@ -68,12 +68,20 @@
 			<input pInputText id="email" [(ngModel)]="selectedUserDetails.Email" />
 		</div>
 		<div class="field col-12">
-			<label for="role">Role:</label>
-			<input pInputText id="role" [(ngModel)]="selectedUserDetails.UserRoleDetails.Name" />
+			<label for="email">Password:</label>
+			<input pInputText type="password" id="password" [(ngModel)]="selectedUserDetails.Password" />
 		</div>
 		<div class="field col-12">
+			<label for="role">Role:</label>
+			<p-dropdown [options]="userRoleDetails" [(ngModel)]="selectedUserDetails.UserRoleDetails" placeholder="Select User Role" optionLabel="Name" 
+					  >
+					</p-dropdown>
+			
+		</div>
+		<div class="field col-12 flex flex-wrap gap-5">
 			<label for="status">Status:</label>
-			<input pInputText id="status" [(ngModel)]="selectedUserDetails.IsActive" />
+			<p-inputSwitch [(ngModel)]="selectedUserDetails.IsActive" />
+			<label for="status">{{selectedUserDetails.IsActive ? 'Active' : 'Blocked'}}</label>
 		</div>
 		<div class="field col-12 flex flex-wrap gap-2 btn_panel">
 			<button pButton type="button" [label]="selectedUserDetails.Id === 0 ? 'Create' : 'Update '" (click)="saveUser(selectedUserDetails.Id === 0 ? 'INSERT' : 'UPDATE')"></button>

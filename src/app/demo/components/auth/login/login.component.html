@@ -1,23 +1,64 @@
 <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
     <div class="flex flex-column align-items-center justify-content-center">
         <!-- <img src="assets/layout/images/logo/with_company_name-01.jpg" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0">                 -->
-        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, #fb6d02 10%, rgba(33, 150, 243, 0) 30%);">
-            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+        <div
+            style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, #fb6d02 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="w-full surface-card py-2 px-5 sm:px-8" style="border-radius:53px">
                 <div class="text-center mb-5">
-                    <img src="assets/layout/images/logo/with_company_name-01.jpg" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0" style="width: 14rem !important;">
+                    <img src="assets/layout/images/logo/with_company_name-01.jpg" alt="Sakai logo"
+                        class="mb-5 w-6rem flex-shrink-0" style="width: 14rem !important;">
                     <!-- <img src="assets/demo/images/login/avatar.png" alt="Image" height="50" class="mb-3"> -->
                     <div class="text-900 text-3xl font-medium mb-3">Welcome, User!</div>
                     <span class="text-600 font-medium">Sign in to continue</span>
                 </div>
 
                 <div>
-                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                    <input id="email1" [(ngModel)]="user_email" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+                    <div  class="mb-5">
+                        <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
+                        <input id="email1" [(ngModel)]="user_email" type="text" placeholder="Email address" pInputText
+                            class="w-full md:w-30rem" style="padding:1rem" [ngClass]="">
+                        <!-- Error Message -->
+                        <div class="col-12 no-side-padding error_message" *ngIf="CheckErrorCode('EMPTY$USER$EMAIL')">
+                            <span>{{CheckErrorCode('EMPTY$USER$EMAIL').ErrorMessage}}</span>
+                        </div>
+                        <!-- End of Error Message -->
 
+                        <!-- Error Message -->
+                        <div class="col-12 no-side-padding error_message" *ngIf="CheckErrorCode('EMAIL$FORMAT')">
+                            <span>{{CheckErrorCode('EMAIL$FORMAT').ErrorMessage}}</span>
+                        </div>
+                        <!-- End of Error Message -->
+
+                        <!-- Error Message -->
+                        <div class="col-12 no-side-padding error_message"
+                            *ngIf="CheckErrorCode('NOT$EXISTS$USER$EMAIL')">
+                            <span>{{CheckErrorCode('NOT$EXISTS$USER$EMAIL').ErrorMessage}}</span>
+                        </div>
+                        <!-- End of Error Message -->
+                    </div>
+                   <div class="mb-5">
                     <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-                    
-                    <p-password id="password1" [(ngModel)]="user_password" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
 
+                    <p-password id="password1" [(ngModel)]="user_password" placeholder="Password" [toggleMask]="true"
+                        inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                    <!-- Error Message -->
+                    <div class="col-12 no-side-padding error_message" *ngIf="CheckErrorCode('EMPTY$USER$PASSWORD')">
+                        <span>{{CheckErrorCode('EMPTY$USER$PASSWORD').ErrorMessage}}</span>
+                    </div>
+                    <!-- End of Error Message -->
+
+                    <!-- Error Message -->
+                    <div class="col-12 no-side-padding error_message" *ngIf="CheckErrorCode('LENGTH$USER$PASSWORD')">
+                        <span>{{CheckErrorCode('LENGTH$USER$PASSWORD').ErrorMessage}}</span>
+                    </div>
+                    <!-- End of Error Message -->
+
+                    <!-- Error Message -->
+                    <div class="col-12 no-side-padding error_message" *ngIf="CheckErrorCode('INVALID$LOGIN')">
+                        <span>{{CheckErrorCode('INVALID$LOGIN').ErrorMessage}}</span>
+                    </div>
+                    <!-- End of Error Message -->
+                   </div>
                     <div class="flex align-items-center justify-content-between mb-5 gap-5">
                         <div class="flex align-items-center">
                             <!-- <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
@@ -25,7 +66,8 @@
                         </div>
                         <!-- <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a> -->
                     </div>
-                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl backbb" (click)="onClickSignIn()" ></button>
+                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl backbb"
+                        (click)="loginOnClick()"></button>
                 </div>
             </div>
         </div>

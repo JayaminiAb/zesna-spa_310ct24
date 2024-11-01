@@ -19,8 +19,8 @@ export class OverallCookieModel implements OverallCookies {
             LoggedUserEmail: '',
             LoggedUserFullName: '',
             LoggedUserId: '',
-            LoggedUserEstate: '',
-            LoggedUserRole: ''
+            LoggedUserRole: '',
+            InitialToken: ''
         };
         // End of Initialize the object
     }
@@ -35,15 +35,18 @@ export class OverallCookieModel implements OverallCookies {
         // Decode the token
         let decodedToken = this.getDecodedAccessToken(userToken);
         // Setting the user full name
+        this.cookieObject.InitialToken = decodedToken['aud'];
+        // Setting the user full name
         this.cookieObject.LoggedUserFullName = decodedToken['acr'];
         // Setting the user email
         this.cookieObject.LoggedUserEmail = decodedToken['email'];
         // Setting the user id
         this.cookieObject.LoggedUserId = decodedToken['nameid'];
-        // Setting the user Estate
-        this.cookieObject.LoggedUserEstate = decodedToken['azp'];
+        
         // Setting the user role
-        this.cookieObject.LoggedUserRole = decodedToken['iat'];
+        this.cookieObject.LoggedUserRole = decodedToken['amr'];
+        // Setting the user role name
+        this.cookieObject.LoggedUserRole = decodedToken['azp'];
         // Store the cookie details
         this.StoreCookie();
     }
@@ -124,17 +127,18 @@ export class OverallCookieModel implements OverallCookies {
         return this.cookieObject.LoggedUserEmail;
     }
 
-    GetUserEstateId(): string {
-        // Validate the cookie object
-        this.ValidateCookie();
-        // Return the value
-        return this.cookieObject.LoggedUserEstate;
-    }
+   
     GetUserRole(): string {
         // Validate the cookie object
         this.ValidateCookie();
         // Return the value
         return this.cookieObject.LoggedUserRole;
+    }
+    GetUserInitialToken(): string {
+        // Validate the cookie object
+        this.ValidateCookie();
+        // Return the value
+        return this.cookieObject.InitialToken;
     }
 
     // Clearing the data from the local storage

@@ -11,6 +11,7 @@ import { ZesnaUserModel } from 'src/app/demo/model/zesna-user-model';
 import { ZesnaUserService } from 'src/app/demo/service/zesna-services/zesna-user.service';
 import { Filter } from 'src/app/demo/core/filter';
 import { DEV_STATE } from 'src/app/demo/core/api-configs';
+import { RoleDetails } from 'src/app/demo/core/role-details';
 
 @Component({
   selector: 'app-user-main',
@@ -59,6 +60,7 @@ export class UserMainComponent {
     UserRoleDetails: { Id: 0, Name: '' }
   };
   runningMode = DEV_STATE;
+  userRoleDetails: RoleDetails[] = [];
   constructor(private _zesnaCommonService: ZesnaCommonService, private _zesnaUserService: ZesnaUserService) {
     this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
     this.zesnaUserModel = new ZesnaUserModel(this._zesnaUserService);
@@ -75,10 +77,10 @@ export class UserMainComponent {
   }
 
   ngOnInit(): void {
-    if(this.runningMode != 'TESTING'){
-      this.getEstateListByUserId();
-    }
     
+      this.getEstateListByUserId();
+    
+      this.getUserRoleList();
     
   }
 
@@ -116,14 +118,26 @@ export class UserMainComponent {
           Total: 0,
           UserRoleDetails: { Id: 0, Name: '' }
         });
+        this.getEstateSystemUsersPG();
       }
     );
   }
 
-  onCompanyChange(event: any) {
+  onEstateChange(event: any) {
     // Fetch and filter petty cash history based on the selected company
-
     this.getEstateSystemUsersPG();
+  }
+
+  getUserRoleList(){
+    this.zesnaUserModel.GetUserRoleList().then(
+      (data) => {
+        if (data) {
+          debugger
+          this.userRoleDetails = <RoleDetails[]>data;
+          this.selectedUserDetails.UserRoleDetails = this.userRoleDetails.find(item => item.Name === 'Normal User')
+        }
+      }
+    );
   }
 
 
@@ -151,7 +165,7 @@ export class UserMainComponent {
       IsActive: true,
       Password: '',
       Total: 0,
-      UserRoleDetails: { Id: 0, Name: '' }
+      UserRoleDetails: this.userRoleDetails.find(item => item.Name === 'Normal User')
     };
     this.showSlider();
   }
