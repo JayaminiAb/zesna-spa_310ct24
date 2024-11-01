@@ -6,9 +6,9 @@
 
 				<div class="field col-12 md:col-3">
                     <label htmlFor="state">Select Estate</label>
-                    <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
-                        (onChange)="onEstateChange($event)">
-                    </p-dropdown>
+					<p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate" optionLabel="Name" 
+					(onChange)="onEstateChange($event)">
+				  </p-dropdown>
                 </div>
 				
 
@@ -29,13 +29,13 @@
 					
 					<ng-container *ngIf="selectedEstate else notAvailable">
 						<div class="font-bold text-38px text-align-right">
-							<label for="" class="text-blue-600">{{selectedCompanyDetails.RemainingPettyCashAmount | currency: 'Rs'}}</label>
+							<label for="" class="text-default-orange">{{selectedEstate.Balance | currency: 'Rs'}}</label>
 							
 						</div>
 					</ng-container>
 					<ng-template #notAvailable>
 						<div class="font-bold text-38px text-align-right">
-							<label for="" class="text-blue-600">N/A</label>
+							<label for="" class="text-default-orange">N/A</label>
 							
 						</div>
 					</ng-template>
@@ -57,11 +57,11 @@
 					</ng-template>
 					<ng-template pTemplate="body" let-rowData>
 						<tr>
-							<td>{{ rowData.reimbursedUser }}</td>
+							<td>{{ rowData.UserFullName }}</td>
 							
-							<td>{{ rowData.amount| currency: 'Rs' }}</td>
+							<td>{{ rowData.Amount| currency: 'Rs' }}</td>
 							
-							<td>{{ rowData.date | date }}</td>
+							<td>{{ rowData.AddedDate | date: 'dd MMM yyyy hh:mm a' }}</td>
 						</tr>
 					</ng-template>
 				</p-table>

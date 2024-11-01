@@ -14,7 +14,7 @@ import { Filter } from '../../core/filter';
 export class ZesnaCommonService {
 
   // API Urls
-  private GetAllEstateDetailsUrl = API$DOMAIN + 'api/Estate/GetAllEstateDetails';
+  private GetAllEstatesByUserIdUrl = API$DOMAIN + 'api/Estate/GetAllEstatesByUserId';
   private GetAllEstateDetailsWithPGUrl = API$DOMAIN + 'api/Estate/GetAllEstateDetailsWithPG';
   private GetAllEstateDetailsByIdUrl = API$DOMAIN + 'api/Estate/GetAllEstateDetailsById';
   private SetEstateDetailsUrl = API$DOMAIN + 'api/Estate/SetlEstateDetails';
@@ -24,15 +24,16 @@ export class ZesnaCommonService {
   constructor(private http: HttpClient, private router: Router) {
 
   }
+  
 
   // Authenticating the login
-  GetAllEstateDetails(userId: number) {
+  GetAllEstatesByUserId(userId: number) {
     // Setting the params
-    let my_params = new HttpParams();
+    let my_params = new HttpParams().set("userId", userId.toString());
 
-    return this.http.get<EstateDetails[]>(this.GetAllEstateDetailsUrl).pipe(
+    return this.http.get<EstateDetails[]>(this.GetAllEstatesByUserIdUrl, { params: my_params }).pipe(
       catchError(error => {
-        return this.handleError('LoginAuthentication', error)
+        return this.handleError('GetAllEstatesByUserId', error)
       })
     );
   }

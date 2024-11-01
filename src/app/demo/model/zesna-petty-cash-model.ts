@@ -37,6 +37,21 @@ export class ZesnaPettyCashModel{
         return promise;
     }
 
+     // Check if the email exists
+     GetEstateBalance(estateId: number) {
+        var promise = new Promise((resolve, reject) => {
+            this.allSubscriptions.push(this._zesnaPettyCashService.GetEstateBalance(estateId).subscribe(
+                data => {
+                    let returnData = <number>data;
+                    // Resolve the promise
+                    resolve(returnData);
+                })
+            );
+        });
+        // return the promise
+        return promise;
+    }
+
     SetReimburseBalance( estateId: number, reimburseAmount: number, userId: number) {
         var promise = new Promise((resolve, reject) => {
             this.allSubscriptions.push(this._zesnaPettyCashService.SetReimburseBalance(estateId, reimburseAmount, userId).subscribe(
