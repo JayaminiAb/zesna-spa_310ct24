@@ -8,6 +8,8 @@ import { ZesnaEmployeeModel } from 'src/app/demo/model/zesna-employee-model';
 import { ZesnaPettyCashService } from 'src/app/demo/service/zesna-services/zesna-petty-cash.service';
 import { ZesnaPettyCashModel } from 'src/app/demo/model/zesna-petty-cash-model';
 import { ReimburseDetails } from 'src/app/demo/core/petty-cash/petty-cash';
+import { OverallCookies } from 'src/app/demo/core/overall-cookies';
+import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
 
 @Component({
   selector: 'app-reimbursing',
@@ -44,11 +46,14 @@ export class ReimbursingComponent {
     SortCol: 'Name',
     DatesWithin: []
   }
-
+  // Store the cookie interface
+  overallCookieInterface: OverallCookies;
   constructor( private _zesnaCommonService: ZesnaCommonService, private _zesnaPettyCashService: ZesnaPettyCashService) { 
     this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
     this.zesnaPettyCashModel = new ZesnaPettyCashModel(this._zesnaPettyCashService);
-    
+    this.overallCookieInterface = new OverallCookieModel();
+    this.loggedUserId = +this.overallCookieInterface.GetUserId();
+    this.loggedUserRole = this.overallCookieInterface.GetUserRole();
   }
 
 
@@ -59,7 +64,7 @@ export class ReimbursingComponent {
 
   
   getEstateListByUserId() {
-    this.zesnaEstateModel.GetAllEstateDetails(this.loggedUserId).then(
+    this.zesnaEstateModel.GetAllEstatesByUserId(this.loggedUserId).then(
       (data) => {
         if (data) {
           this.estateList = data;
@@ -72,7 +77,7 @@ export class ReimbursingComponent {
 
   onEstateChange(event: any) {
     // Fetch and filter petty cash history based on the selected company
-    this.selectedEstate = event;
+   
     this.getReimburseDetails();
   }
 
@@ -81,6 +86,18 @@ export class ReimbursingComponent {
       (data) => {
         if (data) {
           this.pettyCashHistory = <ReimburseDetails[]>data;
+          this.getEstateBalance();
+          
+          
+        }
+      }
+    );
+  }
+  getEstateBalance(){
+    this.zesnaPettyCashModel.GetEstateBalance(this.selectedEstate.Id).then(
+      (data) => {
+        if (data) {
+          this.selectedEstate.Balance = <number>data;
           
           
         }
@@ -88,12 +105,11 @@ export class ReimbursingComponent {
     );
   }
 
-
  
   
 
   reimbursePettyCash() {
-    this.zesnaPettyCashModel.SetReimburseBalance(this.selectedEstate.Id, this.reimbursementAmount, this.selectedEstate.Id).then(
+    this.zesnaPettyCashModel.SetReimburseBalance(this.selectedEstate.Id, this.reimbursementAmount, this.loggedUserId).then(
       (data) => {
         this.getReimburseDetails();
       }

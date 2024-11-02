@@ -76,7 +76,7 @@ export class ReportComponent {
   }
 
   getEstateListByUserId() {
-    this.zesnaEstateModel.GetAllEstateDetails(this.loggedUserId).then(
+    this.zesnaEstateModel.GetAllEstatesByUserId(this.loggedUserId).then(
       (data) => {
         if (data) {
           this.estateList = data;
@@ -99,84 +99,84 @@ export class ReportComponent {
   }
 
   generatePettyCashTreeNode() {
-    this.pettyCashReportDetails = [
-      {
-        id: 1,
-        description: "Main Report 1",
-        weight: "50kg",
-        quantity: 10,
-        unitPrice: 100,
-        pettyCashReportList: [
-          {
-            id: 2,
-            description: "Sub Report 1-1",
-            weight: "20kg",
-            quantity: 5,
-            unitPrice: 50,
-            pettyCashReportList: [
-              {
-                id: 3,
-                description: "Sub-Sub Report 1-1-1",
-                weight: "5kg",
-                quantity: 2,
-                unitPrice: 25,
-                pettyCashReportList: []
-              },
-              {
-                id: 4,
-                description: "Sub-Sub Report 1-1-2",
-                weight: "10kg",
-                quantity: 1,
-                unitPrice: 10,
-                pettyCashReportList: []
-              }
-            ]
-          },
-          {
-            id: 5,
-            description: "Sub Report 1-2",
-            weight: "15kg",
-            quantity: 3,
-            unitPrice: 75,
-            pettyCashReportList: []
-          }
-        ]
-      },
-      {
-        id: 6,
-        description: "Main Report 2",
-        weight: "30kg",
-        quantity: 6,
-        unitPrice: 120,
-        pettyCashReportList: [
-          {
-            id: 7,
-            description: "Sub Report 2-1",
-            weight: "10kg",
-            quantity: 2,
-            unitPrice: 60,
-            pettyCashReportList: [
-              {
-                id: 8,
-                description: "Sub-Sub Report 2-1-1",
-                weight: "3kg",
-                quantity: 1,
-                unitPrice: 30,
-                pettyCashReportList: []
-              }
-            ]
-          },
-          {
-            id: 9,
-            description: "Sub Report 2-2",
-            weight: "12kg",
-            quantity: 4,
-            unitPrice: 48,
-            pettyCashReportList: []
-          }
-        ]
-      }
-    ];
+    // this.pettyCashReportDetails = [
+    //   {
+    //     id: 1,
+    //     description: "Main Report 1",
+    //     weight: "50kg",
+    //     quantity: 10,
+    //     unitPrice: 100,
+    //     pettyCashReportList: [
+    //       {
+    //         id: 2,
+    //         description: "Sub Report 1-1",
+    //         weight: "20kg",
+    //         quantity: 5,
+    //         unitPrice: 50,
+    //         pettyCashReportList: [
+    //           {
+    //             id: 3,
+    //             description: "Sub-Sub Report 1-1-1",
+    //             weight: "5kg",
+    //             quantity: 2,
+    //             unitPrice: 25,
+    //             pettyCashReportList: []
+    //           },
+    //           {
+    //             id: 4,
+    //             description: "Sub-Sub Report 1-1-2",
+    //             weight: "10kg",
+    //             quantity: 1,
+    //             unitPrice: 10,
+    //             pettyCashReportList: []
+    //           }
+    //         ]
+    //       },
+    //       {
+    //         id: 5,
+    //         description: "Sub Report 1-2",
+    //         weight: "15kg",
+    //         quantity: 3,
+    //         unitPrice: 75,
+    //         pettyCashReportList: []
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     id: 6,
+    //     description: "Main Report 2",
+    //     weight: "30kg",
+    //     quantity: 6,
+    //     unitPrice: 120,
+    //     pettyCashReportList: [
+    //       {
+    //         id: 7,
+    //         description: "Sub Report 2-1",
+    //         weight: "10kg",
+    //         quantity: 2,
+    //         unitPrice: 60,
+    //         pettyCashReportList: [
+    //           {
+    //             id: 8,
+    //             description: "Sub-Sub Report 2-1-1",
+    //             weight: "3kg",
+    //             quantity: 1,
+    //             unitPrice: 30,
+    //             pettyCashReportList: []
+    //           }
+    //         ]
+    //       },
+    //       {
+    //         id: 9,
+    //         description: "Sub Report 2-2",
+    //         weight: "12kg",
+    //         quantity: 4,
+    //         unitPrice: 48,
+    //         pettyCashReportList: []
+    //       }
+    //     ]
+    //   }
+    // ];
     this.files = transformToTreeNode(this.pettyCashReportDetails);
     this.generateRowNumbers(this.files);
   }

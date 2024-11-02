@@ -106,7 +106,7 @@ export class EmployeePaysheetComponent {
   }
 
   getEstateListByUserId() {
-    this.zesnaEstateModel.GetAllEstateDetails(this.loggedUserId).then(
+    this.zesnaEstateModel.GetAllEstatesByUserId(this.loggedUserId).then(
       (data) => {
         if (data) {
           this.estateList = data;

@@ -22,10 +22,10 @@ export class ZesnaEstateModel {
     }
 
     // Get all estate details
-    GetAllEstateDetails(userId: number): Promise<EstateDetails[]> {
+    GetAllEstatesByUserId(userId: number): Promise<EstateDetails[]> {
         return new Promise((resolve, reject) => {
             this.allSubscriptions.push(
-                this._zesnaCommonService.GetAllEstateDetails(userId).subscribe({
+                this._zesnaCommonService.GetAllEstatesByUserId(userId).subscribe({
                     next(data) {
                         resolve(<EstateDetails[]>data);  // Resolve with the data when the request succeeds
                     },

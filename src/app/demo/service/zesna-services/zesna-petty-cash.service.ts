@@ -14,11 +14,13 @@ import { PettyCashReport, ReimburseDetails } from '../../core/petty-cash/petty-c
   providedIn: 'root'
 })
 export class ZesnaPettyCashService {
+ 
   // API Urls
   private GetAllReimburseDetailsGUrl = API$DOMAIN + 'api/Report/GetAllReiburseDetails';
   private SetReimburseBalanceUrl = API$DOMAIN + 'api/Report/SetReimburseBalance';
   private GetPettyCashReportUrl = API$DOMAIN + 'api/Report/GetPettyCashReport';
   private SetPettyCashReportUrl = API$DOMAIN + 'api/Report/SetPettyCashReport';
+  private GetEstateBalanceUrl = API$DOMAIN + 'api/Estate/GetEstateBalance';
 
 
 
@@ -27,6 +29,19 @@ export class ZesnaPettyCashService {
   constructor(private http: HttpClient, private router: Router) {
 
   }
+
+  GetEstateBalance(estateId: number) {
+    // Setting the params
+    let my_params = new HttpParams()
+      .set("estateId", estateId.toString());
+
+
+    return this.http.get<number>(this.GetEstateBalanceUrl, { params: my_params }).pipe(
+      catchError(error => {
+        return this.handleError('GetEstateBalance', error)
+      })
+    );
+}
   GetAllReimburseDetails(filter: Filter, estateId: number) {
     // Setting the params
     let my_params = new HttpParams()
