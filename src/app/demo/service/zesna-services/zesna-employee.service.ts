@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { API$DOMAIN } from '../../core/api-configs';
 import { ErrorMessage } from '../../core/error-message';
-import { Filter } from '../../core/filter';
+import { Filter, TransportFilter } from '../../core/filter';
 import { TransportReport } from '../../core/transport/transport-report';
 import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet } from '../../core/employee/employee-details';
 
@@ -13,7 +13,7 @@ import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet } from '../../cor
   providedIn: 'root'
 })
 export class ZesnaEmployeeService {
- 
+
   // API Urls
   private GetAllEmployeeInfoDetailsWithPGUrl = API$DOMAIN + 'api/EmployeeManagement/GetAllEmployeeInfoDetailsWithPG';
   private GetEmployeeInfoDetailsByIdUrl = API$DOMAIN + 'api/EmployeeManagement/GetEmployeeInfoDetailsById';
@@ -22,7 +22,8 @@ export class ZesnaEmployeeService {
 
   private SetEmployeePaySheetUrl = API$DOMAIN + 'api/EmployeeManagement/SetEmployeePaySheet';
 
-  private GetAllEmployeeAttendanceUrl = API$DOMAIN + 'api/EmployeeManagement/GetAllEmployeeAttendance';
+  private GetAllEmployeeAttendanceUrl = API$DOMAIN + 'api/Report/GetEmployeeAttendanceReport';
+  private SetEmployeeAttendanceReportUrl = API$DOMAIN + 'api/Report/SetEmployeeAttendanceReport';
 
 
   // Constructor
@@ -30,18 +31,30 @@ export class ZesnaEmployeeService {
 
   }
 
-  GetAllEmployeeAttendance(estateId: number) {
+  SetEmployeeAttendanceReport(employeeAttendance: EmployeeAttendance, estateId: number) {
     // Setting the params
     let my_params = new HttpParams()
       .set("estateId", estateId.toString());
 
 
-    return this.http.get<EmployeeAttendance[]>(this.GetAllEmployeeAttendanceUrl, { params: my_params }).pipe(
+    return this.http.post<boolean>(this.SetEmployeeAttendanceReportUrl, employeeAttendance, { params: my_params }).pipe(
+      catchError(error => {
+        return this.handleError('SetEmployeeAttendanceReport', error)
+      })
+    );
+  }
+
+  GetAllEmployeeAttendance(transportFilter: TransportFilter) {
+    // Setting the params
+    let my_params = new HttpParams();
+
+
+    return this.http.post<EmployeeAttendance[]>(this.GetAllEmployeeAttendanceUrl, transportFilter, { params: my_params }).pipe(
       catchError(error => {
         return this.handleError('GetAllEmployeeAttendance', error)
       })
     );
-}
+  }
   GetAllEmployeeInfoDetailsWithPG(filter: Filter, estateId: number) {
     // Setting the params
     let my_params = new HttpParams()
@@ -84,7 +97,7 @@ export class ZesnaEmployeeService {
   GetEmployeePaySheet(selectedDate: Date, estateId: number) {
     // Setting the params
     let my_params = new HttpParams()
-    .set("selectedDate", selectedDate.toString())
+      .set("selectedDate", selectedDate.toString())
       .set("estateId", estateId.toString());
 
 
@@ -97,7 +110,7 @@ export class ZesnaEmployeeService {
   SetEmployeePaySheet(employeePaySheet: EmployeePaySheet, selectedDate: Date, estateId: number, type: string) {
     // Setting the params
     let my_params = new HttpParams()
-    .set("selectedDate", selectedDate.toString())
+      .set("selectedDate", selectedDate.toString())
       .set("estateId", estateId.toString())
       .set("actionType", type.toString());
 

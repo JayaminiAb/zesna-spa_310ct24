@@ -128,7 +128,7 @@ export class TransportReportListComponent implements OnInit {
 
   viewReport(report: TransportDetails) {
 
-    this.showTransportReport(this.fullTransportReports.find(item => item.Id == report.Id));
+    this.showTransportReport(this.fullTransportReports.find(item => item.Id == report.Id)!);
   }
   editReport(report: TransportDetails) {
     this.displayTransportSlider = true;

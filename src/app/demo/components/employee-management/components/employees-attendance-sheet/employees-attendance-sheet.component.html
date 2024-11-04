@@ -9,7 +9,7 @@
                 <div class="field col-12 md:col-3">
                     <label htmlFor="state">Select Estate</label>
                     <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
-                        (onChange)="onEstateChange($event)">
+                        optionLabel="Name" (onChange)="onEstateChange($event)">
                     </p-dropdown>
                 </div>
 
@@ -45,40 +45,42 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-employee let-editing="editing">
                     <tr>
-                        <td>{{ employee.Fullname }}</td>
-                        <td>{{ employee.Phone }}</td>
-                        <td>{{ employee.EmployeeDuty }}</td>
+                        <td>{{ employee.EmpoyeeFullName }}</td>
+                        <td>{{ employee.EmpoyeePhone }}</td>
+                        <td>{{ employee.EmpoyeeDuty }}</td>
                         <td [pEditableColumn]="employee.OnTime" pEditableColumnField="OnTime">
                             <p-cellEditor>
                                 <ng-template pTemplate="input">
-                                    <p-calendar [(ngModel)]="employee.OnTime" [timeOnly]="true"
-                                         placeholder="Select Date"></p-calendar>
+                                    <p-calendar [(ngModel)]="employee.OnTime" [timeOnly]="true" 
+                                        placeholder="Select Date" [appendTo]="'body'" (onBlur)="onChangeComment(employee)"></p-calendar>
                                 </ng-template>
                                 <ng-template pTemplate="output">
-                                    {{ employee.OnTime | date: 'HH : MM' }}
+                                    {{ employee.OnTime | date:'hh:mm:ss'}}
                                 </ng-template>
                             </p-cellEditor>
 
 
                         </td>
                         <td [pEditableColumn]="employee.OffTime" pEditableColumnField="OffTime">
-                           
-                                 <p-cellEditor>
-                                    <ng-template pTemplate="input">
-                                        <p-calendar [(ngModel)]="employee.OffTime" [timeOnly]="true"
-                                 placeholder="Select Date"></p-calendar>
-                                    </ng-template>
-                                    <ng-template pTemplate="output">
-                                        {{ employee.OffTime | date: 'HH : MM' }}
-                                    </ng-template>
-                                </p-cellEditor>
+
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-calendar [(ngModel)]="employee.OffTime" [timeOnly]="true"
+                                        placeholder="Select Date" [appendTo]="'body'" (onBlur)="onChangeComment(employee)"></p-calendar>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ employee.OffTime | date:'hh:mm:ss'}}
+                                </ng-template>
+                            </p-cellEditor>
                         </td>
                         <td>
-                            <p-dropdown [options]="attendanceStatuses" [(ngModel)]="employee.Attendance"
-                                optionLabel="label" optionValue="value" placeholder="Select Status">
+                            <p-dropdown [options]="attendanceStatuses" [(ngModel)]="employee.AttendanceSattus" [appendTo]="'body'"
+                                optionLabel="label" optionValue="value" placeholder="Select Status"
+                                (onChange)="onChangeAttendanceStatus(employee)">
                             </p-dropdown>
                         </td>
-                        <td><input pInputText [(ngModel)]="employee.Comment" placeholder="Enter comment" /></td>
+                        <td><input pInputText [(ngModel)]="employee.Comment" placeholder="Enter comment"
+                                (input)="onChangeComment(employee)" /></td>
                     </tr>
                 </ng-template>
             </p-table>

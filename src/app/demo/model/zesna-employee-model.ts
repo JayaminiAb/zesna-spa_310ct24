@@ -1,14 +1,14 @@
 import { Subscription } from "rxjs";
 import { ZesnaUserService } from "../service/zesna-services/zesna-user.service";
-import { Filter } from "../core/filter";
+import { Filter, TransportFilter } from "../core/filter";
 import { UserDetails } from "../core/user/user-details";
 import { ZesnaTransportService } from "../service/zesna-services/zesna-transport.service";
 import { TransportReport } from "../core/transport/transport-report";
 import { ZesnaEmployeeService } from "../service/zesna-services/zesna-employee.service";
 import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet } from "../core/employee/employee-details";
 
-export class ZesnaEmployeeModel{
- 
+export class ZesnaEmployeeModel {
+
     //Store subscriptions
     allSubscriptions: Subscription[] = [];
 
@@ -26,8 +26,8 @@ export class ZesnaEmployeeModel{
         // End of Loop through the services
     }
 
-     // Check if the email exists
-     GetAllEmployeeInfoDetailsWithPG(filter: Filter, estateId: number) {
+    // Check if the email exists
+    GetAllEmployeeInfoDetailsWithPG(filter: Filter, estateId: number) {
         var promise = new Promise((resolve, reject) => {
             this.allSubscriptions.push(this._zesnaEmployeeService.GetAllEmployeeInfoDetailsWithPG(filter, estateId).subscribe(
                 data => {
@@ -41,7 +41,7 @@ export class ZesnaEmployeeModel{
         return promise;
     }
 
-    GetEmployeeInfoDetailsById( employeeId: number) {
+    GetEmployeeInfoDetailsById(employeeId: number) {
         var promise = new Promise((resolve, reject) => {
             this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeeInfoDetailsById(employeeId).subscribe(
                 data => {
@@ -66,9 +66,9 @@ export class ZesnaEmployeeModel{
         });
         // return the promise
         return promise;
-      }
+    }
 
-      GetEmployeePaySheet( selectedDate: Date, estateId: number) {
+    GetEmployeePaySheet(selectedDate: Date, estateId: number) {
         var promise = new Promise((resolve, reject) => {
             this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeePaySheet(selectedDate, estateId).subscribe(
                 data => {
@@ -93,10 +93,10 @@ export class ZesnaEmployeeModel{
         });
         // return the promise
         return promise;
-      }
-      GetAllEmployeeAttendance(estateId: number) {
+    }
+    GetAllEmployeeAttendance(transportFilter: TransportFilter) {
         var promise = new Promise((resolve, reject) => {
-            this.allSubscriptions.push(this._zesnaEmployeeService.GetAllEmployeeAttendance(estateId).subscribe(
+            this.allSubscriptions.push(this._zesnaEmployeeService.GetAllEmployeeAttendance(transportFilter).subscribe(
                 data => {
                     let returnData = <EmployeeAttendance[]>data;
                     // Resolve the promise
@@ -106,7 +106,19 @@ export class ZesnaEmployeeModel{
         });
         // return the promise
         return promise;
-      }
-
+    }
+    SetEmployeeAttendanceReport(employeeAttendance: EmployeeAttendance, estateId: number) {
+        var promise = new Promise((resolve, reject) => {
+            this.allSubscriptions.push(this._zesnaEmployeeService.SetEmployeeAttendanceReport(employeeAttendance, estateId).subscribe(
+                data => {
+                    let returnData = <boolean>data;
+                    // Resolve the promise
+                    resolve(returnData);
+                })
+            );
+        });
+        // return the promise
+        return promise;
+    }
 
 }
