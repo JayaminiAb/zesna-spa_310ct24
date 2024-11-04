@@ -7,7 +7,7 @@
                 <div class="field col-12 md:col-3">
                     <label htmlFor="state">Select Estate</label>
                     <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate" optionLabel="Name" 
-                        (onChange)="onEstateChange($event)">
+                        (onChange)="onEstateChange()">
                     </p-dropdown>
                 </div>
 
@@ -82,7 +82,11 @@
                         <td>{{ transportDetail.TransportStartDate | date: 'shortDate' }}</td>
                         <td>{{ transportDetail.TransportEndDate | date: 'shortDate' }}</td>
                         <td>{{ transportDetail.AddedDate | date: 'shortDate' }}</td>
-                        <td>{{ transportDetail.TotalAmount | currency }}</td>
+                        <td>  {{
+                           transportDetail.Fuel + transportDetail.DriverBata + transportDetail.DriverMeals +
+                            transportDetail.HelperBata + transportDetail.HelperMeals + transportDetail.HighwayCharges +
+                            transportDetail.BusFairParking | currency
+                          }}</td>
 
                         <td class="flex flex-wrap gap-2 no_bg_color">
 

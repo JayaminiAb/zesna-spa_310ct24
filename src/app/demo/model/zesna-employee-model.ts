@@ -68,9 +68,9 @@ export class ZesnaEmployeeModel {
         return promise;
     }
 
-    GetEmployeePaySheet(selectedDate: Date, estateId: number) {
+    GetEmployeePaySheet(filter: TransportFilter) {
         var promise = new Promise((resolve, reject) => {
-            this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeePaySheet(selectedDate, estateId).subscribe(
+            this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeePaySheet(filter).subscribe(
                 data => {
                     let returnData = <EmployeePaySheet[]>data;
                     // Resolve the promise
@@ -112,6 +112,21 @@ export class ZesnaEmployeeModel {
             this.allSubscriptions.push(this._zesnaEmployeeService.SetEmployeeAttendanceReport(employeeAttendance, estateId).subscribe(
                 data => {
                     let returnData = <boolean>data;
+                    // Resolve the promise
+                    resolve(returnData);
+                })
+            );
+        });
+        // return the promise
+        return promise;
+    }
+
+
+    GetEmployeeAttendanceReportForMonth(employeeId: number, yearInt: number, monthInt: number, estateId: number) {
+        var promise = new Promise((resolve, reject) => {
+            this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeeAttendanceReportForMonth(employeeId, yearInt, monthInt, estateId).subscribe(
+                data => {
+                    let returnData = <EmployeeAttendance[]>data;
                     // Resolve the promise
                     resolve(returnData);
                 })

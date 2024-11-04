@@ -18,17 +18,34 @@ export class ZesnaEmployeeService {
   private GetAllEmployeeInfoDetailsWithPGUrl = API$DOMAIN + 'api/EmployeeManagement/GetAllEmployeeInfoDetailsWithPG';
   private GetEmployeeInfoDetailsByIdUrl = API$DOMAIN + 'api/EmployeeManagement/GetEmployeeInfoDetailsById';
   private SetlEmployeeInfoDetailsUrl = API$DOMAIN + 'api/EmployeeManagement/SetlEmployeeInfoDetails';
-  private GetEmployeePaySheetUrl = API$DOMAIN + 'api/EmployeeManagement/GetEmployeePaySheet';
+  private GetEmployeePaySheetUrl = API$DOMAIN + 'api/Report/GetEmployeePaySheet';
 
-  private SetEmployeePaySheetUrl = API$DOMAIN + 'api/EmployeeManagement/SetEmployeePaySheet';
+  private SetEmployeePaySheetUrl = API$DOMAIN + 'api/Report/SetEmployeePaySheet';
 
   private GetAllEmployeeAttendanceUrl = API$DOMAIN + 'api/Report/GetEmployeeAttendanceReport';
   private SetEmployeeAttendanceReportUrl = API$DOMAIN + 'api/Report/SetEmployeeAttendanceReport';
+  private GetEmployeeAttendanceReportForMonthUrl = API$DOMAIN + 'api/Report/GetEmployeeAttendanceReportForMonth';
 
 
   // Constructor
   constructor(private http: HttpClient, private router: Router) {
 
+  }
+
+  GetEmployeeAttendanceReportForMonth(employeeId: number, yearInt: number, monthInt: number, estateId: number) {
+    // Setting the params
+    let my_params = new HttpParams()
+      .set("employeeId", employeeId.toString())
+      .set("yearInt", yearInt.toString())
+      .set("monthInt", monthInt.toString())
+      .set("estateId", estateId.toString());
+
+
+    return this.http.get<EmployeeAttendance[]>(this.GetEmployeeAttendanceReportForMonthUrl, { params: my_params }).pipe(
+      catchError(error => {
+        return this.handleError('GetEmployeeAttendanceReportForMonth', error)
+      })
+    );
   }
 
   SetEmployeeAttendanceReport(employeeAttendance: EmployeeAttendance, estateId: number) {
@@ -94,14 +111,12 @@ export class ZesnaEmployeeService {
     );
   }
 
-  GetEmployeePaySheet(selectedDate: Date, estateId: number) {
+  GetEmployeePaySheet(filter: TransportFilter) {
     // Setting the params
-    let my_params = new HttpParams()
-      .set("selectedDate", selectedDate.toString())
-      .set("estateId", estateId.toString());
+    let my_params = new HttpParams();
 
 
-    return this.http.get<EmployeePaySheet[]>(this.GetEmployeePaySheetUrl, { params: my_params }).pipe(
+    return this.http.post<EmployeePaySheet[]>(this.GetEmployeePaySheetUrl, filter).pipe(
       catchError(error => {
         return this.handleError('GetEmployeePaySheet', error)
       })

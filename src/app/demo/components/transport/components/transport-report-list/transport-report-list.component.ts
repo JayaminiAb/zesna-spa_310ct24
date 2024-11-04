@@ -120,18 +120,22 @@ export class TransportReportListComponent implements OnInit {
     );
   }
 
-  onEstateChange(event: any) {
+  onEstateChange() {
     // Fetch and filter petty cash history based on the selected company
-    this.selectedEstate = event;
+
     this.getEstateTransportReports();
   }
 
-  viewReport(report: TransportDetails) {
+  viewReport(report: TransportReport) {
 
-    this.showTransportReport(this.fullTransportReports.find(item => item.Id == report.Id)!);
+    this.showTransportReport(this.transportReports.find(item => item.Id == report.Id));
   }
-  editReport(report: TransportDetails) {
+  editReport(report: TransportReport) {
     this.displayTransportSlider = true;
+    report.TransportStartDate = new Date(report.TransportStartDate);
+    report.TransportEndDate = new Date(report.TransportEndDate);
+
+    this.newTransportDetails = { ...report };
   }
   deleteReport(report: TransportDetails) { }
   // Making a deep copy
@@ -139,21 +143,60 @@ export class TransportReportListComponent implements OnInit {
     return JSON.parse(JSON.stringify(source));
   }
   addNewReport(): void {
+    this.newTransportDetails = this.deep(
+      {
+        Id: 0,
+        Route: '',
+        Fuel: 0,
+        DriverBata: 0,
+        DriverMeals: 0,
+        HelperBata: 0,
+        HelperMeals: 0,
+        HighwayCharges: 0,
+        BusFairParking: 0,
+        OverallId: 0,
+        TransportStartDate: new Date(),
+        TransportEndDate: new Date(),
+        VehicleNo: '',
+        TransportItem: '',
+        AddedDate: new Date()
+      }
+    )
     this.displayTransportSlider = true;
-
   }
 
   hideTransportSlider(): void {
+    this.newTransportDetails = this.deep(
+      {
+        Id: 0,
+        Route: '',
+        Fuel: 0,
+        DriverBata: 0,
+        DriverMeals: 0,
+        HelperBata: 0,
+        HelperMeals: 0,
+        HighwayCharges: 0,
+        BusFairParking: 0,
+        OverallId: 0,
+        TransportStartDate: new Date(),
+        TransportEndDate: new Date(),
+        VehicleNo: '',
+        TransportItem: '',
+        AddedDate: new Date()
+      }
+    );
     this.displayTransportSlider = false;
   }
   saveTransportDetails(type: string) {
     this.zesnaTransportModel.SetTransportReport(this.newTransportDetails, this.selectedEstate.Id, type).then(
       (data) => {
         this.transportReports = <TransportReport[]>data;
+
+        this.hideTransportSlider();
       }
     );
   }
-  showTransportReport(report: TransportFullDetails) {
+  showTransportReport(report: TransportReport) {
     this.ref = this.dialogService.open(TransportReportComponent, {
       header: 'Transport Report',
       width: '100%',
@@ -164,11 +207,14 @@ export class TransportReportListComponent implements OnInit {
     });
 
     this.ref.onClose.subscribe((event: any) => {
+      this.hideTransportSlider();
       if (event) {
 
       }
     });
   }
+
+
 
 }
 
