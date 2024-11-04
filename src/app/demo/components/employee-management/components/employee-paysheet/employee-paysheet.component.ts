@@ -11,8 +11,10 @@ import { MessageService } from 'primeng/api';
 import { ZesnaCommonService } from 'src/app/demo/service/zesna-services/zesna-common.service';
 import { ZesnaEmployeeService } from 'src/app/demo/service/zesna-services/zesna-employee.service';
 import { EstateDetails } from 'src/app/demo/core/estate/estate-details';
-import { Filter } from 'src/app/demo/core/filter';
+import { Filter, TransportFilter } from 'src/app/demo/core/filter';
 import { EmployeeDetails, EmployeePaySheet } from 'src/app/demo/core/employee/employee-details';
+import { OverallCookies } from 'src/app/demo/core/overall-cookies';
+import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
 
 @Component({
   selector: 'app-employee-paysheet',
@@ -89,16 +91,21 @@ export class EmployeePaysheetComponent {
     },
     Total: 0
   };
-
+  transportFilter: TransportFilter = { EstateId: 0, TransportedItem: "", VehicleNumber: "", StartDate: new Date(), EndDate: new Date() }
+  // Store the cookie interface
+  overallCookieInterface: OverallCookies;
   constructor(public dialogService: DialogService, public messageService: MessageService,
      private _zesnaCommonService: ZesnaCommonService,
      private _zesnaEmployeeService: ZesnaEmployeeService
     ){
     this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
     this.zesnaEmployeeModel = new ZesnaEmployeeModel(this._zesnaEmployeeService);
+    this.overallCookieInterface = new OverallCookieModel();
+    this.loggedUserId = +this.overallCookieInterface.GetUserId();
+    this.loggedUserRole = this.overallCookieInterface.GetUserRole();
   }
   ngOnInit(): void {
-    //this.getEstateListByUserId();
+    this.getEstateListByUserId();
   }
 
   getEstateListByUserId() {
@@ -119,16 +126,23 @@ export class EmployeePaysheetComponent {
   }
 
   getEmployeePaySheet(){
-    this.zesnaEmployeeModel.GetEmployeePaySheet(this.selectedDate, this.selectedEstate.Id).then(
+    this.transportFilter.EstateId = this.selectedEstate.Id;
+    this.transportFilter.StartDate = this.selectedDate;
+
+    this.zesnaEmployeeModel.GetEmployeePaySheet(this.transportFilter).then(
       (data) => {
-        this.employees = <EmployeeDetails[]>data;
+        this.employeePayments = <EmployeePaySheet[]>data;
+        this.employeePayments.forEach(item => {
+          item.OnTime = new Date(item.OnTime);
+          item.OffTime = new Date(item.OffTime);
+        });
       }
     );
   }
 
   onEstateChange(event: any) {
     // Fetch and filter petty cash history based on the selected company
-    this.selectedEstate = event;
+    
     this.getEmployeePaySheet();
   }
   getEmployeeList() {

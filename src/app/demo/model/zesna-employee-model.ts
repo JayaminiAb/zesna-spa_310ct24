@@ -1,6 +1,6 @@
 import { Subscription } from "rxjs";
 import { ZesnaUserService } from "../service/zesna-services/zesna-user.service";
-import { Filter } from "../core/filter";
+import { Filter, TransportFilter } from "../core/filter";
 import { UserDetails } from "../core/user/user-details";
 import { ZesnaTransportService } from "../service/zesna-services/zesna-transport.service";
 import { TransportReport } from "../core/transport/transport-report";
@@ -68,9 +68,9 @@ export class ZesnaEmployeeModel{
         return promise;
       }
 
-      GetEmployeePaySheet( selectedDate: Date, estateId: number) {
+      GetEmployeePaySheet( filter: TransportFilter) {
         var promise = new Promise((resolve, reject) => {
-            this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeePaySheet(selectedDate, estateId).subscribe(
+            this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeePaySheet(filter).subscribe(
                 data => {
                     let returnData = <EmployeePaySheet[]>data;
                     // Resolve the promise

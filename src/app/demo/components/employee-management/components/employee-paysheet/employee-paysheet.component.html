@@ -6,7 +6,7 @@
 
         <div class="field col-12 md:col-3">
           <label htmlFor="state">Select Estate</label>
-          <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
+          <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate" optionLabel="Name" 
               (onChange)="onEstateChange($event)">
           </p-dropdown>
       </div>
@@ -44,13 +44,13 @@
 
       </div>
 
-      <div class="p-fluid p-formgrid grid">
+      <!-- <div class="p-fluid p-formgrid grid">
         <div class="field col-12 md:col-3">
      
             <button pButton type="button" label="Add New Payment" icon="pi pi-plus" (click)="addNewPayment()"></button>
         </div>
 
-    </div>
+    </div> -->
 
 
 
@@ -72,7 +72,7 @@
             <th>OT Payment</th>
             <th>Day Payment</th>
             <th>Total Payment</th>
-            <th>Action</th>
+            <!-- <th>Action</th> -->
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-payment let-editing="editing"  let-rowIndex="rowIndex">
@@ -83,7 +83,7 @@
             <td >
 
               
-                {{EmployeeDisplayId}}
+                {{payment.EmployeeDisplayId}}
              
 
             </td>
@@ -124,7 +124,7 @@
                   [iconDisplay]="'input'" 
                   [showIcon]="true" 
                   [timeOnly]="true" 
-                  inputId="templatedisplay">
+                  inputId="templatedisplay" [appendTo]="'body'">
                       <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
                           <i 
                               class="pi pi-clock pointer-events-none pointer-events-none" 
@@ -133,7 +133,7 @@
               </p-calendar>
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.OnTime | date:'H:mm'}}
+                  {{ payment.OnTime | date:'H:mm a'}}
                 </ng-template>
               </p-cellEditor>
             </td>
@@ -146,7 +146,7 @@
                   [iconDisplay]="'input'" 
                   [showIcon]="true" 
                   [timeOnly]="true" 
-                  inputId="templatedisplay">
+                  inputId="templatedisplay" [appendTo]="'body'">
                       <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
                           <i 
                               class="pi pi-clock pointer-events-none pointer-events-none" 
@@ -155,7 +155,7 @@
               </p-calendar>
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.OffTime | date:'H:mm'}}
+                  {{ payment.OffTime | date:'H:mm a'}}
                
                 </ng-template>
               </p-cellEditor>
@@ -170,36 +170,21 @@
                 </ng-template>
               </p-cellEditor>
             </td>
-            <td [pEditableColumn]="payment.EmployeeOTRate" pEditableColumnField="price">
-              <p-cellEditor>
-                <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.EmployeeOTRate" />
-                </ng-template>
-                <ng-template pTemplate="output">
+            <td  pEditableColumnField="price">
+              
                   {{ payment.EmployeeOTRate | currency }}
-                </ng-template>
-              </p-cellEditor>
+               
             </td>
 
-            <td [pEditableColumn]="payment.OtPayment" pEditableColumnField="price">
-              <p-cellEditor>
-                <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.OtPayment" />
-                </ng-template>
-                <ng-template pTemplate="output">
+            <td >
+              
                   {{ payment.OtPayment | currency}}
-                </ng-template>
-              </p-cellEditor>
+              
             </td>
-            <td [pEditableColumn]="payment.EmployeeSalary" pEditableColumnField="price">
-              <p-cellEditor>
-                <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.EmployeeSalary" />
-                </ng-template>
-                <ng-template pTemplate="output">
+            <td >
+              
                   {{ payment.EmployeeSalary | currency}}
-                </ng-template>
-              </p-cellEditor>
+              
             </td>
             <td class="no_bg_color">
               
@@ -210,9 +195,9 @@
                 
               
             </td>
-            <td class="no_bg_color">
+            <!-- <td class="no_bg_color">
               <button pButton icon="pi pi-trash" class=" p-button-danger" (click)="removeItem(rowIndex)"></button>
-            </td>
+            </td> -->
 
           </tr>
         </ng-template>

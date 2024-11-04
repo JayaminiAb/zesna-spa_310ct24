@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { API$DOMAIN } from '../../core/api-configs';
 import { ErrorMessage } from '../../core/error-message';
-import { Filter } from '../../core/filter';
+import { Filter, TransportFilter } from '../../core/filter';
 import { TransportReport } from '../../core/transport/transport-report';
 import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet } from '../../core/employee/employee-details';
 
@@ -18,11 +18,11 @@ export class ZesnaEmployeeService {
   private GetAllEmployeeInfoDetailsWithPGUrl = API$DOMAIN + 'api/EmployeeManagement/GetAllEmployeeInfoDetailsWithPG';
   private GetEmployeeInfoDetailsByIdUrl = API$DOMAIN + 'api/EmployeeManagement/GetEmployeeInfoDetailsById';
   private SetlEmployeeInfoDetailsUrl = API$DOMAIN + 'api/EmployeeManagement/SetlEmployeeInfoDetails';
-  private GetEmployeePaySheetUrl = API$DOMAIN + 'api/EmployeeManagement/GetEmployeePaySheet';
+  private GetEmployeePaySheetUrl = API$DOMAIN + 'api/Report/GetEmployeePaySheet';
 
-  private SetEmployeePaySheetUrl = API$DOMAIN + 'api/EmployeeManagement/SetEmployeePaySheet';
+  private SetEmployeePaySheetUrl = API$DOMAIN + 'api/Report/SetEmployeePaySheet';
 
-  private GetAllEmployeeAttendanceUrl = API$DOMAIN + 'api/EmployeeManagement/GetAllEmployeeAttendance';
+  private GetAllEmployeeAttendanceUrl = API$DOMAIN + 'api/Report/GetAllEmployeeAttendance';
 
 
   // Constructor
@@ -81,14 +81,12 @@ export class ZesnaEmployeeService {
     );
   }
 
-  GetEmployeePaySheet(selectedDate: Date, estateId: number) {
+  GetEmployeePaySheet(filter: TransportFilter) {
     // Setting the params
-    let my_params = new HttpParams()
-    .set("selectedDate", selectedDate.toString())
-      .set("estateId", estateId.toString());
+    let my_params = new HttpParams();
 
 
-    return this.http.get<EmployeePaySheet[]>(this.GetEmployeePaySheetUrl, { params: my_params }).pipe(
+    return this.http.post<EmployeePaySheet[]>(this.GetEmployeePaySheetUrl, filter).pipe(
       catchError(error => {
         return this.handleError('GetEmployeePaySheet', error)
       })

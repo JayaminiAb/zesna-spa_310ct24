@@ -181,6 +181,7 @@ getEstateListByUserId() {
   }
 
   saveEmployee(type: string): void {
+    debugger
     this.zesnaEmployeeModel.SetlEmployeeInfoDetails( this.selectedEmployee, this.selectedEstate.Id, type).then(
       (data) => {
         this.selectedEmployee = this.deep({
