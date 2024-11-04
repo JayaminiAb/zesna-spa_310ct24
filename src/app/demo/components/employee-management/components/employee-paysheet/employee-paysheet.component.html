@@ -178,7 +178,7 @@
 
             <td >
               
-                  {{ payment.OtPayment | currency}}
+                  {{ payment.EmployeeOTRate * payment.OtHours | currency}}
               
             </td>
             <td >
@@ -202,12 +202,12 @@
           </tr>
         </ng-template>
       </p-table>
-      <div class="p-fluid p-formgrid grid custom_placement">
+      <!-- <div class="p-fluid p-formgrid grid custom_placement">
         <div class="field col-12 md:col-3">
             <button class="submit_btn" pButton label="+ Add New Payment" (click)="addNewPayment()"></button>
         </div>
 
-    </div>
+    </div> -->
 
 
     </div>
