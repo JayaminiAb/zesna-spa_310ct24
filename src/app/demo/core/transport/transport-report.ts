@@ -13,4 +13,5 @@ export interface TransportReport {
     TransportEndDate: Date;
     VehicleNo: string;
     TransportItem: string;
+    AddedDate: Date;
 }

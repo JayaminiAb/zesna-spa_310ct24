@@ -9,6 +9,8 @@ import { ZesnaEmployeeModel } from 'src/app/demo/model/zesna-employee-model';
 import { ZesnaPettyCashModel } from 'src/app/demo/model/zesna-petty-cash-model';
 import { ZesnaPettyCashService } from 'src/app/demo/service/zesna-services/zesna-petty-cash.service';
 import { PettyCashReport, transformToTreeNode } from 'src/app/demo/core/petty-cash/petty-cash';
+import { OverallCookies } from 'src/app/demo/core/overall-cookies';
+import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
 interface Column {
   field: string;
   header: string;
@@ -43,6 +45,9 @@ export class ReportComponent {
   //Store logged user details
   loggedUserId: number = 0;
   loggedUserRole: string = '';
+  // Store the cookie interface
+  overallCookieInterface: OverallCookies;
+
   ngOnInit() {
 
     this.cols = [
@@ -55,7 +60,9 @@ export class ReportComponent {
 
 
     ];
-    this.generatePettyCashTreeNode();
+   
+    // Initially filter by the last month
+    this.getEstateListByUserId();
   }
 
   constructor(
@@ -66,6 +73,9 @@ export class ReportComponent {
     this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
     this.zesnaEmployeeModel = new ZesnaEmployeeModel(this._zesnaEmployeeService);
     this.zesnaPettyCashModel = new ZesnaPettyCashModel(this._zesnaPettyCashService);
+    this.overallCookieInterface = new OverallCookieModel();
+    this.loggedUserId = +this.overallCookieInterface.GetUserId();
+    this.loggedUserRole = this.overallCookieInterface.GetUserRole();
   }
 
   onEstateChange(event: any) {

@@ -76,12 +76,12 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-transportDetail>
                     <tr>
-                        <td>{{ transportDetail.VehicleNumber }}</td>
-                        <td>{{ transportDetail.TransportedItem }}</td>
+                        <td>{{ transportDetail.VehicleNo }}</td>
+                        <td>{{ transportDetail.TransportItem }}</td>
                         <td>{{ transportDetail.Route }}</td>
-                        <td>{{ transportDetail.TripStartDate | date: 'shortDate' }}</td>
-                        <td>{{ transportDetail.TripEndDate | date: 'shortDate' }}</td>
-                        <td>{{ transportDetail.ReportCreatedDate | date: 'shortDate' }}</td>
+                        <td>{{ transportDetail.TransportStartDate | date: 'shortDate' }}</td>
+                        <td>{{ transportDetail.TransportEndDate | date: 'shortDate' }}</td>
+                        <td>{{ transportDetail.AddedDate | date: 'shortDate' }}</td>
                         <td>{{ transportDetail.TotalAmount | currency }}</td>
 
                         <td class="flex flex-wrap gap-2 no_bg_color">

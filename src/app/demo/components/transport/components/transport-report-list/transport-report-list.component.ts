@@ -45,7 +45,8 @@ export class TransportReportListComponent implements OnInit {
     TransportStartDate: new Date(),
     TransportEndDate: new Date(),
     VehicleNo: '',
-    TransportItem: ''
+    TransportItem: '',
+    AddedDate: new Date()
   };
 
   transportReports: TransportReport[] = [];
@@ -53,14 +54,14 @@ export class TransportReportListComponent implements OnInit {
 
   displayTransportSlider: boolean = false;
   reportedWithin: Date[] | undefined;
-   //Store logged user details
-   loggedUserId: number = 0;
-   loggedUserRole: string = '';
-   //Store estate model
-   zesnaEstateModel: ZesnaEstateModel;
-   zesnaTransportModel: ZesnaTransportModel; 
-   estateList: EstateDetails[] = [];
-    selectedEstate: EstateDetails = {
+  //Store logged user details
+  loggedUserId: number = 0;
+  loggedUserRole: string = '';
+  //Store estate model
+  zesnaEstateModel: ZesnaEstateModel;
+  zesnaTransportModel: ZesnaTransportModel;
+  estateList: EstateDetails[] = [];
+  selectedEstate: EstateDetails = {
     Id: 0,
     Name: '',
     AddressDetails: '',
@@ -81,7 +82,7 @@ export class TransportReportListComponent implements OnInit {
   transportedItem: string = "";
   // Store the cookie interface
   overallCookieInterface: OverallCookies;
-  constructor(public dialogService: DialogService, public messageService: MessageService, private _zesnaCommonService: ZesnaCommonService, private _zesnaTransportService: ZesnaTransportService) { 
+  constructor(public dialogService: DialogService, public messageService: MessageService, private _zesnaCommonService: ZesnaCommonService, private _zesnaTransportService: ZesnaTransportService) {
     this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
     this.zesnaTransportModel = new ZesnaTransportModel(this._zesnaTransportService);
     this.overallCookieInterface = new OverallCookieModel();
@@ -97,7 +98,7 @@ export class TransportReportListComponent implements OnInit {
     const date = new Date();
     date.setDate(date.getDate() - 30);
     return date;
-}
+  }
 
   getEstateListByUserId() {
     this.zesnaEstateModel.GetAllEstatesByUserId(this.loggedUserId).then(
@@ -111,8 +112,8 @@ export class TransportReportListComponent implements OnInit {
     );
   }
 
-  getEstateTransportReports(){
-    this.zesnaTransportModel.GetTransportReport({EstateId:this.selectedEstate.Id, TransportedItem: this.transportedItem, VehicleNumber: this.vehicleNumber, StartDate: this.datesWithin[0], EndDate: this.datesWithin[1]}).then(
+  getEstateTransportReports() {
+    this.zesnaTransportModel.GetTransportReport({ EstateId: this.selectedEstate.Id, TransportedItem: this.transportedItem, VehicleNumber: this.vehicleNumber, StartDate: this.datesWithin[0], EndDate: this.datesWithin[1] }).then(
       (data) => {
         this.transportReports = <TransportReport[]>data;
       }
