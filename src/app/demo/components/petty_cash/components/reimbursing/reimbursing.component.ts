@@ -43,8 +43,7 @@ export class ReimbursingComponent {
     RecordsPerPage: 10,
     SearchQuery: '',
     SortAsc: true,
-    SortCol: 'Name',
-    DatesWithin: []
+    SortCol: 'Name'
   }
   // Store the cookie interface
   overallCookieInterface: OverallCookies;

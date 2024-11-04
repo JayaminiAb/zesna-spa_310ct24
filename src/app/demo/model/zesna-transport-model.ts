@@ -1,6 +1,6 @@
 import { Subscription } from "rxjs";
 import { ZesnaUserService } from "../service/zesna-services/zesna-user.service";
-import { Filter } from "../core/filter";
+import { Filter, TransportFilter } from "../core/filter";
 import { UserDetails } from "../core/user/user-details";
 import { ZesnaTransportService } from "../service/zesna-services/zesna-transport.service";
 import { TransportReport } from "../core/transport/transport-report";
@@ -24,9 +24,9 @@ export class ZesnaTransportModel{
     }
 
      // Check if the email exists
-     GetTransportReport(filter: Filter, estateId: number) {
+     GetTransportReport(transportFilter: TransportFilter ) {
         var promise = new Promise((resolve, reject) => {
-            this.allSubscriptions.push(this._zesnaTransportService.GetTransportReport(filter, estateId).subscribe(
+            this.allSubscriptions.push(this._zesnaTransportService.GetTransportReport(transportFilter).subscribe(
                 data => {
                     let returnData = <TransportReport[]>data;
                     // Resolve the promise

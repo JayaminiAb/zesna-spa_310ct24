@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { API$DOMAIN } from '../../core/api-configs';
 import { ErrorMessage } from '../../core/error-message';
-import { Filter } from '../../core/filter';
+import { Filter, TransportFilter } from '../../core/filter';
 import { TransportReport } from '../../core/transport/transport-report';
 
 
@@ -19,13 +19,11 @@ export class ZesnaTransportService {
   constructor(private http: HttpClient, private router: Router) {
 
   }
-  GetTransportReport(filter: Filter, estateId: number) {
-    // Setting the params
-    let my_params = new HttpParams()
-      .set("estateId", estateId.toString());
+  GetTransportReport( transportFilter: TransportFilter) {
+   
 
 
-    return this.http.post<TransportReport[]>(this.GetTransportReportUrl, filter, { params: my_params }).pipe(
+    return this.http.post<TransportReport[]>(this.GetTransportReportUrl, transportFilter).pipe(
       catchError(error => {
         return this.handleError('GetTransportReport', error)
       })

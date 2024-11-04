@@ -31,8 +31,7 @@ export class EmployeesAttendanceSheetComponent {
     RecordsPerPage: 10,
     SearchQuery: '',
     SortAsc: true,
-    SortCol: 'Name',
-    DatesWithin: []
+    SortCol: 'Name'
   }
   attendanceStatuses  = attendanceStatuses;
   employeesAttendance: EmployeeAttendance[] = employeeAttendanceData;

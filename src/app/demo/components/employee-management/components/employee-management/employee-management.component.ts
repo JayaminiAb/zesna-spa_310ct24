@@ -12,6 +12,8 @@ import { ZesnaEstateModel } from 'src/app/demo/model/zesna-estate-model';
 import { ZesnaCommonService } from 'src/app/demo/service/zesna-services/zesna-common.service';
 import { ZesnaEmployeeModel } from 'src/app/demo/model/zesna-employee-model';
 import { ZesnaEmployeeService } from 'src/app/demo/service/zesna-services/zesna-employee.service';
+import { OverallCookies } from 'src/app/demo/core/overall-cookies';
+import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
 
 @Component({
   selector: 'app-employee-management',
@@ -32,10 +34,7 @@ export class EmployeeManagementComponent {
     Salary: 0.0,
     OTRate: 0.0,
     JoinDate: new Date(),
-    EmployeeRoleDetails: {
-        Id: 0,
-        Name: ""
-    },
+    Duty: "",
     Address: {
         HouseNo: "",
         Street: "",
@@ -62,8 +61,7 @@ export class EmployeeManagementComponent {
     RecordsPerPage: 10,
     SearchQuery: '',
     SortAsc: true,
-    SortCol: 'Name',
-    DatesWithin: []
+    SortCol: 'Name'
   }
   //Store logged user details
   loggedUserId: number = 0;
@@ -71,16 +69,21 @@ export class EmployeeManagementComponent {
   //Store estate model
   zesnaEstateModel: ZesnaEstateModel;
   zesnaEmployeeModel: ZesnaEmployeeModel;
+  // Store the cookie interface
+  overallCookieInterface: OverallCookies;
   constructor(public dialogService: DialogService, public messageService: MessageService,
      private _zesnaCommonService: ZesnaCommonService,
      private _zesnaEmployeeService: ZesnaEmployeeService
     ){
     this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
     this.zesnaEmployeeModel = new ZesnaEmployeeModel(this._zesnaEmployeeService);
+    this.overallCookieInterface = new OverallCookieModel();
+    this.loggedUserId = +this.overallCookieInterface.GetUserId();
+    this.loggedUserRole = this.overallCookieInterface.GetUserRole();
   }
 
   ngOnInit(): void {
-
+    this.getEstateListByUserId();
   }
 
 getEstateListByUserId() {
@@ -100,8 +103,7 @@ getEstateListByUserId() {
     this.showEmployeeAttendance(employee);
   }
   onEstateChange(event: any) {
-    // Fetch and filter petty cash history based on the selected company
-    this.selectedEstate = event;
+   
     this.getEmployeeList();
   }
 
@@ -109,6 +111,10 @@ getEstateListByUserId() {
     this.zesnaEmployeeModel.GetAllEmployeeInfoDetailsWithPG(this.filter, this.selectedEstate.Id).then(
       (data) => {
         this.employees = <EmployeeDetails[]>data;
+        this.employees.forEach(item => {
+          item.JoinDate = new Date(item.JoinDate);
+        });
+    
       }
     );
   }
@@ -149,7 +155,25 @@ getEstateListByUserId() {
   addNewEmployee(): void {
     this.displayEmployeeSlider = true;
     this.editingEmployee = false;
-    this.newEmployee = this.deep(newEmployee);
+    this.selectedEmployee = this.deep(
+      {
+        Id: 0,
+        Fullname: "",
+        Email: "",
+        Phone: "",
+        Salary: 0.0,
+        OTRate: 0.0,
+        JoinDate: new Date(),
+       Duty: "",
+        Address: {
+            HouseNo: "",
+            Street: "",
+            City: "",
+            PostalCode: ""
+        },
+        Total: 0
+      }
+    );
   }
 
   hideEmployeeSlider(): void {
@@ -159,32 +183,52 @@ getEstateListByUserId() {
   saveEmployee(type: string): void {
     this.zesnaEmployeeModel.SetlEmployeeInfoDetails( this.selectedEmployee, this.selectedEstate.Id, type).then(
       (data) => {
-        this.selectedEmployee = <EmployeeDetails>data;
+        this.selectedEmployee = this.deep({
+          Id: 0,
+          Fullname: "",
+          Email: "",
+          Phone: "",
+          Salary: 0.0,
+          OTRate: 0.0,
+          JoinDate: new Date(),
+         Duty: "",
+          Address: {
+              HouseNo: "",
+              Street: "",
+              City: "",
+              PostalCode: ""
+          },
+          Total: 0
+        });
+        this.getEmployeeList();
+        this.hideEmployeeSlider();
+       
       }
     );
-    this.hideEmployeeSlider();
+   
   }
 
   viewEmployee(employee: EmployeeDetails): void {
     this.editingEmployee = false;
-    this.selectedEmployee = employee;
+    this.selectedEmployee = { ...employee };
     
     this.displayEmployeeSlider = true;
   }
 
-  editEmployee(employee: Employee): void {
+  editEmployee(employee: EmployeeDetails): void {
     this.editingEmployee = true;
-    this.newEmployee = { ...employee };
+    this.selectedEmployee = { ...employee };
     this.displayEmployeeSlider = true;
   }
 
   deleteEmployee(employee: EmployeeDetails): void {
     this.zesnaEmployeeModel.SetlEmployeeInfoDetails( employee, this.selectedEstate.Id, 'REMOVE').then(
       (data) => {
-        
+        this.getEmployeeList();
+        this.hideEmployeeSlider();
       }
     );
-    this.hideEmployeeSlider();
+   
   }
    // Making a deep copy
    deep<T extends any>(source: T): T {
