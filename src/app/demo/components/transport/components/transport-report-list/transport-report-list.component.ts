@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Company, CompanyDetails } from '../../../petty_cash/core/petty-cash';
 import { transportDetails, emptyTransportFullDetails, TransportDetails, TransportFullDetails, transportFullDetails } from '../../core/transport';
 import { MessageService } from 'primeng/api';
@@ -13,6 +13,8 @@ import { Filter } from 'src/app/demo/core/filter';
 import { ZesnaTransportModel } from 'src/app/demo/model/zesna-transport-model';
 import { ZesnaTransportService } from 'src/app/demo/service/zesna-services/zesna-transport.service';
 import { TransportReport } from 'src/app/demo/core/transport/transport-report';
+import { OverallCookies } from 'src/app/demo/core/overall-cookies';
+import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
 
 @Component({
   selector: 'app-transport-report-list',
@@ -20,7 +22,7 @@ import { TransportReport } from 'src/app/demo/core/transport/transport-report';
   styleUrl: './transport-report-list.component.scss',
   providers: [DialogService, MessageService]
 })
-export class TransportReportListComponent {
+export class TransportReportListComponent implements OnInit {
   selectedCompany: Company;
   selectedCompanyDetails: CompanyDetails;
   ref: DynamicDialogRef | undefined;
@@ -29,7 +31,22 @@ export class TransportReportListComponent {
     { label: 'Company B', value: 2 },
     // Add more companies here
   ];
-  newTransportDetails: TransportFullDetails = this.deep(emptyTransportFullDetails);
+  newTransportDetails: TransportReport = {
+    Id: 0,
+    Route: '',
+    Fuel: 0,
+    DriverBata: 0,
+    DriverMeals: 0,
+    HelperBata: 0,
+    HelperMeals: 0,
+    HighwayCharges: 0,
+    BusFairParking: 0,
+    OverallId: 0,
+    TransportStartDate: new Date(),
+    TransportEndDate: new Date(),
+    VehicleNo: '',
+    TransportItem: ''
+  };
 
   transportReports: TransportReport[] = [];
   fullTransportReports: TransportFullDetails[] = this.deep(transportFullDetails);
@@ -58,12 +75,29 @@ export class TransportReportListComponent {
     SearchQuery: '',
     SortAsc: true,
     SortCol: 'Name',
-    DatesWithin: []
   }
+  datesWithin: Date[] = [this.getDate30DaysAgo(), new Date()]
+  vehicleNumber: string = "";
+  transportedItem: string = "";
+  // Store the cookie interface
+  overallCookieInterface: OverallCookies;
   constructor(public dialogService: DialogService, public messageService: MessageService, private _zesnaCommonService: ZesnaCommonService, private _zesnaTransportService: ZesnaTransportService) { 
     this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
     this.zesnaTransportModel = new ZesnaTransportModel(this._zesnaTransportService);
+    this.overallCookieInterface = new OverallCookieModel();
+    this.loggedUserId = +this.overallCookieInterface.GetUserId();
+    this.loggedUserRole = this.overallCookieInterface.GetUserRole();
   }
+
+  ngOnInit(): void {
+    this.getEstateListByUserId();
+  }
+
+  getDate30DaysAgo(): Date {
+    const date = new Date();
+    date.setDate(date.getDate() - 30);
+    return date;
+}
 
   getEstateListByUserId() {
     this.zesnaEstateModel.GetAllEstatesByUserId(this.loggedUserId).then(
@@ -78,7 +112,7 @@ export class TransportReportListComponent {
   }
 
   getEstateTransportReports(){
-    this.zesnaTransportModel.GetTransportReport(this.filter, this.selectedEstate.Id).then(
+    this.zesnaTransportModel.GetTransportReport({EstateId:this.selectedEstate.Id, TransportedItem: this.transportedItem, VehicleNumber: this.vehicleNumber, StartDate: this.datesWithin[0], EndDate: this.datesWithin[1]}).then(
       (data) => {
         this.transportReports = <TransportReport[]>data;
       }
@@ -111,8 +145,8 @@ export class TransportReportListComponent {
   hideTransportSlider(): void {
     this.displayTransportSlider = false;
   }
-  saveTransportDetails() {
-    this.zesnaTransportModel.GetTransportReport(this.filter, this.selectedEstate.Id).then(
+  saveTransportDetails(type: string) {
+    this.zesnaTransportModel.SetTransportReport(this.newTransportDetails, this.selectedEstate.Id, type).then(
       (data) => {
         this.transportReports = <TransportReport[]>data;
       }
@@ -136,3 +170,144 @@ export class TransportReportListComponent {
   }
 
 }
+
+// {
+//                 // label: 'UI Components',
+//                 items: [
+//                     { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
+//                     { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
+//                     { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', routerLink: ['/uikit/floatlabel'] },
+//                     { label: 'Invalid State', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/uikit/invalidstate'] },
+//                     { label: 'Button', icon: 'pi pi-fw pi-box', routerLink: ['/uikit/button'] },
+//                     { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/table'] },
+//                     { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/uikit/list'] },
+//                     { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/uikit/tree'] },
+//                     { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/uikit/panel'] },
+//                     { label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/uikit/overlay'] },
+//                     { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/uikit/media'] },
+//                     { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/uikit/menu'], routerLinkActiveOptions: { paths: 'subset', queryParams: 'ignored', matrixParams: 'ignored', fragment: 'ignored' } },
+//                     { label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
+//                     { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/uikit/file'] },
+//                     { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts'] },
+//                     { label: 'Misc', icon: 'pi pi-fw pi-circle', routerLink: ['/uikit/misc'] }
+//                 ]
+//             },
+//             {
+//                 label: 'Prime Blocks',
+//                 items: [
+//                     { label: 'Free Blocks', icon: 'pi pi-fw pi-eye', routerLink: ['/blocks'], badge: 'NEW' },
+//                     { label: 'All Blocks', icon: 'pi pi-fw pi-globe', url: ['https://www.primefaces.org/primeblocks-ng'], target: '_blank' },
+//                 ]
+//             },
+//             {
+//                 label: 'Utilities',
+//                 items: [
+//                     { label: 'PrimeIcons', icon: 'pi pi-fw pi-prime', routerLink: ['/utilities/icons'] },
+//                     { label: 'PrimeFlex', icon: 'pi pi-fw pi-desktop', url: ['https://www.primefaces.org/primeflex/'], target: '_blank' },
+//                 ]
+//             },
+//             {
+//                 label: 'Pages',
+//                 icon: 'pi pi-fw pi-briefcase',
+//                 items: [
+//                     {
+//                         label: 'Landing',
+//                         icon: 'pi pi-fw pi-globe',
+//                         routerLink: ['/landing']
+//                     },
+//                     {
+//                         label: 'Auth',
+//                         icon: 'pi pi-fw pi-user',
+//                         items: [
+//                             {
+//                                 label: 'Login',
+//                                 icon: 'pi pi-fw pi-sign-in',
+//                                 routerLink: ['/auth/login']
+//                             },
+//                             {
+//                                 label: 'Error',
+//                                 icon: 'pi pi-fw pi-times-circle',
+//                                 routerLink: ['/auth/error']
+//                             },
+//                             {
+//                                 label: 'Access Denied',
+//                                 icon: 'pi pi-fw pi-lock',
+//                                 routerLink: ['/auth/access']
+//                             }
+//                         ]
+//                     },
+//                     {
+//                         label: 'Crud',
+//                         icon: 'pi pi-fw pi-pencil',
+//                         routerLink: ['/pages/crud']
+//                     },
+//                     {
+//                         label: 'Timeline',
+//                         icon: 'pi pi-fw pi-calendar',
+//                         routerLink: ['/pages/timeline']
+//                     },
+//                     {
+//                         label: 'Not Found',
+//                         icon: 'pi pi-fw pi-exclamation-circle',
+//                         routerLink: ['/notfound']
+//                     },
+//                     {
+//                         label: 'Empty',
+//                         icon: 'pi pi-fw pi-circle-off',
+//                         routerLink: ['/pages/empty']
+//                     },
+//                 ]
+//             },
+//             {
+//                 label: 'Hierarchy',
+//                 items: [
+//                     {
+//                         label: 'Submenu 1', icon: 'pi pi-fw pi-bookmark',
+//                         items: [
+//                             {
+//                                 label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',
+//                                 items: [
+//                                     { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
+//                                     { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
+//                                     { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
+//                                 ]
+//                             },
+//                             {
+//                                 label: 'Submenu 1.2', icon: 'pi pi-fw pi-bookmark',
+//                                 items: [
+//                                     { label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' }
+//                                 ]
+//                             },
+//                         ]
+//                     },
+//                     {
+//                         label: 'Submenu 2', icon: 'pi pi-fw pi-bookmark',
+//                         items: [
+//                             {
+//                                 label: 'Submenu 2.1', icon: 'pi pi-fw pi-bookmark',
+//                                 items: [
+//                                     { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
+//                                     { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' },
+//                                 ]
+//                             },
+//                             {
+//                                 label: 'Submenu 2.2', icon: 'pi pi-fw pi-bookmark',
+//                                 items: [
+//                                     { label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' },
+//                                 ]
+//                             },
+//                         ]
+//                     }
+//                 ]
+//             },
+//             {
+//                 label: 'Get Started',
+//                 items: [
+//                     {
+//                         label: 'Documentation', icon: 'pi pi-fw pi-question', routerLink: ['/documentation']
+//                     },
+//                     {
+//                         label: 'View Source', icon: 'pi pi-fw pi-search', url: ['https://github.com/primefaces/sakai-ng'], target: '_blank'
+//                     }
+//                 ]
+//             }

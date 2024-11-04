@@ -6,7 +6,7 @@
 
                 <div class="field col-12 md:col-3">
                     <label htmlFor="state">Select Estate</label>
-                    <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
+                    <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate" optionLabel="Name" 
                         (onChange)="onEstateChange($event)">
                     </p-dropdown>
                 </div>
@@ -16,7 +16,7 @@
                     <label htmlFor="state">Search by vehicle number</label>
 
                     <div class="display_flex_center">
-                        <input pInputText id="reimbursementAmount" type="text" />
+                        <input [(ngModel)]="vehicleNumber" pInputText id="reimbursementAmount" type="text" />
 
                     </div>
 
@@ -26,7 +26,7 @@
                     <label htmlFor="state">Search by transport item</label>
 
                     <div class="display_flex_center">
-                        <input pInputText id="reimbursementAmount" type="text" />
+                        <input [(ngModel)]="transportedItem" pInputText id="reimbursementAmount" type="text" />
 
                     </div>
                 </div>
@@ -35,7 +35,7 @@
 
                     <div class="display_flex_center">
 
-                        <p-calendar [(ngModel)]="filter.DatesWithin" selectionMode="range" [readonlyInput]="true" (onSelect)="getEstateTransportReports()" />
+                        <p-calendar [(ngModel)]="datesWithin" selectionMode="range" [readonlyInput]="true" (onSelect)="getEstateTransportReports()" />
 
                     </div>
                 </div>
@@ -112,32 +112,32 @@
         <!-- Vehicle Number -->
         <div class="field col-12">
             <label for="vehicleNumber">Vehicle Number:</label>
-            <input pInputText id="vehicleNumber" [(ngModel)]="newTransportDetails.VehicleNumber" />
+            <input pInputText id="vehicleNumber" [(ngModel)]="newTransportDetails.VehicleNo" />
         </div>
 
         <!-- Transported Item -->
         <div class="field col-12">
             <label for="transportedItem">Transported Item:</label>
-            <input pInputText id="transportedItem" [(ngModel)]="newTransportDetails.TransportedItem" />
+            <input pInputText id="transportedItem" [(ngModel)]="newTransportDetails.TransportItem" />
         </div>
 
         <!-- Trip Start Date -->
         <div class="field col-12">
             <label for="tripStartDate">Trip Start Date:</label>
-            <p-calendar [(ngModel)]="newTransportDetails.TripStartDate" dateFormat="yy-mm-dd"></p-calendar>
+            <p-calendar [(ngModel)]="newTransportDetails.TransportStartDate" dateFormat="yy-mm-dd"></p-calendar>
         </div>
 
         <!-- Trip End Date -->
         <div class="field col-12">
             <label for="tripEndDate">Trip End Date:</label>
-            <p-calendar [(ngModel)]="newTransportDetails.TripEndDate" dateFormat="yy-mm-dd"></p-calendar>
+            <p-calendar [(ngModel)]="newTransportDetails.TransportEndDate" dateFormat="yy-mm-dd"></p-calendar>
         </div>
 
         <!-- Total Amount -->
-        <div class="field col-12">
+        <!-- <div class="field col-12">
             <label for="totalAmount">Total Amount:</label>
-            <input pInputText id="totalAmount" [(ngModel)]="newTransportDetails.TotalAmount" />
-        </div>
+            <input pInputText id="totalAmount"  />
+        </div> -->
 
         <!-- Route -->
         <div class="field col-12">
@@ -148,31 +148,31 @@
         <!-- Fuel Expense -->
         <div class="field col-12">
             <label for="fuelExpense">Fuel Expense:</label>
-            <input pInputText id="fuelExpense" [(ngModel)]="newTransportDetails.FuelExpense" />
+            <input pInputText id="fuelExpense" [(ngModel)]="newTransportDetails.Fuel" />
         </div>
 
         <!-- Driver Payment -->
         <div class="field col-12">
             <label for="driverPayment">Driver Payment:</label>
-            <input pInputText id="driverPayment" [(ngModel)]="newTransportDetails.DriverPayment" />
+            <input pInputText id="driverPayment" [(ngModel)]="newTransportDetails.DriverBata" />
         </div>
 
         <!-- Driver Meals Expense -->
         <div class="field col-12">
             <label for="driverMealsExpense">Driver Meals Expense:</label>
-            <input pInputText id="driverMealsExpense" [(ngModel)]="newTransportDetails.DriverMealsExpense" />
+            <input pInputText id="driverMealsExpense" [(ngModel)]="newTransportDetails.DriverMeals" />
         </div>
 
         <!-- Helper Payment -->
         <div class="field col-12">
             <label for="helperPayment">Helper Payment:</label>
-            <input pInputText id="helperPayment" [(ngModel)]="newTransportDetails.HelperPayment" />
+            <input pInputText id="helperPayment" [(ngModel)]="newTransportDetails.HelperBata" />
         </div>
 
         <!-- Helper Meals Expense -->
         <div class="field col-12">
             <label for="helperMealsExpense">Helper Meals Expense:</label>
-            <input pInputText id="helperMealsExpense" [(ngModel)]="newTransportDetails.HelperMealsExpense" />
+            <input pInputText id="helperMealsExpense" [(ngModel)]="newTransportDetails.HelperMeals" />
         </div>
 
         <!-- Highway Charges -->
@@ -184,12 +184,12 @@
         <!-- Bus Pair Parking -->
         <div class="field col-12">
             <label for="busPairParking">Bus Pair Parking:</label>
-            <input pInputText id="busPairParking" [(ngModel)]="newTransportDetails.BusPairParking" />
+            <input pInputText id="busPairParking" [(ngModel)]="newTransportDetails.BusFairParking" />
         </div>
 
         <!-- Save and Cancel Buttons -->
         <div class="field col-12 margin_bottom0 flex flex-wrap gap-2 btn_panel">
-            <button pButton type="button" label="Save" (click)="saveTransportDetails()"></button>
+            <button pButton type="button" label="Save" (click)="saveTransportDetails(newTransportDetails.Id === 0 ? 'INSERT' : 'UPDATE')"></button>
             <button pButton type="button" label="Cancel" class="p-button-danger"
                 (click)="hideTransportSlider()"></button>
         </div>

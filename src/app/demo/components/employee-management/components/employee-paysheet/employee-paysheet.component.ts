@@ -69,8 +69,7 @@ export class EmployeePaysheetComponent {
     RecordsPerPage: 10,
     SearchQuery: '',
     SortAsc: true,
-    SortCol: 'Name',
-    DatesWithin: []
+    SortCol: 'Name'
   }
 
   selectedEmployee: EmployeeDetails = {
@@ -81,10 +80,7 @@ export class EmployeePaysheetComponent {
     Salary: 0.0,
     OTRate: 0.0,
     JoinDate: new Date(),
-    EmployeeRoleDetails: {
-        Id: 0,
-        Name: ""
-    },
+    Duty: "",
     Address: {
         HouseNo: "",
         Street: "",

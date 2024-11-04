@@ -8,8 +8,8 @@
 
           <div class="field col-12 md:col-3">
               <label htmlFor="state">Select Estate</label>
-              <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate"
-                  (onChange)="onEstateChange($event)">
+              <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate" optionLabel="Name" 
+					(onChange)="onEstateChange($event)">
               </p-dropdown>
           </div>
 
@@ -64,10 +64,10 @@
             </ng-template>
             <ng-template pTemplate="body" let-employee>
               <tr [pSelectableRow]="employee">
-                <td>{{employee.Name}}</td>
+                <td>{{employee.Fullname}}</td>
                 <td>{{employee.Duty}}</td>
-                <td>{{employee.ContactDetails.ContactNumber}}</td>
-                <td>{{employee.ContactDetails.Address.No}}, {{employee.ContactDetails.Address.Street}}, {{employee.ContactDetails.Address.City}}, {{employee.ContactDetails.Address.PostalCode}}</td>
+                <td>{{employee.Phone}}</td>
+                <td>{{employee.Address.HouseNo}}, {{employee.Address.Street}}, {{employee.Address.City}}, {{employee.Address.PostalCode}}</td>
                 <td>{{employee.JoinDate | date:'dd MMM YYYY'}}</td>
   
                 <td class="flex flex-wrap gap-2 no_bg_color">
@@ -87,51 +87,51 @@
             <div class="p-fluid p-formgrid grid">
               <div class="field col-12 margin_bottom0">
                 <label for="name">Name:</label>
-                <input pInputText id="name" [(ngModel)]="newEmployee.Name" />
+                <input pInputText id="name" [(ngModel)]="selectedEmployee.Fullname" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="role">Duty:</label>
-                <input pInputText id="role" [(ngModel)]="newEmployee.Duty" />
+                <input pInputText id="role" [(ngModel)]="selectedEmployee.Duty" />
               </div>
-              <div class="field col-12 margin_bottom0">
+              <!-- <div class="field col-12 margin_bottom0">
                 <label for="department">Company:</label>
                 <input pInputText id="department" [(ngModel)]="newEmployee.CompanyId" />
-              </div>
+              </div> -->
               <div class="field col-12 margin_bottom0">
                 <label for="salary">Salary:</label>
-                <input pInputText id="salary" [(ngModel)]="newEmployee.Salary" />
+                <input pInputText id="salary" [(ngModel)]="selectedEmployee.Salary" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="email">OT Rate:</label>
-                <input pInputText id="email" [(ngModel)]="newEmployee.OTRate" />
+                <input pInputText id="email" [(ngModel)]="selectedEmployee.OTRate" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="phone">Phone:</label>
-                <input pInputText id="phone" [(ngModel)]="newEmployee.ContactDetails.ContactNumber" />
+                <input pInputText id="phone" [(ngModel)]="selectedEmployee.Phone" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="email">Email:</label>
-                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Email" />
+                <input pInputText id="email" [(ngModel)]="selectedEmployee.Email" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="email">Home No:</label>
-                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Address.No" />
+                <input pInputText id="email" [(ngModel)]="selectedEmployee.Address.HouseNo" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="email">Street:</label>
-                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Address.Street" />
+                <input pInputText id="email" [(ngModel)]="selectedEmployee.Address.Street" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="email">City:</label>
-                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Address.City" />
+                <input pInputText id="email" [(ngModel)]="selectedEmployee.Address.City" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="email">Postal Code:</label>
-                <input pInputText id="email" [(ngModel)]="newEmployee.ContactDetails.Address.PostalCode" />
+                <input pInputText id="email" [(ngModel)]="selectedEmployee.Address.PostalCode" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="joinDate">Join Date:</label>
-                <p-calendar [(ngModel)]="newEmployee.JoinDate" dateFormat="yy-mm-dd"></p-calendar>
+                <p-calendar [(ngModel)]="selectedEmployee.JoinDate" dateFormat="yy-mm-dd"></p-calendar>
               </div>
               <div class="field col-12 margin_bottom0 flex flex-wrap gap-2 btn_panel">
                 <button pButton type="button" [label]="selectedEmployee.Id === 0 ? 'Create' : 'Update '" (click)="saveEmployee(selectedEmployee.Id === 0 ? 'INSERT' : 'UPDATE')"></button>

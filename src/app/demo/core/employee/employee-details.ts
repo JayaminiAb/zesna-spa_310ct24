@@ -9,7 +9,7 @@ export interface EmployeeDetails {
     Salary: number;
     OTRate: number;
     JoinDate: Date;
-    EmployeeRoleDetails: RoleDetails;
+    Duty: string;
     Address: Address;
     Total: number;
 }

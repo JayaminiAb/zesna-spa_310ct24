@@ -4,5 +4,12 @@ export interface Filter {
     CurrentPage: number;
     SortCol: string;
     SortAsc: boolean;
-    DatesWithin ?: Date[];
+}
+
+export interface TransportFilter {
+    EstateId: number;
+    TransportedItem: string;
+    VehicleNumber: string;
+    StartDate: Date;
+    EndDate: Date;
 }
