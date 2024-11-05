@@ -6,7 +6,7 @@ import { API$DOMAIN } from '../../core/api-configs';
 import { ErrorMessage } from '../../core/error-message';
 import { Filter, TransportFilter } from '../../core/filter';
 import { TransportReport } from '../../core/transport/transport-report';
-import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet } from '../../core/employee/employee-details';
+import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, PaymentObject } from '../../core/employee/employee-details';
 
 
 @Injectable({
@@ -122,15 +122,12 @@ export class ZesnaEmployeeService {
       })
     );
   }
-  SetEmployeePaySheet(employeePaySheet: EmployeePaySheet, selectedDate: Date, estateId: number, type: string) {
+  SetEmployeePaySheet(payMentObject: PaymentObject) {
     // Setting the params
     let my_params = new HttpParams()
-      .set("selectedDate", selectedDate.toString())
-      .set("estateId", estateId.toString())
-      .set("actionType", type.toString());
 
 
-    return this.http.post<boolean>(this.SetEmployeePaySheetUrl, employeePaySheet, { params: my_params }).pipe(
+    return this.http.post<boolean>(this.SetEmployeePaySheetUrl, payMentObject).pipe(
       catchError(error => {
         return this.handleError('SetEmployeePaySheet', error)
       })

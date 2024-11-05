@@ -40,7 +40,12 @@ export interface EmployeeAttendance {
   Comment: string;
   AddedDate: Date;
 }
-
+export interface PaymentObject{
+  EmployeePaySheet: EmployeePaySheet;
+  EstateId: number;
+  SelectedDate: Date;
+  AType: string;
+}
 export const attendanceStatuses = [
   { label: 'Select (S)', value: 'S' },
   { label: 'Present (P)', value: 'P' },

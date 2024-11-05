@@ -12,7 +12,7 @@ import { ZesnaCommonService } from 'src/app/demo/service/zesna-services/zesna-co
 import { ZesnaEmployeeService } from 'src/app/demo/service/zesna-services/zesna-employee.service';
 import { EstateDetails } from 'src/app/demo/core/estate/estate-details';
 import { Filter, TransportFilter } from 'src/app/demo/core/filter';
-import { EmployeeDetails, EmployeePaySheet } from 'src/app/demo/core/employee/employee-details';
+import { EmployeeDetails, EmployeePaySheet, PaymentObject } from 'src/app/demo/core/employee/employee-details';
 import { OverallCookies } from 'src/app/demo/core/overall-cookies';
 import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
 
@@ -20,7 +20,7 @@ import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
   selector: 'app-employee-paysheet',
   templateUrl: './employee-paysheet.component.html',
   styleUrl: './employee-paysheet.component.scss',
-   providers: [DialogService, MessageService]
+  providers: [DialogService, MessageService]
 })
 
 export class EmployeePaysheetComponent {
@@ -33,8 +33,8 @@ export class EmployeePaysheetComponent {
   employees: EmployeeDetails[] = [];
 
 
- 
-  
+
+
   employeePayments: EmployeePaySheet[] = [];
   newPayment: EmployeePaySheet = {
     Id: 0,
@@ -49,15 +49,15 @@ export class EmployeePaysheetComponent {
     OtHours: 0,
     OtPayment: 0
   };
-  
+
   //Store estate model
   zesnaEstateModel: ZesnaEstateModel;
   zesnaEmployeeModel: ZesnaEmployeeModel;
-   //Store logged user details
-   loggedUserId: number = 0;
-   loggedUserRole: string = '';
-   estateList: EstateDetails[] = [];
-    selectedEstate: EstateDetails = {
+  //Store logged user details
+  loggedUserId: number = 0;
+  loggedUserRole: string = '';
+  estateList: EstateDetails[] = [];
+  selectedEstate: EstateDetails = {
     Id: 0,
     Name: '',
     AddressDetails: '',
@@ -84,10 +84,10 @@ export class EmployeePaysheetComponent {
     JoinDate: new Date(),
     Duty: "",
     Address: {
-        HouseNo: "",
-        Street: "",
-        City: "",
-        PostalCode: ""
+      HouseNo: "",
+      Street: "",
+      City: "",
+      PostalCode: ""
     },
     Total: 0
   };
@@ -95,9 +95,9 @@ export class EmployeePaysheetComponent {
   // Store the cookie interface
   overallCookieInterface: OverallCookies;
   constructor(public dialogService: DialogService, public messageService: MessageService,
-     private _zesnaCommonService: ZesnaCommonService,
-     private _zesnaEmployeeService: ZesnaEmployeeService
-    ){
+    private _zesnaCommonService: ZesnaCommonService,
+    private _zesnaEmployeeService: ZesnaEmployeeService
+  ) {
     this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
     this.zesnaEmployeeModel = new ZesnaEmployeeModel(this._zesnaEmployeeService);
     this.overallCookieInterface = new OverallCookieModel();
@@ -120,12 +120,12 @@ export class EmployeePaysheetComponent {
     );
   }
 
-  onEmployeeSelect(employee: EmployeeDetails){
+  onEmployeeSelect(employee: EmployeeDetails) {
     this.selectedEmployee = employee;
-    
+
   }
 
-  getEmployeePaySheet(){
+  getEmployeePaySheet() {
     this.transportFilter.EstateId = this.selectedEstate.Id;
     this.transportFilter.StartDate = this.selectedDate;
 
@@ -142,7 +142,7 @@ export class EmployeePaysheetComponent {
 
   onEstateChange(event: any) {
     // Fetch and filter petty cash history based on the selected company
-    
+
     this.getEmployeePaySheet();
   }
   getEmployeeList() {
@@ -153,18 +153,18 @@ export class EmployeePaysheetComponent {
     );
   }
 
-  removeItem(payment: EmployeePaySheet){
-    this.zesnaEmployeeModel.SetEmployeePaySheet(payment, this.selectedDate, this.selectedEstate.Id, 'REMOVE').then(
-      (data) => {
-        
-      }
-    );
+  removeItem(payment: EmployeePaySheet) {
+    // this.zesnaEmployeeModel.SetEmployeePaySheet(payment, this.selectedDate, this.selectedEstate.Id, 'REMOVE').then(
+    //   (data) => {
+
+    //   }
+    // );
   }
-  onDateRangeChange(event: any){
+  onDateRangeChange(event: any) {
     this.getEmployeePaySheet();
   }
 
-  clickCallBack(event: any){}
+  clickCallBack(event: any) { }
 
   displayEmployeeSlider: boolean = false;
   editingEmployee: boolean = false;
@@ -172,31 +172,36 @@ export class EmployeePaysheetComponent {
 
 
 
-  
-  addNewPayment(){
+
+  addNewPayment() {
+   
     //this.employeePayments.push(this.deep(this.newPayment))
-    this.zesnaEmployeeModel.SetEmployeePaySheet(this.newPayment, this.selectedDate, this.selectedEstate.Id, 'INSERT').then(
-      (data) => {
-        
-      }
-    );
+    // this.zesnaEmployeeModel.SetEmployeePaySheet(this.newPayment, this.selectedDate, this.selectedEstate.Id, 'INSERT').then(
+    //   (data) => {
+    //     this.getEmployeePaySheet();
+    //   }
+    // );
   }
 
-  getTotalAmount(){
+  getTotalAmount() {
     let totalAmount = 0;
-     this.employeePayments.forEach(element => {
+    this.employeePayments.forEach(element => {
       totalAmount = totalAmount + ((element.OtHours * element.EmployeeOTRate) + element.EmployeeSalary);
     });
     return totalAmount;
   }
 
-  onRowSelectEmployee(){
-    //Set paysheat employee details
 
-    //then update db
-    this.zesnaEmployeeModel.SetEmployeePaySheet(this.newPayment, this.selectedDate, this.selectedEstate.Id, 'UPDATE').then(
+
+  updatePayment(payment: EmployeePaySheet) {
+    payment.OnTime = new Date(new Date(payment.OnTime.getTime() + payment.OnTime.getTimezoneOffset() * 60000).getTime() - 3600000);
+    payment.OffTime = new Date(new Date(payment.OffTime.getTime() + payment.OffTime.getTimezoneOffset() * 60000).getTime() - 3600000);
+    debugger
+    let payMentObject: PaymentObject = {EmployeePaySheet: payment, AType: 'UPDATE', EstateId: this.selectedEstate.Id, SelectedDate: this.selectedDate  }
+    //this.employeePayments.push(this.deep(this.newPayment))
+    this.zesnaEmployeeModel.SetEmployeePaySheet(payMentObject).then(
       (data) => {
-        
+
       }
     );
   }

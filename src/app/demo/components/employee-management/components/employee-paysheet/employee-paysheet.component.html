@@ -88,26 +88,17 @@
 
             </td>
 
-            <td [pEditableColumn]="filter.SearchQuery" pEditableColumnField="name">
-              <p-cellEditor>
-                <ng-template pTemplate="input">
-                  <input pInputText type="text" (focus)="op.toggle($event)" (keyup)="getEmployeeList()" [(ngModel)]="payment.SearchQuery" />
-                </ng-template>
-                <ng-template pTemplate="output">
+            <td >
+              
+               
                   {{ payment.EmployeeName }}
-                </ng-template>
-              </p-cellEditor>
+               
             </td>
 
-            <td [pEditableColumn]="payment.EmployeeDuty" pEditableColumnField="inventoryStatus">
-              <p-cellEditor>
-                <ng-template pTemplate="input">
-                  <input pInputText [(ngModel)]="payment.EmployeeDuty" />
-                </ng-template>
-                <ng-template pTemplate="output">
+            <td >
+             
                   {{ payment.EmployeeDuty }}
-                </ng-template>
-              </p-cellEditor>
+               
             </td>
 
 
@@ -122,14 +113,10 @@
                   <p-calendar 
                   [(ngModel)]="payment.OnTime" 
                   [iconDisplay]="'input'" 
-                  [showIcon]="true" 
+                  [showIcon]="false" 
                   [timeOnly]="true" 
-                  inputId="templatedisplay" [appendTo]="'body'">
-                      <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
-                          <i 
-                              class="pi pi-clock pointer-events-none pointer-events-none" 
-                              (click)="clickCallBack($event)"></i>
-                      </ng-template>
+                  inputId="templatedisplay" [appendTo]="'body'" (onBlur)="updatePayment(payment)">
+                     
               </p-calendar>
                 </ng-template>
                 <ng-template pTemplate="output">
@@ -144,14 +131,10 @@
                   <p-calendar 
                   [(ngModel)]="payment.OffTime" 
                   [iconDisplay]="'input'" 
-                  [showIcon]="true" 
+                  [showIcon]="false" 
                   [timeOnly]="true" 
-                  inputId="templatedisplay" [appendTo]="'body'">
-                      <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
-                          <i 
-                              class="pi pi-clock pointer-events-none pointer-events-none" 
-                              (click)="clickCallBack($event)"></i>
-                      </ng-template>
+                  inputId="templatedisplay" [appendTo]="'body'" (onBlur)="updatePayment(payment)">
+                     
               </p-calendar>
                 </ng-template>
                 <ng-template pTemplate="output">
@@ -163,7 +146,7 @@
             <td [pEditableColumn]="payment.OtHours" pEditableColumnField="price">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.OtHours" />
+                  <input pInputText type="number" (change)="updatePayment(payment)" [(ngModel)]="payment.OtHours" />
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{ payment.OtHours }}
@@ -190,7 +173,7 @@
               
                
                 
-               {{ 0 | currency}}
+               {{ payment.EmployeeSalary + (payment.EmployeeOTRate * payment.OtHours) | currency}}
                 
                 
               

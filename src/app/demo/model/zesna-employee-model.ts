@@ -5,7 +5,7 @@ import { UserDetails } from "../core/user/user-details";
 import { ZesnaTransportService } from "../service/zesna-services/zesna-transport.service";
 import { TransportReport } from "../core/transport/transport-report";
 import { ZesnaEmployeeService } from "../service/zesna-services/zesna-employee.service";
-import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet } from "../core/employee/employee-details";
+import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, PaymentObject } from "../core/employee/employee-details";
 
 export class ZesnaEmployeeModel {
 
@@ -81,9 +81,9 @@ export class ZesnaEmployeeModel {
         // return the promise
         return promise;
     }
-    SetEmployeePaySheet(employeePaySheet: EmployeePaySheet, selectedDate: Date, estateId: number, type: string) {
+    SetEmployeePaySheet(payMentObject: PaymentObject) {
         var promise = new Promise((resolve, reject) => {
-            this.allSubscriptions.push(this._zesnaEmployeeService.SetEmployeePaySheet(employeePaySheet, selectedDate, estateId, type).subscribe(
+            this.allSubscriptions.push(this._zesnaEmployeeService.SetEmployeePaySheet(payMentObject).subscribe(
                 data => {
                     let returnData = <boolean>data;
                     // Resolve the promise
