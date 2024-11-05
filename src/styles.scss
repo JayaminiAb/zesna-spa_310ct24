@@ -14,14 +14,17 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/code.scss";
 @import "~@fortawesome/fontawesome-free/css/all.css";
 
-
-.p-button{
+.p-button {
     color: #ffffff;
     background: #fb6d02;
     border: 1px solid #fb6d02 !important;
     padding: 0.75rem 1.25rem;
     font-size: 1rem;
-    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    transition:
+        background-color 0.2s,
+        color 0.2s,
+        border-color 0.2s,
+        box-shadow 0.2s;
     border-radius: 6px;
 }
 .p-inputtext:enabled:focus {
@@ -32,7 +35,10 @@ $gutter: 1rem; //for primeflex grid system
 }
 
 .p-button:focus {
-    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ffb178, 0 1px 2px 0 black !important;
+    box-shadow:
+        0 0 0 2px #ffffff,
+        0 0 0 4px #ffb178,
+        0 1px 2px 0 black !important;
 }
 
 .p-inputtext:enabled:hover {
@@ -99,9 +105,8 @@ $gutter: 1rem; //for primeflex grid system
     outline: 0 none;
     outline-offset: 0;
     box-shadow: 0 0 0 0.2rem #ffe4d0 !important;
-
 }
-.text-default-orange{
+.text-default-orange {
     color: #fb6d02;
 }
 // .p-inputswitch .p-inputswitch-slider:before {
@@ -114,4 +119,51 @@ $gutter: 1rem; //for primeflex grid system
 //     transition-duration: 0.2s;
 // }
 
+.fc-prev-button {
+    background-color: #fb6d02 !important; /* Change to desired background color */
+    color: #ffffff !important; /* Change to desired text color */
+    border-radius: 4px; /* Optional: round the button edges */
+    border: none !important; /* Optional: remove border */
+}
 
+.fc-next-button {
+    background-color: #fb6d02 !important; /* Change to desired background color */
+    color: #ffffff !important; /* Change to desired text color */
+    border-radius: 4px; /* Optional: round the button edges */
+    border: none !important; /* Optional: remove border */
+}
+
+.fc-today-button {
+    background-color: #fb6d02 !important; /* Change to desired background color */
+    color: #ffffff !important; /* Change to desired text color */
+    border-radius: 4px; /* Optional: round the button edges */
+    border: none !important; /* Optional: remove border */
+}
+
+.event-content {
+    background-color: rgb(251 109 2 / 37%) !important;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: rgb(251 109 2 / 33%) !important;
+}
+
+a {
+    text-decoration: none;
+    color: #fb6d02;
+}
+
+.fc-daygrid-body-unbalanced,
+.fc-scrollgrid-sync-table,
+.fc-col-header {
+    width: 100% !important;
+}
+
+.fc-daygrid-body-unbalanced,
+.fc-scrollgrid-sync-table {
+    height: 100% !important;
+}
+
+.fc .fc-daygrid-day-frame {
+    align-content: center;
+}

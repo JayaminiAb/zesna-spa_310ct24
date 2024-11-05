@@ -130,7 +130,7 @@ export class EmployeeManagementComponent {
   showEmployeeAttendance(employee: EmployeeDetails) {
     this.ref = this.dialogService.open(EmployeeAttendanceComponent, {
       header: 'View Attendance',
-      width: '100%',
+      width: '80%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
       maximizable: true,

@@ -41,6 +41,7 @@ export class EmployeesAttendanceSheetComponent {
   loggedUserId: number = 0;
   loggedUserRole: string = '';
   selectedDate: Date = new Date();
+  selectedDatePass: Date = new Date();
   //Store estate model
   zesnaEstateModel: ZesnaEstateModel;
   zesnaEmployeeModel: ZesnaEmployeeModel;
@@ -85,7 +86,7 @@ export class EmployeesAttendanceSheetComponent {
     let transportFilter: TransportFilter = {
       EndDate: new Date,
       EstateId: this.selectedEstate.Id,
-      StartDate: this.selectedDate,
+      StartDate: this.selectedDatePass,
       TransportedItem: '',
       VehicleNumber: ''
     };
@@ -100,8 +101,11 @@ export class EmployeesAttendanceSheetComponent {
     );
   }
   onDateRangeChange(event: any) {
-    // Filter petty cash history based on selected date range
-    console.log(event)
+    // Add 1 day
+    debugger
+    this.selectedDatePass =  new Date(this.deep(this.selectedDate));
+    this.selectedDatePass.setDate(this.selectedDatePass.getDate() + 1); // Add one day
+    this.getEmployeeListAttendance();
   }
   // Making a deep copy
   deep<T extends any>(source: T): T {
@@ -109,7 +113,7 @@ export class EmployeesAttendanceSheetComponent {
   }
 
   updateEmployeeAttendance(employee: EmployeeAttendance) {
-    employee.AddedDate = this.selectedDate;
+    employee.AddedDate = this.selectedDatePass;
     employee.OnTime = new Date(new Date(employee.OnTime.getTime() + employee.OnTime.getTimezoneOffset() * 60000).getTime() - 3600000);
     employee.OffTime = new Date(new Date(employee.OffTime.getTime() + employee.OffTime.getTimezoneOffset() * 60000).getTime() - 3600000);
 
@@ -125,7 +129,7 @@ export class EmployeesAttendanceSheetComponent {
   }
 
   onChangeComment(employee: EmployeeAttendance) {
-    
+
     this.updateEmployeeAttendance(employee);
   }
 

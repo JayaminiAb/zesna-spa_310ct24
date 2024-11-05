@@ -11,10 +11,11 @@ import { EventService } from './demo/service/event.service';
 import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
-    imports: [AppRoutingModule, AppLayoutModule],
+    imports: [AppRoutingModule, AppLayoutModule, FullCalendarModule],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
@@ -22,4 +23,4 @@ import { PhotoService } from './demo/service/photo.service';
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -11,6 +11,7 @@ import { OverallCookies } from 'src/app/demo/core/overall-cookies';
 import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
 import { EmployeeAttendance } from 'src/app/demo/core/employee/employee-details';
 import { DatePipe } from '@angular/common';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 
 @Component({
   selector: 'app-employee-attendance',
@@ -19,13 +20,13 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class EmployeeAttendanceComponent {
-  // @ViewChild('fullCalendar') fullCalendar: FullCalendar;
+  @ViewChild('fullCalendar') calendarComponent!: FullCalendarComponent;
   zesnaEmployeeModel: ZesnaEmployeeModel;
   selectedEmployee: Employee;
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
-    datesSet: this.onDatesSet.bind(this),
+    // datesSet: this.onDatesSet.bind(this),
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
@@ -82,8 +83,25 @@ export class EmployeeAttendanceComponent {
       // Set the inner HTML for the event content
 
       eventContentContainer.innerHTML = `
-        <div class="event-stage" style='font-size:7pt'>${Status}</div>
-        <div style='display:flex;align-items:center'>
+        <div class="event-stage" style='    font-size: 10pt;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;'>${Status === 'S' ? 'Not Updated' :
+          Status === 'P' ? 'Present' :
+            Status === 'A' ? 'Absent' :
+              Status === 'HD' ? 'Half Day' :
+                Status === 'L' ? 'Full Day Leave' :
+                  Status === 'SL' ? 'Sick Leave' :
+                    Status === 'CL' ? 'Casual Leave' :
+                      Status === 'EL' ? 'Earned Leave' :
+                        Status === 'WFH' ? 'Work From Home' :
+                          Status === 'PH' ? 'Public Holiday' :
+                            Status === 'OD' ? 'On Duty' :
+                              Status === 'CO' ? 'Compensatory Off' :
+                                Status === 'T' ? 'Training' :
+                                  'Unknown Status'}</div>
+        <div style='display:flex;align-items:center;    justify-content: center;
+    padding-bottom: 5px;'>
           <b style='padding-left:7px' class="${statusCode}">${new DatePipe('en-US').transform(onTime, 'hh:mm:ss')}</b>
           <b style='padding-left:7px' class="${statusCode}">${new DatePipe('en-US').transform(offTime, 'hh:mm:ss')}</b>
         </div>
@@ -98,6 +116,18 @@ export class EmployeeAttendanceComponent {
       eventContentContainer.style.fontSize = '12px'; // Adjust font size as needed
 
       return { domNodes: [eventContentContainer] };
+    },
+    customButtons: {
+      next: {
+        click: this.nextMonth.bind(this),
+      },
+      prev: {
+        click: this.prevMonth.bind(this),
+      },
+      today: {
+        click: this.currentMonthEvent.bind(this),
+        text: 'Today'
+      },
     }
   };
   // Store the cookie interface
@@ -189,6 +219,40 @@ export class EmployeeAttendanceComponent {
     this.getAllEvents(); // Fetch events for the new month
   }
 
+  nextMonth() {
+    const calendarApi = this.calendarComponent.getApi();
+    calendarApi?.next();
+
+    this.updateCurrentViewInfo(calendarApi);
+  }
+
+  prevMonth() {
+    const calendarApi = this.calendarComponent.getApi();
+    calendarApi?.prev();
+
+    this.updateCurrentViewInfo(calendarApi);
+  }
+
+  currentMonthEvent() {
+    const calendarApi = this.calendarComponent.getApi();
+    calendarApi?.today();
+
+    this.updateCurrentViewInfo(calendarApi);
+  }
+
+  updateCurrentViewInfo(calendarApi: any) {
+    if (calendarApi) {
+      const currentView = calendarApi.view;
+      const currentYear = currentView.currentStart.getFullYear();
+      const currentMonth = currentView.currentStart.getMonth() + 1; // Month is 0-based
+
+      this.currentYear = currentYear;
+      this.currentMonth = currentMonth;
+
+      // Getting all the events
+      this.getAllEvents();
+    }
+  }
 
 
 }
