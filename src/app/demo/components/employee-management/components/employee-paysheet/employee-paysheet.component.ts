@@ -15,12 +15,13 @@ import { Filter, TransportFilter } from 'src/app/demo/core/filter';
 import { EmployeeDetails, EmployeePaySheet, PaymentObject } from 'src/app/demo/core/employee/employee-details';
 import { OverallCookies } from 'src/app/demo/core/overall-cookies';
 import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-employee-paysheet',
   templateUrl: './employee-paysheet.component.html',
   styleUrl: './employee-paysheet.component.scss',
-  providers: [DialogService, MessageService]
+  providers: [DialogService, MessageService, DatePipe]
 })
 
 export class EmployeePaysheetComponent {
@@ -97,7 +98,7 @@ export class EmployeePaysheetComponent {
   overallCookieInterface: OverallCookies;
   constructor(public dialogService: DialogService, public messageService: MessageService,
     private _zesnaCommonService: ZesnaCommonService,
-    private _zesnaEmployeeService: ZesnaEmployeeService
+    private _zesnaEmployeeService: ZesnaEmployeeService, private datePipe: DatePipe
   ) {
     this.zesnaEstateModel = new ZesnaEstateModel(this._zesnaCommonService);
     this.zesnaEmployeeModel = new ZesnaEmployeeModel(this._zesnaEmployeeService);
@@ -138,7 +139,7 @@ export class EmployeePaysheetComponent {
           item.OffTime = new Date(item.OffTime);
         });
       }
-      
+
     );
   }
 
@@ -176,7 +177,7 @@ export class EmployeePaysheetComponent {
 
 
   addNewPayment() {
-   
+
     //this.employeePayments.push(this.deep(this.newPayment))
     // this.zesnaEmployeeModel.SetEmployeePaySheet(this.newPayment, this.selectedDate, this.selectedEstate.Id, 'INSERT').then(
     //   (data) => {
@@ -188,10 +189,10 @@ export class EmployeePaysheetComponent {
   getTotalAmount() {
     let totalAmount = 0;
     this.employeePayments.forEach(element => {
-      if(element.PaymentDone){
+      if (element.PaymentDone) {
         totalAmount = totalAmount + ((element.OtHours * element.EmployeeOTRate) + element.EmployeeSalary);
       }
-      
+
     });
     return totalAmount;
   }
@@ -199,13 +200,17 @@ export class EmployeePaysheetComponent {
 
 
   updatePayment(payment: EmployeePaySheet) {
-    
-    payment.OnTime = new Date(payment.OnTime.getTime() - payment.OnTime.getTimezoneOffset() * 60000);
-    payment.OffTime = new Date(payment.OffTime.getTime() - payment.OffTime.getTimezoneOffset() * 60000);
-    
-    let payMentObject: PaymentObject = {EmployeePaySheet: payment, AType: 'UPDATE', EstateId: this.selectedEstate.Id, SelectedDate: this.selectedDate  }
+
+    //payment.OnTime = new Date(payment.OnTime.getTime() - payment.OnTime.getTimezoneOffset() * 60000);
+    //payment.OffTime = new Date(payment.OffTime.getTime() - payment.OffTime.getTimezoneOffset() * 60000);
+
+    let payMentObject: PaymentObject = { EmployeePaySheet: payment, AType: 'UPDATE', EstateId: this.selectedEstate.Id, SelectedDate: this.selectedDate }
     //this.employeePayments.push(this.deep(this.newPayment))
-    this.zesnaEmployeeModel.SetEmployeePaySheet(payMentObject).then(
+
+    let onTime = this.datePipe.transform(payment.OnTime, 'yyyy-MM-dd hh:mm:ss');
+    let offTime = this.datePipe.transform(payment.OffTime, 'yyyy-MM-dd hh:mm:ss');
+
+    this.zesnaEmployeeModel.SetEmployeePaySheet(payMentObject, onTime, offTime).then(
       (data) => {
         this.getEmployeePaySheet();
       }

@@ -81,9 +81,9 @@ export class ZesnaEmployeeModel {
         // return the promise
         return promise;
     }
-    SetEmployeePaySheet(payMentObject: PaymentObject) {
+    SetEmployeePaySheet(payMentObject: PaymentObject, onTime: string, offTime: string) {
         var promise = new Promise((resolve, reject) => {
-            this.allSubscriptions.push(this._zesnaEmployeeService.SetEmployeePaySheet(payMentObject).subscribe(
+            this.allSubscriptions.push(this._zesnaEmployeeService.SetEmployeePaySheet(payMentObject, onTime, offTime).subscribe(
                 data => {
                     let returnData = <boolean>data;
                     // Resolve the promise
@@ -94,6 +94,12 @@ export class ZesnaEmployeeModel {
         // return the promise
         return promise;
     }
+
+    // Helper function to format the date
+    formatDate(date: Date): string {
+        return date.toISOString(); // Change this as needed to match the API's expected format
+    }
+
     GetAllEmployeeAttendance(transportFilter: TransportFilter) {
         var promise = new Promise((resolve, reject) => {
             this.allSubscriptions.push(this._zesnaEmployeeService.GetAllEmployeeAttendance(transportFilter).subscribe(

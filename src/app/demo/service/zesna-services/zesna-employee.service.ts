@@ -122,18 +122,24 @@ export class ZesnaEmployeeService {
       })
     );
   }
-  SetEmployeePaySheet(payMentObject: PaymentObject) {
+  SetEmployeePaySheet(payMentObject: PaymentObject, onTime: string, offTime: string) {
     // Setting the params
     let my_params = new HttpParams()
+      .set("OnTime", onTime.toString())
+      .set("OffTime", offTime.toString());
 
 
-    return this.http.post<boolean>(this.SetEmployeePaySheetUrl, payMentObject).pipe(
+    return this.http.post<boolean>(this.SetEmployeePaySheetUrl, payMentObject, { params: my_params }).pipe(
       catchError(error => {
         return this.handleError('SetEmployeePaySheet', error)
       })
     );
   }
 
+  // Helper function to format the date
+  formatDate(date: Date): string {
+    return date.toString(); // Change this as needed to match the API's expected format
+  }
 
   //----------- Common methods------------------//
   //The function of handling the error
