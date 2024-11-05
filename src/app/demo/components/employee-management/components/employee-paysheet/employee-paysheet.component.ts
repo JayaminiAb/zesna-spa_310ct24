@@ -47,7 +47,8 @@ export class EmployeePaysheetComponent {
     OnTime: new Date(), // Default time format as a string
     OffTime: new Date(),
     OtHours: 0,
-    OtPayment: 0
+    OtPayment: 0,
+    PaymentDone: false
   };
 
   //Store estate model
@@ -137,6 +138,7 @@ export class EmployeePaysheetComponent {
           item.OffTime = new Date(item.OffTime);
         });
       }
+      
     );
   }
 
@@ -186,7 +188,10 @@ export class EmployeePaysheetComponent {
   getTotalAmount() {
     let totalAmount = 0;
     this.employeePayments.forEach(element => {
-      totalAmount = totalAmount + ((element.OtHours * element.EmployeeOTRate) + element.EmployeeSalary);
+      if(element.PaymentDone){
+        totalAmount = totalAmount + ((element.OtHours * element.EmployeeOTRate) + element.EmployeeSalary);
+      }
+      
     });
     return totalAmount;
   }

@@ -26,6 +26,7 @@ export interface EmployeePaySheet {
   OffTime: Date; // Use string format for time representation in TypeScript
   OtHours: number;
   OtPayment: number;
+  PaymentDone: boolean;
 }
 
 export interface EmployeeAttendance {
