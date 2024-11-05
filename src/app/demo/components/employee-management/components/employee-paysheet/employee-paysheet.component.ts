@@ -194,14 +194,15 @@ export class EmployeePaysheetComponent {
 
 
   updatePayment(payment: EmployeePaySheet) {
-    payment.OnTime = new Date(new Date(payment.OnTime.getTime() + payment.OnTime.getTimezoneOffset() * 60000).getTime() - 3600000);
-    payment.OffTime = new Date(new Date(payment.OffTime.getTime() + payment.OffTime.getTimezoneOffset() * 60000).getTime() - 3600000);
-    debugger
+    
+    payment.OnTime = new Date(payment.OnTime.getTime() - payment.OnTime.getTimezoneOffset() * 60000);
+    payment.OffTime = new Date(payment.OffTime.getTime() - payment.OffTime.getTimezoneOffset() * 60000);
+    
     let payMentObject: PaymentObject = {EmployeePaySheet: payment, AType: 'UPDATE', EstateId: this.selectedEstate.Id, SelectedDate: this.selectedDate  }
     //this.employeePayments.push(this.deep(this.newPayment))
     this.zesnaEmployeeModel.SetEmployeePaySheet(payMentObject).then(
       (data) => {
-
+        this.getEmployeePaySheet();
       }
     );
   }

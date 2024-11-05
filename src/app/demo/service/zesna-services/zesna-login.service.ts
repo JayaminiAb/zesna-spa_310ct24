@@ -56,7 +56,7 @@ export class ZesnaLoginService {
 
     return this.http.get<boolean>(this.CheckEmailExistsUrl, { params: my_params }).pipe(
       catchError(error => {
-        debugger
+        
         return this.handleError('CheckEmailExists', error)
       })
     );

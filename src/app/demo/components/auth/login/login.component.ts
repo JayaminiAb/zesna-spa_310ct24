@@ -79,7 +79,7 @@ export class LoginComponent {
         // Check if the email exists in the DB
         this.zesnaLoginModel.CheckEmailExistsService(this.user_email).then(
             (data) => {
-                debugger
+                
                 // Getting the email validation
                 let emailExists: boolean = <boolean>data;
                 // Check if the email exists
@@ -87,7 +87,7 @@ export class LoginComponent {
                     // Validate the login details
                     this.zesnaLoginModel.LoginAuthenticationService(this.user_email, this.user_password).then(
                         (data) => {
-                            debugger
+                            
                             // Getting the login validation
                             let loginToken: string = <string>data;
                             // Check if the token is valid

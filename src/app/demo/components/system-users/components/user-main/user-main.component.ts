@@ -132,7 +132,7 @@ export class UserMainComponent {
     this.zesnaUserModel.GetUserRoleList().then(
       (data) => {
         if (data) {
-          debugger
+          
           this.userRoleDetails = <RoleDetails[]>data;
           this.selectedUserDetails.UserRoleDetails = this.userRoleDetails.find(item => item.Name === 'Normal User')
         }

@@ -125,7 +125,7 @@ export class EmployeesAttendanceSheetComponent {
   }
 
   onChangeComment(employee: EmployeeAttendance) {
-    debugger
+    
     this.updateEmployeeAttendance(employee);
   }
 

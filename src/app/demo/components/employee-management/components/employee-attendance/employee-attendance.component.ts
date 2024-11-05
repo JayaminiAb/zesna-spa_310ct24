@@ -181,17 +181,12 @@ export class EmployeeAttendanceComponent {
     );
   }
 
-  onDatesSet(event: DatesSetArg) {
-    const startDate = event.start;
-    const currentMonth = startDate.getMonth() + 1; // 1-indexed
-    const currentYear = startDate.getFullYear();
-
-    // Only update if there's a change
-    if (this.currentMonth !== currentMonth || this.currentYear !== currentYear) {
-      this.currentMonth = currentMonth;
-      this.currentYear = currentYear;
-      this.getAllEvents(); // Fetch events for the new month
-    }
+  onDatesSet(dateInfo: { start: Date; end: Date }) {
+    const selectedYear = dateInfo.start.getFullYear();
+    const selectedMonth = dateInfo.start.getMonth(); // Note:
+    this.currentYear = selectedYear;
+    this.currentMonth = selectedMonth;
+    this.getAllEvents(); // Fetch events for the new month
   }
 
 

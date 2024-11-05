@@ -224,7 +224,7 @@ export class ReportComponent {
   }
   //Add expense to top
   addExpenseTop(indexStr: string) {
-    debugger
+    
     let indexList: string[] = indexStr.split('.');
     let insertIndex = +indexList[0] - 1;
     this.files.splice(insertIndex, 0, this.deep(this.emptyMainExpense));
