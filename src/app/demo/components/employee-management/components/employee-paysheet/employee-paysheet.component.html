@@ -72,7 +72,7 @@
             <th>OT Payment</th>
             <th>Day Payment</th>
             <th>Total Payment</th>
-            <!-- <th>Action</th> -->
+            <th>Paid</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-payment let-editing="editing"  let-rowIndex="rowIndex">
@@ -173,14 +173,14 @@
               
                
                 
-               {{ payment.EmployeeSalary + (payment.EmployeeOTRate * payment.OtHours) | currency}}
+               {{ (payment.PaymentDone ? (payment.EmployeeSalary + (payment.EmployeeOTRate * payment.OtHours)) : 0) | currency}}
                 
                 
               
             </td>
-            <!-- <td class="no_bg_color">
-              <button pButton icon="pi pi-trash" class=" p-button-danger" (click)="removeItem(rowIndex)"></button>
-            </td> -->
+            <td class="no_bg_color">
+              <p-inputSwitch [(ngModel)]="payment.PaymentDone" (onChange)="updatePayment(payment)"/>
+            </td>
 
           </tr>
         </ng-template>

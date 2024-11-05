@@ -21,7 +21,7 @@ import { EmployeeManagementComponent } from './components/employee-management/em
 import { EmployeePaysheetComponent } from './components/employee-paysheet/employee-paysheet.component';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { EmployeesAttendanceSheetComponent } from './components/employees-attendance-sheet/employees-attendance-sheet.component';
-
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,8 @@ import { EmployeesAttendanceSheetComponent } from './components/employees-attend
 		TableModule,
     FullCalendarModule,
 	SidebarModule,
-	OverlayPanelModule 
+	OverlayPanelModule,
+	InputSwitchModule
 
   ]
 })
