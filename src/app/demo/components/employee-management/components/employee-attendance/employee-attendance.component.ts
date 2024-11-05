@@ -131,7 +131,7 @@ export class EmployeeAttendanceComponent {
     this.currentYear = currentDate.getFullYear(); // Get the current year
     this.currentMonth = currentDate.getMonth() + 1; // Get the current month (0-based index)
     // Getting all the events
-    this.getAllEvents();
+    //this.getAllEvents();
   }
 
   ngAfterViewInit() {

@@ -14,6 +14,7 @@ import { ZesnaEmployeeModel } from 'src/app/demo/model/zesna-employee-model';
 import { ZesnaEmployeeService } from 'src/app/demo/service/zesna-services/zesna-employee.service';
 import { OverallCookies } from 'src/app/demo/core/overall-cookies';
 import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
+import { MonthlyAttendanceComponent } from '../monthly-attendance/monthly-attendance.component';
 
 @Component({
   selector: 'app-employee-management',
@@ -128,9 +129,10 @@ export class EmployeeManagementComponent {
   }
 
   showEmployeeAttendance(employee: EmployeeDetails) {
-    this.ref = this.dialogService.open(EmployeeAttendanceComponent, {
-      header: 'View Attendance',
-      width: '100%',
+    this.ref = this.dialogService.open(MonthlyAttendanceComponent, {
+      
+      width: '80%',
+      height: '80%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
       maximizable: true,

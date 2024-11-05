@@ -101,7 +101,7 @@ export class EmployeesAttendanceSheetComponent {
   }
   onDateRangeChange(event: any) {
     // Filter petty cash history based on selected date range
-    console.log(event)
+    this.getEmployeeListAttendance();
   }
   // Making a deep copy
   deep<T extends any>(source: T): T {

@@ -1,0 +1,43 @@
+<div class="attendance-report">
+    <h2>Monthly Attendance Report</h2>
+
+    <div *ngIf="employeeAttendance && employeeAttendance.length > 0" class="employee-details">
+        <h3>Employee Details</h3>
+        <label>Employee ID: EMP_{{employeeAttendance[0].EmpoyeeId}}</label>
+        <label>Employee Name: {{employeeAttendance[0].EmpoyeeFullName}}</label>
+        <label>Employee Phone: {{employeeAttendance[0].EmpoyeePhone}}</label>
+    </div>
+
+    <div class="field col-12 md:col-3 date-picker">
+        <label for="state">Select Date</label>
+        <!-- Date Selection -->
+        <p-calendar [appendTo]="'body'" [(ngModel)]="selectedDate" (onSelect)="onDateRangeChange($event)" view="month" 
+        dateFormat="mm/yy" 
+        [readonlyInput]="true"
+            placeholder="Select Month"></p-calendar>
+            
+    </div>
+
+    <p-table [value]="employeeAttendance" [scrollable]="true" class="attendance-table">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Date</th>
+                <th>On Time</th>
+                <th>Off Time</th>
+                <th>Duty</th>
+                <th>Status</th>
+                <th>Comment</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-attendance>
+            <tr>
+                <td>{{ attendance.AddedDate | date:'fullDate' }}</td>
+                <td>{{ attendance.OnTime | date:'shortTime' }}</td>
+                <td>{{ attendance.OffTime | date:'shortTime' }}</td>
+                <td>{{ attendance.EmpoyeeDuty }}</td>
+                <td>{{ getAttendanceStatus(attendance.AttendanceSattus) }}</td>
+                <td>{{ attendance.Comment }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
