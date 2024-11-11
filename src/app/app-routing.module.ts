@@ -18,6 +18,7 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                     { path: 'user_mange', loadChildren: () => import('./demo/components/system-users/system-users.module').then(m => m.SystemUsersModule)},
                     { path: 'employee', loadChildren: () => import('./demo/components/employee-management/employee-management.module').then(m => m.EmployeeManagementModule)},
                     { path: 'transport', loadChildren: () => import('./demo/components/transport/transport.module').then(m => m.TransportModule)},
+                    { path: 'inventory', loadChildren: () => import('./demo/components/inventory/inventory.module').then(m => m.InventoryModule)},
                     { path: 'uikit', loadChildren: () => import('./demo/components/uikit/uikit.module').then(m => m.UIkitModule) },
                     { path: 'utilities', loadChildren: () => import('./demo/components/utilities/utilities.module').then(m => m.UtilitiesModule) },
                     { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },

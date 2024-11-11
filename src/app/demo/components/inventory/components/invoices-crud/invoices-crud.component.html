@@ -1,0 +1,151 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="display_flex_center">
+                <h5 *ngIf="invoiceData.id === 0">New Invoice</h5>
+                <h5 *ngIf="invoiceData.id !== 0">Edit Invoice {{invoiceData.invoiceNumber}}</h5>
+                <button pButton type="button" icon="pi pi-arrow-left" label="Back" (click)="goBack()"
+                    class="p-mt-2"></button>
+            </div>
+           
+            <div class="card-body">
+                <div class="p-fluid p-formgrid grid col-6">
+
+                    <div class="field col-6">
+                        <label htmlFor="address">Invoice number</label>
+                        <input [disabled]="true" [(ngModel)]="invoiceData.invoiceNumber" pInputTextarea id="address" />
+                    </div>
+                    <div class="field col-6">
+                        <label htmlFor="address">Invoice date</label>
+                        <p-calendar [disabled]="true" [(ngModel)]="invoiceData.invoiceDate" />
+                        
+                    </div>
+                    <div class="field col-6">
+                        <label htmlFor="address">Supplier</label>
+                        <p-dropdown [options]="supplierList" optionLabel="label" [(ngModel)]="invoiceData.supplier"
+                            placeholder="Select Supplier">
+                        </p-dropdown>
+                       
+                    </div>
+                    <div class="field col-6">
+                        <label htmlFor="address">Discount(%)</label>
+                        <input  [(ngModel)]="invoiceData.discount" pInputTextarea id="address" />
+                       
+                    </div>
+                    <div class="field col-12">
+                        <label htmlFor="address">Invoice to</label>
+                        <input [(ngModel)]="invoiceData.clientName" pInputTextarea id="address"  />
+                    </div>
+                    <div class="field col-12">
+                        <label htmlFor="address">Contact number</label>
+                        <input [(ngModel)]="invoiceData.clientContact" pInputTextarea id="address" />
+                    </div>
+                  
+
+
+                </div>
+                <div class="p-fluid p-formgrid grid col-6">
+
+                    <div class="field col-12">
+
+                        <p-table [value]="invoiceData.items" editable="true">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                            </ng-template>
+                           
+                            <ng-template pTemplate="body" let-product let-editing="editing" let-rowIndex="rowIndex">
+                                <tr>
+                                    <td [pEditableColumn]="product.description" pEditableColumnField="code">
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input 
+                                                    pInputText 
+                                                    type="text" 
+                                                    [(ngModel)]="product.description" />
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{ product.description }}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td [pEditableColumn]="product.quantity" pEditableColumnField="name">
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input 
+                                                    pInputText 
+                                                    type="text" 
+                                                    (change)="updateItemTotal(rowIndex)"
+                                                    [(ngModel)]="product.quantity" 
+                                                    required />
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{ product.quantity }}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td [pEditableColumn]="product.unitPrice" pEditableColumnField="inventoryStatus">
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input
+                                                (change)="updateItemTotal(rowIndex)" 
+                                                    pInputText 
+                                                    [(ngModel)]="product.unitPrice" />
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{ product.unitPrice | currency}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td [pEditableColumn]="product.total" pEditableColumnField="price">
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input 
+                                                    pInputText type="text" 
+                                                    [(ngModel)]="product.total" />
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{ product.total | currency}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td class="no_bg_color">
+                                        <button pButton icon="pi pi-trash" class="p-button-danger"
+                                            (click)="removeItem(state)"></button>
+
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div *ngIf="invoiceData.items.length === 0" class="info_text">
+                            <small>No items available in this invoice. Please add items!</small>
+                        </div>
+                        <!-- Add Item Button -->
+                        <button pButton type="button" icon="pi pi-plus" label="Add Item" (click)="addItem()"
+                            class="p-mt-2 width50"></button>
+
+
+
+                    </div>
+
+                </div>
+                <div class="p-fluid p-formgrid  col-3">
+                    <!-- Add Item Button -->
+                    <button pButton type="button" icon="pi pi-save" label="Save Invoice" (click)="saveInvoice()"
+                    class="p-mt-2"></button>
+                </div>
+                <div class="p-fluid p-formgrid col-3">
+                    <!-- Add Item Button -->
+                    <button pButton type="button" icon="pi pi-print" label="Save & Print" (click)="savePrint()"
+                    class="p-mt-2"></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

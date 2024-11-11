@@ -22,6 +22,13 @@ export class AppMenuComponent implements OnInit {
                 enableFor: ['Admin']
             },
             {
+                label: 'Inventory',
+                items: [
+                    { label: 'Invoices', icon: 'pi pi-fw pi-book', routerLink: ['/main/inventory'] }
+                ],
+                enableFor: ['Admin']
+            },
+            {
                 label: 'System Features',
                 items: [
                     {

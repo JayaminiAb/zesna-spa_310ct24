@@ -4,10 +4,10 @@ import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { API$DOMAIN } from '../../core/api-configs';
 import { ErrorMessage } from '../../core/error-message';
-import { Filter } from '../../core/filter';
+import { Filter, TransportFilter } from '../../core/filter';
 import { TransportReport } from '../../core/transport/transport-report';
 import { EmployeeDetails, EmployeePaySheet } from '../../core/employee/employee-details';
-import { PettyCashReport, ReimburseDetails } from '../../core/petty-cash/petty-cash';
+import { PettyCashReport, PettyCashRequestBody, ReimburseDetails } from '../../core/petty-cash/petty-cash';
 
 
 @Injectable({
@@ -71,14 +71,12 @@ export class ZesnaPettyCashService {
   }
 
 
-  GetPettyCashReport(selectedDate: Date, estateId: number) {
+  GetPettyCashReport(obj: TransportFilter) {
     // Setting the params
-    let my_params = new HttpParams()
-    .set("selectedDate", selectedDate.toString())
-      .set("estateId", estateId.toString());
+    let my_params = new HttpParams();
 
 
-    return this.http.get<PettyCashReport[]>(this.GetPettyCashReportUrl, { params: my_params }).pipe(
+    return this.http.post<PettyCashReport[]>(this.GetPettyCashReportUrl, obj).pipe(
       catchError(error => {
         return this.handleError('GetPettyCashReport', error)
       })
@@ -86,19 +84,12 @@ export class ZesnaPettyCashService {
   }
 
   
-  SetPettyCashReport(pettyCashReport: PettyCashReport, selectedDate: Date, estateId: number, parentId: number, currentId: number, addDirection: string, actionType: string, userID: number) {
+  SetPettyCashReport(Obj: PettyCashRequestBody) {
     // Setting the params
-    let my_params = new HttpParams()
-    .set("selectedDate", selectedDate.toString())
-      .set("estateId", estateId.toString())
-      .set("parentId", parentId.toString())
-      .set("currentId", currentId.toString())
-      .set("addDirection", addDirection.toString())
-      .set("actionType", actionType.toString())
-      .set("userID", userID.toString());
+   
 
 
-    return this.http.post<boolean>(this.SetPettyCashReportUrl, pettyCashReport, { params: my_params }).pipe(
+    return this.http.post<boolean>(this.SetPettyCashReportUrl, Obj).pipe(
       catchError(error => {
         return this.handleError('SetPettyCashReport', error)
       })

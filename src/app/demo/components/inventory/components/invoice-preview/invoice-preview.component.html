@@ -1,0 +1,144 @@
+<div id="invoice" class="invoice-box">
+
+    <table cellpadding="0" cellspacing="0">
+        <tr class="information">
+            <td colspan="4">
+                <table>
+                    <tr>
+                        <td>
+                            <img class="logo_img" [src]="'assets/layout/images/logo/with_company_name-01.jpg'" />
+                        </td>
+
+                        <td class="text_right">
+                            <strong class="title_com">{{ invoiceData.companyName }}</strong><br />
+                            {{ invoiceData.companyAddress2 }}<i class="pi pi-map-marker icon_class"></i><br />
+                            {{ invoiceData.companyAddress1 }}<i class="pi pi-map-marker icon_class"></i><br />
+                            {{ invoiceData.companyPhone1 }} / {{ invoiceData.companyPhone2 }}<i
+                                class="pi pi-phone icon_class"></i><br />
+                            {{ invoiceData.companyEmail }}<i class="pi pi-envelope icon_class"></i><br />
+                            {{ invoiceData.companyWeb }}<i class="pi pi-globe icon_class"></i><br />
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr class="information">
+            <td colspan="12">
+                <table>
+                    <tr>
+                        <td colspan="3" class="text_left">
+                            <div class="display_flex_center">
+                                <strong>Invoice No</strong>
+                                <strong>:</strong>
+                            </div>
+                            <div class="display_flex_center">
+                                <strong>Invoice Date</strong>
+                                <strong>:</strong>
+                            </div>
+                            <div class="display_flex_center">
+                                <strong>Supplier Code</strong>
+                                <strong>:</strong>
+                            </div>
+                           
+                        </td>
+                        <td colspan="3" class="text_left">
+                            <div>
+                                {{invoiceData.invoiceNumber}}
+                            </div>
+                            <div>
+                                {{invoiceData.invoiceDate | date: 'dd MMM yyyy'}}
+                            </div>
+                            <div>
+                                {{invoiceData.supplier.label}}
+                            </div>
+                        </td>
+
+                        <td colspan="3" class="text_left">
+                            <div class="display_flex_center">
+                                <strong>Invoice To</strong>
+                                <strong>:</strong>
+                            </div>
+                            <div class="display_flex_center">
+                                <strong>Contact No</strong>
+                                <strong>:</strong>
+                            </div>
+                            
+                        </td>
+                        <td colspan="3" class="text_left">
+                            <div>{{invoiceData.clientName}}
+
+                            </div>
+                            <div>
+                                {{invoiceData.clientContact}} 
+                            </div>
+                           
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="heading">
+            <td class="text_center">Description</td>
+            <td class="text_center">Quantity</td>
+            <td class="text_center">Unit Price</td>
+            <td class="text_center">Total</td>
+        </tr>
+
+        <tr class="item" *ngFor="let item of invoiceData.items">
+            <td>{{ item.description }}</td>
+            <td class="text_center">{{ item.quantity }}</td>
+            <td class="text_right">${{ item.unitPrice.toFixed(2) }}</td>
+            <td class="text_right">${{ item.total.toFixed(2) }}</td>
+        </tr>
+        <tr class="total text_right">
+            <td colspan="3" class="text_right">
+                <strong>Sub Total:</strong>
+            </td>
+            <td><strong>${{ getSubTotalAmount().toFixed(2) }}</strong></td>
+        </tr>
+        <tr class="total text_right">
+            <td colspan="3" class="text_right">
+                <strong>Discount:</strong>
+            </td>
+            <td><strong>${{ getTotalDisCount().toFixed(2) }}</strong></td>
+        </tr>
+        <tr class="total text_right">
+            <td colspan="3" class="text_right">
+                <strong class="title_com">Total:</strong>
+            </td>
+            <td><strong class="title_com">${{ getTotalAmount().toFixed(2) }}</strong></td>
+        </tr>
+
+
+    </table>
+    <div class="row signature_row">
+        <table class="half_table">
+            <tr>
+                <th>Checked & Issued By</th>
+                <th>Customer Signature</th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="signature-line"></div>
+                </td>
+                <td>
+                    <div class="signature-line"></div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <table>
+        <tr class="footer">
+            <td colspan="4">
+                Thank you for your business! If you have any questions, please contact us at
+                {{invoiceData.companyEmail}}
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+<button class="download-button" (click)="generatePDF()">Download PDF</button>

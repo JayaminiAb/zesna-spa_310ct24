@@ -1,0 +1,64 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Invoice List</h5>
+            <div class="p-fluid p-formgrid grid">
+                
+				<div class="field col-12 md:col-3">
+					<label htmlFor="state">Select Estate</label>
+					<p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate" optionLabel="Name" 
+					  (onChange)="onEstateChange($event)">
+					</p-dropdown>
+				  </div>
+		  
+			
+
+				
+			</div>
+			<div class="p-fluid p-formgrid grid">
+                
+                <div class="field col-12 md:col-3">
+                  
+					<button pButton type="button" label="Add New Invoice" icon="pi pi-plus" (click)="addNewInvoice()"></button>
+                  
+                  </div>
+			
+
+				
+			</div>
+            <p-table [value]="invoices" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Invoice Number</th>
+                        <th>Invoice Date</th>
+                        <th>Client Name</th>
+                        <th>Client Contact</th>
+                       
+                        <th>Supplier</th>
+                        <th>Total Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-invoice>
+                    <tr>
+                        <td>{{ invoice.invoiceNumber }}</td>
+                        <td>{{ invoice.invoiceDate | date: 'shortDate' }}</td>
+                        <td>{{ invoice.clientName }}</td>
+                        <td>{{ invoice.clientContact }}</td>
+                        
+                        <td>{{ invoice.supplier.label }}</td>
+                        <td>{{ getTotalAmount(invoice) | currency: 'USD' }}</td>
+                        <td class="flex flex-wrap gap-2 no_bg_color">
+                            <button pButton type="button" icon="pi pi-eye" 
+                                (click)="viewInvoice(invoice)"></button>
+                            <button pButton type="button" icon="pi pi-pencil"
+                                (click)="editInvoice(invoice)"></button>
+                            <button pButton type="button" icon="pi pi-trash" 
+                                (click)="deleteInvoice(invoice)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

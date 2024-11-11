@@ -20,11 +20,12 @@ export interface PettyCashHistory {
   export let EmptyMainExpense: TreeNode = {
     data: {
       description: "New",
-      amount: "Amount",
+      weight: "Amount",
       quantity: 1,
       unitPrice: 0,
       totalAmount: 0,
-      action: ""
+      action: "",
+      id: 0
     },
     expanded: true, children: [],
   } 

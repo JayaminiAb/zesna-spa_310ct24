@@ -1,8 +1,8 @@
 import { Subscription } from "rxjs";
-import { Filter } from "../core/filter";
+import { Filter, TransportFilter } from "../core/filter";
 
 import { ZesnaPettyCashService } from "../service/zesna-services/zesna-petty-cash.service";
-import { PettyCashReport, ReimburseDetails } from "../core/petty-cash/petty-cash";
+import { PettyCashReport, PettyCashRequestBody, ReimburseDetails } from "../core/petty-cash/petty-cash";
 
 export class ZesnaPettyCashModel{
     //Store subscriptions
@@ -66,9 +66,10 @@ export class ZesnaPettyCashModel{
         return promise;
     }
 
-    GetPettyCashReport( selectedDate: Date, estateId: number) {
+    GetPettyCashReport( obj: TransportFilter) {
         var promise = new Promise((resolve, reject) => {
-            this.allSubscriptions.push(this._zesnaPettyCashService.GetPettyCashReport(selectedDate, estateId).subscribe(
+            debugger
+            this.allSubscriptions.push(this._zesnaPettyCashService.GetPettyCashReport(obj).subscribe(
                 data => {
                     let returnData = <PettyCashReport[]>data;
                     // Resolve the promise
@@ -79,9 +80,9 @@ export class ZesnaPettyCashModel{
         // return the promise
         return promise;
     }
-    SetPettyCashReport(pettyCashReport: PettyCashReport, selectedDate: Date, estateId: number, parentId: number, currentId: number, addDirection: string, actionType: string, userID: number) {
+    SetPettyCashReport(Obj: PettyCashRequestBody) {
         var promise = new Promise((resolve, reject) => {
-            this.allSubscriptions.push(this._zesnaPettyCashService.SetPettyCashReport(pettyCashReport, selectedDate, estateId, parentId, currentId, addDirection, actionType, userID).subscribe(
+            this.allSubscriptions.push(this._zesnaPettyCashService.SetPettyCashReport(Obj).subscribe(
                 data => {
                     let returnData = <boolean>data;
                     // Resolve the promise

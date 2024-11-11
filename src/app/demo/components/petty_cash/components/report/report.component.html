@@ -70,16 +70,16 @@
 
                                 <p-treeTableCellEditor>
                                     <ng-template pTemplate="input" *ngIf="col.field != 'action'">
-                                        <input pInputText type="text" [(ngModel)]="rowData[col.field]" />
+                                        <input pInputText type="text" [(ngModel)]="rowData[col.field]" (change)="updatePettyCashItem(rowData)" />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         <div *ngIf="col.field != 'action'">
                                             <!-- Display the row number in the first column -->
                                             <label
-                                                [ngClass]="i === 0 && rowNode.level == 0 ? 'font_bold_underline' : i === 0 && rowNode.level == 1 ? 'font_bold' : ''"
+                                                [ngClass]="(i === 0 || i === 4) && rowNode.level == 0 ? 'font_bold_underline' : (i === 0 || i === 4) && rowNode.level == 1 ? 'font_bold' : ''"
                                                 *ngIf="i === 0">{{ rowData['rowNumber'] }} </label>
                                             <label
-                                                [ngClass]="i === 0 && rowNode.level == 0 ? 'font_bold_underline' : i === 0 && rowNode.level == 1 ? 'font_bold' : ''">{{
+                                                [ngClass]="(i === 0 || i === 4) && rowNode.level == 0 ? 'font_bold_underline' : (i === 0 || i === 4) && rowNode.level == 1 ? 'font_bold' : ''">{{
                                                 rowData[col.field] }}</label>
 
                                         </div>

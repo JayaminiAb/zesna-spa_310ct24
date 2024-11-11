@@ -1,0 +1,44 @@
+.card-body{
+    display: flex;
+    flex-wrap: wrap;
+}
+.no_bg_color{
+    
+    button{
+        background-color: transparent;
+        width: max-content;
+        padding: 0;
+        color: #fb6d02;
+        padding: 3px 5px;
+    }
+    .p-button-success{
+        color: #fb6d02;
+    }
+    .p-button-info{
+        color: #fb6d02;
+    }
+    .p-button-danger{
+        color: #fb6d02;
+    }
+    .disabled_button{
+        cursor: not-allowed;
+    }
+    
+}
+.display_flex_center{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.width50{
+    width: 50%;
+}
+.info_text{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #8d8d8d;
+}
+.p-mt-2{
+    margin-top: 20px;
+}

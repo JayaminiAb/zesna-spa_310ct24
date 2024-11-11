@@ -1,7 +1,9 @@
 import { SelectItem } from "primeng/api";
 
 // Live API Server
-export const API$DOMAIN = "https://localhost:7298/";
+// export const API$DOMAIN = "https://localhost:7298/";
+ export const API$DOMAIN = "https://zesna-subdom.runasp.net/";
+
 
 // Setting the length limit
 export const LOGIN$USER_EMAIL$LIMIT: number = 50;
