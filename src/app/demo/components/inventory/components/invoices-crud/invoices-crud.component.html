@@ -13,7 +13,7 @@
 
                     <div class="field col-6">
                         <label htmlFor="address">Invoice number</label>
-                        <input [disabled]="true" [(ngModel)]="invoiceData.invoiceNumber" pInputTextarea id="address" />
+                        <input  [(ngModel)]="invoiceData.invoiceNumber" pInputTextarea id="address" />
                     </div>
                     <div class="field col-6">
                         <label htmlFor="address">Invoice date</label>
@@ -22,14 +22,15 @@
                     </div>
                     <div class="field col-6">
                         <label htmlFor="address">Supplier</label>
-                        <p-dropdown [options]="supplierList" optionLabel="label" [(ngModel)]="invoiceData.supplier"
+                        <!-- <p-dropdown [options]="supplierList" optionLabel="label" [(ngModel)]="invoiceData.supplier"
                             placeholder="Select Supplier">
-                        </p-dropdown>
+                        </p-dropdown> -->
+                        <input  [(ngModel)]="invoiceData.supplierTemp" pInputTextarea id="address" />
                        
                     </div>
                     <div class="field col-6">
                         <label htmlFor="address">Discount(%)</label>
-                        <input  [(ngModel)]="invoiceData.discount" pInputTextarea id="address" />
+                        <input  [(ngModel)]="invoiceData.discount" type="number" pInputTextarea id="address" />
                        
                     </div>
                     <div class="field col-12">
@@ -79,7 +80,7 @@
                                             <ng-template pTemplate="input">
                                                 <input 
                                                     pInputText 
-                                                    type="text" 
+                                                    type="number" 
                                                     (change)="updateItemTotal(rowIndex)"
                                                     [(ngModel)]="product.quantity" 
                                                     required />
@@ -93,26 +94,21 @@
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
                                                 <input
+                                                type="number" 
                                                 (change)="updateItemTotal(rowIndex)" 
                                                     pInputText 
                                                     [(ngModel)]="product.unitPrice" />
                                             </ng-template>
                                             <ng-template pTemplate="output">
-                                                {{ product.unitPrice | currency}}
+                                                {{ product.unitPrice | currency : 'Rs'}}
                                             </ng-template>
                                         </p-cellEditor>
                                     </td>
-                                    <td [pEditableColumn]="product.total" pEditableColumnField="price">
-                                        <p-cellEditor>
-                                            <ng-template pTemplate="input">
-                                                <input 
-                                                    pInputText type="text" 
-                                                    [(ngModel)]="product.total" />
-                                            </ng-template>
-                                            <ng-template pTemplate="output">
-                                                {{ product.total | currency}}
-                                            </ng-template>
-                                        </p-cellEditor>
+                                    <td >
+                                        
+                                         
+                                                {{ product.unitPrice * product.quantity | currency : 'Rs'}}
+                                        
                                     </td>
                                     <td class="no_bg_color">
                                         <button pButton icon="pi pi-trash" class="p-button-danger"

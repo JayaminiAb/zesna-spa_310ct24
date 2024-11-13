@@ -24,6 +24,7 @@ export interface InvoiceData {
     companyEmail: string;
     companyWeb: string;
     supplier: Supplier;
+    supplierTemp ?: string,
     invoiceDate: Date;
     discount: number;
     dueDate: Date;

@@ -13,7 +13,7 @@
                             <strong class="title_com">{{ invoiceData.companyName }}</strong><br />
                             {{ invoiceData.companyAddress2 }}<i class="pi pi-map-marker icon_class"></i><br />
                             {{ invoiceData.companyAddress1 }}<i class="pi pi-map-marker icon_class"></i><br />
-                            {{ invoiceData.companyPhone1 }} / {{ invoiceData.companyPhone2 }}<i
+                            {{ invoiceData.companyPhone1 }} / {{ invoiceData.companyPhone2 }}<span class="class_whatsapp">(WApp)</span><i
                                 class="pi pi-phone icon_class"></i><br />
                             {{ invoiceData.companyEmail }}<i class="pi pi-envelope icon_class"></i><br />
                             {{ invoiceData.companyWeb }}<i class="pi pi-globe icon_class"></i><br />
@@ -50,7 +50,7 @@
                                 {{invoiceData.invoiceDate | date: 'dd MMM yyyy'}}
                             </div>
                             <div>
-                                {{invoiceData.supplier.label}}
+                                {{invoiceData.supplierTemp}}
                             </div>
                         </td>
 
@@ -89,26 +89,26 @@
         <tr class="item" *ngFor="let item of invoiceData.items">
             <td>{{ item.description }}</td>
             <td class="text_center">{{ item.quantity }}</td>
-            <td class="text_right">${{ item.unitPrice.toFixed(2) }}</td>
-            <td class="text_right">${{ item.total.toFixed(2) }}</td>
+            <td class="text_right">${{ item.unitPrice.toFixed(2) | currency : 'Rs' }}</td>
+            <td class="text_right">${{ item.total.toFixed(2) | currency : 'Rs' }}</td>
         </tr>
         <tr class="total text_right">
             <td colspan="3" class="text_right">
                 <strong>Sub Total:</strong>
             </td>
-            <td><strong>${{ getSubTotalAmount().toFixed(2) }}</strong></td>
+            <td><strong>{{ getSubTotalAmount().toFixed(2) | currency : 'Rs'  }}</strong></td>
         </tr>
         <tr class="total text_right">
             <td colspan="3" class="text_right">
                 <strong>Discount:</strong>
             </td>
-            <td><strong>${{ getTotalDisCount().toFixed(2) }}</strong></td>
+            <td><strong>{{ getTotalDisCount().toFixed(2) | currency : 'Rs'  }}</strong></td>
         </tr>
         <tr class="total text_right">
             <td colspan="3" class="text_right">
                 <strong class="title_com">Total:</strong>
             </td>
-            <td><strong class="title_com">${{ getTotalAmount().toFixed(2) }}</strong></td>
+            <td><strong class="title_com">{{ getTotalAmount().toFixed(2)  | currency : 'Rs' }}</strong></td>
         </tr>
 
 

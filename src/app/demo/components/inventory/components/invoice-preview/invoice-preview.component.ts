@@ -20,7 +20,7 @@ export class InvoicePreviewComponent {
    constructor(public ref: DynamicDialogRef, private config: DynamicDialogConfig) {
     if (JSON.stringify(this.config.data)) {
       this.invoiceData = this.config.data;
-
+      console.log(this.invoiceData)
     }
   }
   getTotalDisCount(): number{
@@ -34,7 +34,7 @@ export class InvoicePreviewComponent {
     return this.invoiceData.items.reduce((sum, item) => sum + item.total, 0);
   }
 
-  generatePDF() {
+  generatePDF_A4() {
     const DATA = document.getElementById('invoice')!;
     html2canvas(DATA, { scale: 2 }).then(canvas => {
       const imgWidth = 208;
@@ -43,6 +43,22 @@ export class InvoicePreviewComponent {
       pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 1, 1, imgWidth, imgHeight);
       pdf.save(`Invoice_${this.invoiceData.invoiceNumber}.pdf`);
     });
+    this.ref.close(true);
+  }
+  generatePDF() {
+    const DATA = document.getElementById('invoice')!;
+    
+    html2canvas(DATA, { scale: 2 }).then(canvas => {
+      const imgWidth = 148; // A5 width in mm (half of A4 width)
+      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Scale height to match width
+      
+      const pdf = new jsPDF('p', 'mm', 'a5'); // A5 size instead of A4
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 1, 1, imgWidth, imgHeight);
+  
+      // Save the PDF with the invoice number in the filename
+      pdf.save(`Invoice_${this.invoiceData.invoiceNumber}.pdf`);
+    });
+  
     this.ref.close(true);
   }
 }
