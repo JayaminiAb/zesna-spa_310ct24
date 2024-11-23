@@ -43,9 +43,9 @@
 						<td>{{user.UserRoleDetails.Name}}</td>
 						<td>{{user.IsActive ? 'Active' : 'Blocked'}}</td>
 						<td class="flex flex-wrap gap-2 no_bg_color">
-							<button pButton icon="pi pi-eye" class="p-button-success" (click)="viewUser(user)"></button>
-							<button pButton icon="pi pi-pencil" class="p-button-info" (click)="editUser(user)"></button>
-							<button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteUser(user)"></button>
+							<button pButton icon="pi pi-eye" class="p-button-success" (click)="viewUser(user, 'VIEW')"></button>
+							<button pButton icon="pi pi-pencil" class="p-button-info" (click)="editUser(user, 'UPDATE')"></button>
+							<button pButton icon="pi pi-trash" class="p-button-danger" (click)="deleteUser(user, 'REMOVE')"></button>
 						</td>
 					</tr>
 				</ng-template>

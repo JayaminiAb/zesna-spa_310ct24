@@ -169,7 +169,7 @@ export class UserMainComponent {
     };
     this.showSlider();
   }
-  viewUser(user: UserDetails): void {
+  viewUser(user: UserDetails, type: string): void {
     this.editingUser = true;
     this.selectedUserDetails = { ...user };
     // Implement view logic here
@@ -180,6 +180,7 @@ export class UserMainComponent {
     this.editingUser = true;
     this.selectedUserDetails = { ...user };
     this.displayUserSlider = true;
+   
   }
 
   deleteUser(user: UserDetails, type: string): void {

@@ -19,14 +19,14 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/main/dashboard'] }
                 ],
-                enableFor: ['Admin']
+                enableFor: ['Super Admin']
             },
             {
                 label: 'Inventory',
                 items: [
                     { label: 'Invoices', icon: 'pi pi-fw pi-book', routerLink: ['/main/inventory'] }
                 ],
-                enableFor: ['Admin', 'Accountant', 'Normal User']
+                enableFor: ['Super Admin', 'Accountant', 'Normal User']
             },
             {
                 label: 'System Features',
@@ -36,7 +36,7 @@ export class AppMenuComponent implements OnInit {
                         items: [
                             { label: 'Estate Management', icon: 'pi pi-fw pi-list', routerLink: ['/main/estate_mange/manage'] },
                         ],
-                        enableFor: ['Admin']
+                        enableFor: ['Super Admin']
                     },
                     {
                         label: 'Petty Cash', icon: 'pi pi-fw pi-wallet', routerLink: ['/main/petty_cash'],
@@ -44,7 +44,7 @@ export class AppMenuComponent implements OnInit {
                             { label: 'Reimbursing', icon: 'pi pi-fw  pi-money-bill', routerLink: ['/main/petty_cash/reimbursing'] },
                             { label: 'Report', icon: 'pi pi-fw pi-file', routerLink: ['/main/petty_cash/report'] }
                         ],
-                        enableFor: ['Admin', 'Normal User','Accountant']
+                        enableFor: ['Super Admin', 'Normal User','Accountant']
                     },
                     { label: 'User Management', icon: 'pi pi-fw pi-user', routerLink: ['/main/user_mange'] },
                     {
@@ -54,7 +54,7 @@ export class AppMenuComponent implements OnInit {
                             { label: 'Employee Management', icon: 'pi pi-fw pi-user', routerLink: ['/main/employee/manage'] },
                             { label: 'Attendance', icon: 'pi pi-fw pi-book', routerLink: ['/main/employee/attendance'] }
                         ],
-                        enableFor: ['Admin', 'Normal User','Accountant']
+                        enableFor: ['Super Admin', 'Normal User','Accountant']
                     },
                     {
                         label: 'Transport', icon: 'pi pi-fw pi-truck', routerLink: ['/main/transport'],
@@ -62,10 +62,10 @@ export class AppMenuComponent implements OnInit {
                             { label: 'Report List', icon: 'pi pi-fw pi-file-edit', routerLink: ['/main/transport/report-list'] },
 
                         ],
-                        enableFor: ['Admin', 'Normal User','Accountant']
+                        enableFor: ['Super Admin', 'Normal User','Accountant']
                     }
                 ],
-                enableFor: ['Admin', 'Normal User','Accountant']
+                enableFor: ['Super Admin', 'Normal User','Accountant']
             },
             // {
             //     label: 'UI Components',

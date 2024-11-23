@@ -100,9 +100,10 @@ overallCookieInterface: OverallCookies;
     }
 
     ngOnInit() {
-        console.log(this.loggedUserRole)
+       
         this.loggedUserRole = this.overallCookieInterface.GetUserRole();
         this.key = this.parentKey ? this.parentKey + '-' + this.index : String(this.index);
+        console.log(this.loggedUserRole)
         if(this.item.enableFor){
             if(!this.item.enableFor.includes(this.loggedUserRole)){
                 this.item.visible = false;

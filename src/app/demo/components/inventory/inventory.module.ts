@@ -19,6 +19,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
 import { TreeTableModule } from 'primeng/treetable';
 import { FormLayoutDemoRoutingModule } from '../uikit/formlayout/formlayoutdemo-routing.module';
+import { InvoicePrinterPreviewComponent } from './components/invoice-printer-preview/invoice-printer-preview.component';
+
 
 
 
@@ -27,7 +29,9 @@ import { FormLayoutDemoRoutingModule } from '../uikit/formlayout/formlayoutdemo-
     InvoicesListComponent,
     InvoicesComponent,
     InvoicePreviewComponent,
-    InvoicesCrudComponent
+    InvoicesCrudComponent,
+	InvoicePrinterPreviewComponent
+	// Changed
   ],
   imports: [
     CommonModule,

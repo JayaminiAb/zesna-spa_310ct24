@@ -4,6 +4,7 @@ import { InvoicePreviewComponent } from '../invoice-preview/invoice-preview.comp
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InvoiceData } from '../../core/invoice';
+import { InvoicePrinterPreviewComponent } from '../invoice-printer-preview/invoice-printer-preview.component';
 
 @Component({
   selector: 'app-invoices-crud',
@@ -203,6 +204,23 @@ constructor(public dialogService: DialogService,  private router: Router,
   }
 
   savePrint(){
+    this.ref = this.dialogService.open(InvoicePrinterPreviewComponent, {
+      header: 'Print Invoice',
+      width: '80%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: this.invoiceData
+    });
+
+    this.ref.onClose.subscribe((event: any) => {
+     
+      if (event) {
+
+      }
+    });
+  }
+  saveInfoPrint(){
     this.ref = this.dialogService.open(InvoicePreviewComponent, {
       header: 'Print Invoice',
       width: '80%',
