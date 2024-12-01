@@ -50,7 +50,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Employee', icon: 'pi pi-fw pi-users', routerLink: ['/main/employee'],
                         items: [
-                            { label: 'Pay Sheet', icon: 'pi pi-fw pi-file-excel', routerLink: ['/main/employee/pay_sheet'] },
+                            { label: 'Pay Sheet', icon: 'pi pi-fw pi-file-excel', routerLink: ['/main/employee/pay_sheet_main'] },
                             { label: 'Employee Management', icon: 'pi pi-fw pi-user', routerLink: ['/main/employee/manage'] },
                             { label: 'Attendance', icon: 'pi pi-fw pi-book', routerLink: ['/main/employee/attendance'] }
                         ],

@@ -3,7 +3,7 @@ import { Company } from '../../../petty_cash/core/petty-cash';
 import { Employee, employees, newEmployee } from '../../core/employee';
 
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MessageService } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { EmployeeAttendanceComponent } from '../employee-attendance/employee-attendance.component';
 import { EstateDetails } from 'src/app/demo/core/estate/estate-details';
 import { Filter } from 'src/app/demo/core/filter';
@@ -32,7 +32,10 @@ export class EmployeeManagementComponent {
     Fullname: "",
     Email: "",
     Phone: "",
-    Salary: 0.0,
+    BasicSalary: 0.0,
+    FirstHalfSalary: 0.0,
+    SecondHalfSalary:  0.0,
+    SalaryTypeCode: 'MONTHLY' ,
     OTRate: 0.0,
     JoinDate: new Date(),
     Duty: "",
@@ -44,7 +47,8 @@ export class EmployeeManagementComponent {
     },
     Total: 0
   };
-
+  salaryTypes: SelectItem[] = [{value: 'MONTHLY', label: 'Monthly'}, {value: 'DAILY', label: 'Daily'}];
+  selectedSalaryType: SelectItem = {value: 'MONTHLY', label: 'Monthly'}
 
   newEmployee: Employee = this.deep(newEmployee);
   estateList: EstateDetails[] = [];
@@ -86,7 +90,9 @@ export class EmployeeManagementComponent {
   ngOnInit(): void {
     this.getEstateListByUserId();
   }
-
+  onChangeSalaryType(){
+    this.selectedEmployee.SalaryTypeCode = this.selectedSalaryType.value;
+  }
   getEstateListByUserId() {
     this.zesnaEstateModel.GetAllEstatesByUserId(this.loggedUserId).then(
       (data) => {
@@ -166,7 +172,10 @@ export class EmployeeManagementComponent {
         Fullname: "",
         Email: "",
         Phone: "",
-        Salary: 0.0,
+        BasicSalary: 0.0,
+        FirstHalfSalary: 0.0,
+        SecondHalfSalary:  0.0,
+        SalaryTypeCode: 'MONTHLY' ,
         OTRate: 0.0,
         JoinDate: new Date(),
         Duty: "",
@@ -194,7 +203,10 @@ export class EmployeeManagementComponent {
           Fullname: "",
           Email: "",
           Phone: "",
-          Salary: 0.0,
+          BasicSalary: 0.0,
+    FirstHalfSalary: 0.0,
+    SecondHalfSalary:  0.0,
+    SalaryTypeCode: 'MONTHLY' ,
           OTRate: 0.0,
           JoinDate: new Date(),
           Duty: "",

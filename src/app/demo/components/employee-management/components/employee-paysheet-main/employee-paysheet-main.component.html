@@ -1,0 +1,43 @@
+<div class="grid">
+    <div class="col-12">
+      <div class="card">
+        <h5>Pay Sheet</h5>
+        <div class="p-fluid p-formgrid grid">
+  
+          <div class="field col-12 md:col-3">
+            <label htmlFor="state">Select Estate</label>
+            <p-dropdown [options]="estateList" [(ngModel)]="selectedEstate" placeholder="Select an Estate" optionLabel="Name" 
+                (onChange)="onEstateChange($event)">
+            </p-dropdown>
+        </div>
+  
+          
+  
+  
+  
+  
+        </div>
+  
+  
+  
+        <p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onTabChange($event)">
+            <p-tabPanel header="Temporary Employees">
+              <div *ngIf="activeTabIndex === 0">
+                <router-outlet></router-outlet>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel header="Permanent Employees">
+              <div *ngIf="activeTabIndex === 1">
+                <router-outlet></router-outlet>
+              </div>
+            </p-tabPanel>
+          </p-tabView>
+  
+  
+  
+       
+  
+  
+      </div>
+    </div>
+  </div>

@@ -98,8 +98,20 @@
                 <input pInputText id="department" [(ngModel)]="newEmployee.CompanyId" />
               </div> -->
               <div class="field col-12 margin_bottom0">
-                <label for="salary">Salary:</label>
-                <input pInputText id="salary" type="number" [(ngModel)]="selectedEmployee.Salary" />
+                <label for="salary">Salary Type:</label>
+               
+			<p-dropdown [options]="salaryTypes" [(ngModel)]="selectedSalaryType" (onChange)="onChangeSalaryType()" placeholder="Select User Role" optionLabel="label" 
+					  >
+					</p-dropdown>
+              </div>
+              <div class="field col-12 margin_bottom0">
+                <label for="salary">Salary</label>
+                <input pInputText id="salary" type="number" [(ngModel)]="selectedEmployee.FirstHalfSalary" />
+              </div>
+             
+              <div class="field col-12 margin_bottom0">
+                <label for="salary">Basic Salary:</label>
+                <input pInputText id="salary" type="number" [(ngModel)]="selectedEmployee.BasicSalary" />
               </div>
               <div class="field col-12 margin_bottom0">
                 <label for="otRate">OT Rate:</label>

@@ -6,12 +6,16 @@ export interface EmployeeDetails {
   Fullname: string;
   Email: string;
   Phone: string;
-  Salary: number;
+  BasicSalary: number;
+  FirstHalfSalary: number;
+  SecondHalfSalary: number;
+  SalaryTypeCode: string;
   OTRate: number;
   JoinDate: Date;
   Duty: string;
   Address: Address;
   Total: number;
+ 
 }
 
 export interface EmployeePaySheet {
@@ -27,6 +31,22 @@ export interface EmployeePaySheet {
   OtHours: number;
   OtPayment: number;
   PaymentDone: boolean;
+}
+
+export interface TempEmployeePaySheet {
+  Id: number;
+  EmployeeId: number;
+  EmployeeDisplayId: string;
+  EmployeeDuty: string;
+  EmployeeName: string;
+  EmployeeOTRate: number;
+  EmployeeSalary: number;
+  OnTime: Date; // Use string format for time representation in TypeScript
+  OffTime: Date; // Use string format for time representation in TypeScript
+  OtHours: number;
+  OtPayment: number;
+  PaymentDone: boolean;
+  MobileNumber: string;
 }
 
 export interface EmployeeAttendance {
@@ -47,6 +67,117 @@ export interface PaymentObject{
   SelectedDate: Date;
   AType: string;
 }
+
+export interface EmployeeAdvancePayment {
+  Id: number;
+  Amount: number;
+  PaymentDate: Date;
+  Description: string;
+}
+
+export interface EmployeeSalarySheet {
+
+  Id: number;
+  EmployeeId: number;
+  EmployeeName: string;
+  EmployeeSlaryType: string;
+  FirstHalfSalary: number;
+  SecondHalfSalary: number;
+  FirstHalfOT: number;
+  SecondHalfOT: number;
+  TotalMonthly: number;
+  AdditionDaySalary: number;
+  TotalAdvancePayment: number;
+  BasicSalary: number;
+  EPFAmount: number;
+  EFPAmount: number;
+  SalaryDetuction: number;
+  NetSalary: number;
+  IsFirstHalfPaid: boolean;
+  IsSecondHalfPaid: boolean;
+  FirstHalfAdvanceList: EmployeeAdvancePayment[];
+  SecondHalfAdvanceList: EmployeeAdvancePayment[];
+  EmployeeDetails: EmployeeDetails;
+  EmployeeAttendance: EmployeeAttendance[];
+}
+
+export interface DisplayEmployeeSalarySheet{
+  Name: string;
+  SalaryFirstHalf: number;
+  OTFirstHalf: number;
+  SalarySecondHalf: number;
+  OTSecondHalf: number;
+  SalaryMonthlyTotal: number;
+  AdditionalPayment: number;
+  BasicSalary: number;
+  EPF: number;
+  ETF: number;
+  NoPay: number;
+  Advance: EmployeeAdvancePayment[];
+  NetSalary: number;
+  TotalAdvanceAmount: number;
+  SalaryDeduction: number;
+}
+
+export const DEFAULT_PERM_EMP_PAY: EmployeeSalarySheet = {
+  Id: 0,
+  EmployeeId: 0,
+  EmployeeName: 'Test name',
+  EmployeeSlaryType: '',
+  FirstHalfSalary: 0,
+  SecondHalfSalary: 0,
+  FirstHalfOT: 0,
+  SecondHalfOT: 0,
+  TotalMonthly: 0,
+  AdditionDaySalary: 0,
+  TotalAdvancePayment: 0,
+  BasicSalary: 0,
+  EPFAmount: 0,
+  EFPAmount: 0,
+  SalaryDetuction: 0,
+  NetSalary: 0,
+  IsFirstHalfPaid: false,
+  IsSecondHalfPaid: false,
+  FirstHalfAdvanceList: [],
+  SecondHalfAdvanceList: [],
+  EmployeeDetails:  {
+    Id: 0,
+    Fullname: 'Test name',
+    Email: "",
+    Phone: "",
+    BasicSalary: 0.0,
+    FirstHalfSalary: 0.0,
+    SecondHalfSalary:  0.0,
+    SalaryTypeCode: 'MONTHLY' ,
+    OTRate: 0.0,
+    JoinDate: new Date(),
+    Duty: "",
+    Address: {
+      HouseNo: "",
+      Street: "",
+      City: "",
+      PostalCode: ""
+    },
+    Total: 0
+  },
+  EmployeeAttendance: []
+};
+
+export const DEFAULT_TEMP_EMP: TempEmployeePaySheet = {
+  Id: 0,
+  EmployeeId: 0,
+  EmployeeDisplayId: '',
+  EmployeeDuty: '',
+  EmployeeName: '',
+  EmployeeOTRate: 0.0,
+  EmployeeSalary: 0.0,
+  OnTime: new Date(), // Default to the current date and time
+  OffTime: new Date(), // Default to the current date and time
+  OtHours: 0,
+  OtPayment: 0.0,
+  PaymentDone: false,
+  MobileNumber: ''
+};
 export const attendanceStatuses = [
   { label: 'Select (S)', value: 'S' },
   { label: 'Present (P)', value: 'P' },

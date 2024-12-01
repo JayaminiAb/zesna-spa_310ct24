@@ -37,7 +37,7 @@ export const transformToTreeNode = (data: PettyCashReport[]): TreeNode[] => {
             weight: item.Weight,
             quantity: item.Quantity,
             unitPrice: item.UnitPrice,
-            totalAmount: item.ItemTotalAmount
+            totalAmount: item.ItemTotalAmount.toFixed(2)
         },
         expanded: true,
         children: item.PettyCashReportList ? transformToTreeNode(item.PettyCashReportList) : []

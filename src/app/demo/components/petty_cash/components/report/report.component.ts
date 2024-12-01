@@ -163,8 +163,8 @@ export class ReportComponent {
 
 
   updatePettyCashItem(item: any) {
-    debugger
-    console.log(item)
+    
+    
     this.setPettyCashReportItem(
       { Id: item.id, Description: item.description, Weight: item.weight, Quantity: item.quantity, UnitPrice: item.unitPrice, PettyCashReportList: [] },
       this.selectedDate, this.selectedEstate.Id, 0, 0, '', 'UPDATE', this.loggedUserId
@@ -172,7 +172,7 @@ export class ReportComponent {
   }
 
   deleteItem(item: any){
-    debugger
+    
     this.setPettyCashReportItem(
       { Id: item.node.data.id, Description: "", Weight: "", Quantity: 0, UnitPrice: 0, PettyCashReportList: [] },
       this.selectedDate, this.selectedEstate.Id, 0, 0, '', 'REMOVE', this.loggedUserId
@@ -285,7 +285,7 @@ export class ReportComponent {
 
 
   onDateRangeChange(event: any) {
-    debugger
+    
     // Filter petty cash history based on selected date range
     
     const newDate = new Date(this.selectedDate);
@@ -300,9 +300,10 @@ export class ReportComponent {
   }
 
   getTotalExpenses(){
+    debugger
     let totalAmount = 0;
     this.files.forEach(element => {
-      totalAmount = totalAmount + element.data.totalAmount;
+      totalAmount = totalAmount + (+element.data.totalAmount);
     });
     return totalAmount;
   }
