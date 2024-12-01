@@ -1,0 +1,123 @@
+<div class="p-fluid p-formgrid grid">
+
+
+
+    <div class="field col-12 md:col-3">
+        <label htmlFor="state">Select Month</label>
+        <!-- Date Range Selection -->
+        <p-calendar view="month" dateFormat="mm/yy" [(ngModel)]="selectedDate" (onSelect)="onDateRangeChange($event)"
+            placeholder="Select Month"></p-calendar>
+    </div>
+
+
+    <div class="field col-12 md:col-3">
+
+        <label htmlFor="state">Total payment</label>
+
+        <ng-container *ngIf="selectedEstate else notAvailable">
+            <div class="font-bold text-38px text-align-right">
+                <label for="" class="text-blue-600">{{getTotalAmount() |
+                    currency: 'Rs'}}</label>
+
+            </div>
+        </ng-container>
+        <ng-template #notAvailable>
+            <div class="font-bold text-38px text-align-right">
+                <label for="" class="text-blue-600">N/A</label>
+
+            </div>
+        </ng-template>
+
+    </div>
+
+    <p-table [value]="displayEmployeePayments" dataKey="id" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Salary 1-15</th>
+                <th>OT 1-15</th>
+                <th>Salary 16-31</th>
+                <th>OT 16-31</th>
+                <th>Monthly Salary</th>
+                <th>Additional</th>
+                <th>Basic</th>
+                <th>EPF</th>
+                <th>ETF</th>
+                <th>No Pay</th>
+                <th>Advance</th>
+                <th>Net Salary</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-payment let-editing="editing" let-rowIndex="rowIndex">
+            <tr>
+
+
+
+                <td>
+
+
+                    {{rowIndex + 1}}
+
+
+                </td>
+
+
+                <td>
+                    {{payment.Name}}
+                </td>
+
+                <td>
+                    {{payment.SalaryFirstHalf}}
+                </td>
+                <td>
+                    {{payment.OTFirstHalf}}
+                </td>
+
+                <td>
+                    {{payment.SalarySecondHalf}}
+                </td>
+                <td>
+                    {{payment.OTSecondHalf}}
+                </td>
+                <td>
+                    {{payment.SalaryMonthlyTotal}}
+                </td>
+
+                <td [pEditableColumn]="payment.AdditionDaySalary" pEditableColumnField="OnTime">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="number" [(ngModel)]="payment.AdditionDaySalary"
+                                (change)="updatePayment(payment)" />
+
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ payment.AdditionDaySalary }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>{{payment.BasicSalary}}</td>
+                <td>{{payment.EPF}}</td>
+                <td>{{payment.ETF}}</td>
+                <td>{{payment.NoPay}}</td>
+                <td>
+                    <span class="advanced_paymnt_btn" *ngIf="payment.Advance.length === 0">+ Advanced Payment</span>
+                    <span *ngFor="let item of payment.Advance; let last = last">{{item.Amount}} - {{item.PaymentDate |
+                        date : 'dd' }}<span *ngIf="last">&nbsp;<i class="fa fa-plus"></i></span><br
+                            *ngIf="!last" /></span>
+                </td>
+                <td>{{payment.NetSalary}}</td>
+
+
+            </tr>
+        </ng-template>
+    </p-table>
+
+
+
+
+
+
+
+</div>

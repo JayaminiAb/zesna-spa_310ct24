@@ -23,7 +23,11 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { EmployeesAttendanceSheetComponent } from './components/employees-attendance-sheet/employees-attendance-sheet.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MonthlyAttendanceComponent } from './components/monthly-attendance/monthly-attendance.component';
-
+import { TabViewModule } from 'primeng/tabview';
+import { CheckboxModule } from 'primeng/checkbox';
+import { EmployeePaysheetMainComponent } from './components/employee-paysheet-main/employee-paysheet-main.component';
+import { TemporaryEmployeePaySheetComponent } from './components/temporary-employee-pay-sheet/temporary-employee-pay-sheet.component';
+import { PermanentEmployeePaySheetComponent } from './components/permanent-employee-pay-sheet/permanent-employee-pay-sheet.component';
 @NgModule({
   declarations: [
     EmployeeMainComponent,
@@ -31,7 +35,10 @@ import { MonthlyAttendanceComponent } from './components/monthly-attendance/mont
 	EmployeeManagementComponent,
 	EmployeePaysheetComponent,
 	EmployeesAttendanceSheetComponent,
-	MonthlyAttendanceComponent
+	MonthlyAttendanceComponent,
+	EmployeePaysheetMainComponent,
+	TemporaryEmployeePaySheetComponent,
+	PermanentEmployeePaySheetComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +58,11 @@ import { MonthlyAttendanceComponent } from './components/monthly-attendance/mont
     FullCalendarModule,
 	SidebarModule,
 	OverlayPanelModule,
-	InputSwitchModule
+	InputSwitchModule,
+	TabViewModule,
+	CheckboxModule
+	
+	
 
   ]
 })

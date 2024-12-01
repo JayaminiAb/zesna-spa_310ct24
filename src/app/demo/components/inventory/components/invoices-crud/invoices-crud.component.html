@@ -81,6 +81,9 @@
                                                 <input 
                                                     pInputText 
                                                     type="number" 
+                                                    (blur)="updateItemTotal(rowIndex)"
+                                                    (keydown.Tab)="updateItemTotal(rowIndex)"
+                                                    (keydown.Enter)="updateItemTotal(rowIndex)"
                                                     (change)="updateItemTotal(rowIndex)"
                                                     [(ngModel)]="product.quantity" 
                                                     required />
@@ -95,7 +98,10 @@
                                             <ng-template pTemplate="input">
                                                 <input
                                                 type="number" 
-                                                (change)="updateItemTotal(rowIndex)" 
+                                                (blur)="updateItemTotal(rowIndex)"
+                                                    (keydown.Tab)="updateItemTotal(rowIndex)"
+                                                    (keydown.Enter)="updateItemTotal(rowIndex)"
+                                                    (change)="updateItemTotal(rowIndex)"
                                                     pInputText 
                                                     [(ngModel)]="product.unitPrice" />
                                             </ng-template>

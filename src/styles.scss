@@ -106,6 +106,24 @@ $gutter: 1rem; //for primeflex grid system
     outline-offset: 0;
     box-shadow: 0 0 0 0.2rem #ffe4d0 !important;
 }
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
+    border-color: #fb6d02;
+}
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: #fb6d02;
+}
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+    box-shadow: 0 0 0 0.2rem #ffe4d0 !important;
+    border-color: #fb6d02;
+}
+.p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #fb6d02;
+    background: #fb6d02;
+}
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover{
+    border-color: #c95700;
+    background: #c95700;
+}
 .text-default-orange {
     color: #fb6d02;
 }
