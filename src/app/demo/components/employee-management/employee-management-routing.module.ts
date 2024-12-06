@@ -7,6 +7,7 @@ import { EmployeesAttendanceSheetComponent } from './components/employees-attend
 import { TemporaryEmployeePaySheetComponent } from './components/temporary-employee-pay-sheet/temporary-employee-pay-sheet.component';
 import { PermanentEmployeePaySheetComponent } from './components/permanent-employee-pay-sheet/permanent-employee-pay-sheet.component';
 import { EmployeePaysheetMainComponent } from './components/employee-paysheet-main/employee-paysheet-main.component';
+import { CompanyHolidaysComponent } from './components/company-holidays/company-holidays.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { EmployeePaysheetMainComponent } from './components/employee-paysheet-ma
             { path: 'pay_sheet',  component: EmployeePaysheetComponent },
             { path: 'manage',  component: EmployeeManagementComponent },
             { path: 'attendance',  component: EmployeesAttendanceSheetComponent },
+            { path: 'holidays',  component: CompanyHolidaysComponent },
         ]},
         { path: '**', redirectTo: '/notfound' }
     ])],

@@ -31,23 +31,10 @@ export interface EmployeePaySheet {
   OtHours: number;
   OtPayment: number;
   PaymentDone: boolean;
+  Mobile: string;
 }
 
-export interface TempEmployeePaySheet {
-  Id: number;
-  EmployeeId: number;
-  EmployeeDisplayId: string;
-  EmployeeDuty: string;
-  EmployeeName: string;
-  EmployeeOTRate: number;
-  EmployeeSalary: number;
-  OnTime: Date; // Use string format for time representation in TypeScript
-  OffTime: Date; // Use string format for time representation in TypeScript
-  OtHours: number;
-  OtPayment: number;
-  PaymentDone: boolean;
-  MobileNumber: string;
-}
+
 
 export interface EmployeeAttendance {
   EmpoyeeId: number;
@@ -163,7 +150,7 @@ export const DEFAULT_PERM_EMP_PAY: EmployeeSalarySheet = {
   EmployeeAttendance: []
 };
 
-export const DEFAULT_TEMP_EMP: TempEmployeePaySheet = {
+export const DEFAULT_TEMP_EMP: EmployeePaySheet = {
   Id: 0,
   EmployeeId: 0,
   EmployeeDisplayId: '',
@@ -176,7 +163,7 @@ export const DEFAULT_TEMP_EMP: TempEmployeePaySheet = {
   OtHours: 0,
   OtPayment: 0.0,
   PaymentDone: false,
-  MobileNumber: ''
+  Mobile: ''
 };
 export const attendanceStatuses = [
   { label: 'Select (S)', value: 'S' },

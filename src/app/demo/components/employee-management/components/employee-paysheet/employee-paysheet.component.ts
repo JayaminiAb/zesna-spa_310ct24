@@ -49,7 +49,8 @@ export class EmployeePaysheetComponent {
     OffTime: new Date(),
     OtHours: 0,
     OtPayment: 0,
-    PaymentDone: false
+    PaymentDone: false,
+    Mobile: ''
   };
 
   //Store estate model

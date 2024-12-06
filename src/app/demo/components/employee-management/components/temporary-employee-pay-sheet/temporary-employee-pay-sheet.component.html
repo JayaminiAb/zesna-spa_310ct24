@@ -16,7 +16,7 @@
 
         <ng-container *ngIf="selectedEstate else notAvailable">
             <div class="font-bold text-38px text-align-right">
-                <label for="" class="text-blue-600">{{getTotalAmount() |
+                <label for="" class="text-blue-600">{{getTotalAmount().toFixed(2) |
                     currency: 'LKR'}}</label>
 
             </div>
@@ -41,7 +41,7 @@
     <div class="field col-12 md:col-3 flex align-items-center">
 
         <div class="flex align-items-center">
-            <p-checkbox 
+            <p-checkbox (onChange)="onChangeCheckBox()"
                 [(ngModel)]="searchSpecific"
                 label="Search for Specific" 
                 binary="true" 
@@ -70,7 +70,7 @@
        
            
 
-           <input type="text" placeholder="Search by Name or Mobile" pInputText [(ngModel)]="filter.SearchQuery"/>
+           <input type="text" placeholder="Search by Name or Mobile" pInputText [(ngModel)]="transportFilter.VehicleNumber" (change)="onChangeSearch()"/>
 
         
     </div>
@@ -112,7 +112,7 @@
             <td [pEditableColumn]="payment.EmployeeName" pEditableColumnField="EmployeeName">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="payment.EmployeeName" (change)="updatePayment(payment)" />
+                  <input pInputText type="text" [(ngModel)]="payment.EmployeeName"   (keydown.Enter)="updatePayment(payment)" (keydown.Tab)="updatePayment(payment)" (change)="updatePayment(payment)" (blur)="updatePayment(payment)"  />
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{ payment.EmployeeName }}
@@ -120,13 +120,13 @@
               </p-cellEditor>
             </td>
           
-            <td [pEditableColumn]="payment.MobileNumber" pEditableColumnField="MobileNumber">
+            <td [pEditableColumn]="payment.Mobile" pEditableColumnField="MobileNumber">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="payment.MobileNumber" (change)="updatePayment(payment)" />
+                  <input pInputText type="text" [(ngModel)]="payment.Mobile" (keydown.Enter)="updatePayment(payment)" (keydown.Tab)="updatePayment(payment)" (change)="updatePayment(payment)" (blur)="updatePayment(payment)" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.MobileNumber }}
+                  {{ payment.Mobile }}
                 </ng-template>
               </p-cellEditor>
             </td>
@@ -134,7 +134,7 @@
             <td [pEditableColumn]="payment.EmployeeDuty" pEditableColumnField="EmployeeDuty">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="payment.EmployeeDuty" (change)="updatePayment(payment)" />
+                  <input pInputText type="text" [(ngModel)]="payment.EmployeeDuty" (keydown.Enter)="updatePayment(payment)" (keydown.Tab)="updatePayment(payment)" (change)="updatePayment(payment)" (blur)="updatePayment(payment)" />
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{ payment.EmployeeDuty }}
@@ -152,7 +152,7 @@
                     [timeOnly]="true" 
                     inputId="templatedisplay" 
                     [appendTo]="'body'" 
-                    (onBlur)="updatePayment(payment)">
+                    (keydown.Enter)="updatePayment(payment)" (keydown.Tab)="updatePayment(payment)" (change)="updatePayment(payment)" (blur)="updatePayment(payment)">
                   </p-calendar>
                 </ng-template>
                 <ng-template pTemplate="output">
@@ -171,7 +171,7 @@
                     [timeOnly]="true" 
                     inputId="templatedisplay" 
                     [appendTo]="'body'" 
-                    (onBlur)="updatePayment(payment)">
+                    (keydown.Enter)="updatePayment(payment)" (keydown.Tab)="updatePayment(payment)" (change)="updatePayment(payment)" (blur)="updatePayment(payment)">
                   </p-calendar>
                 </ng-template>
                 <ng-template pTemplate="output">
@@ -183,7 +183,7 @@
             <td [pEditableColumn]="payment.OtHours" pEditableColumnField="OtHours">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.OtHours" (change)="updatePayment(payment)" />
+                  <input pInputText type="number" [(ngModel)]="payment.OtHours" (keydown.Enter)="updatePayment(payment)" (keydown.Tab)="updatePayment(payment)" (change)="updatePayment(payment)" (blur)="updatePayment(payment)" />
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{ payment.OtHours }}
@@ -194,25 +194,25 @@
             <td [pEditableColumn]="payment.EmployeeOTRate" pEditableColumnField="EmployeeOTRate">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.EmployeeOTRate" (change)="updatePayment(payment)" />
+                  <input pInputText type="number" [(ngModel)]="payment.EmployeeOTRate" (keydown.Enter)="updatePayment(payment)" (keydown.Tab)="updatePayment(payment)" (change)="updatePayment(payment)" (blur)="updatePayment(payment)" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.EmployeeOTRate | currency }}
+                  {{ payment.EmployeeOTRate.toFixed(2)}}
                 </ng-template>
               </p-cellEditor>
             </td>
           
             <td>
-              {{ payment.EmployeeOTRate * payment.OtHours | currency }}
+              {{ (payment.EmployeeOTRate * payment.OtHours).toFixed(2) }}
             </td>
           
             <td [pEditableColumn]="payment.EmployeeSalary" pEditableColumnField="EmployeeSalary">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="number" [(ngModel)]="payment.EmployeeSalary" (change)="updatePayment(payment)" />
+                  <input pInputText type="number" [(ngModel)]="payment.EmployeeSalary" (keydown.Enter)="updatePayment(payment)" (keydown.Tab)="updatePayment(payment)" (change)="updatePayment(payment)" (blur)="updatePayment(payment)" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{ payment.EmployeeSalary | currency }}
+                  {{ payment.EmployeeSalary.toFixed(2) }}
                 </ng-template>
               </p-cellEditor>
             </td>
@@ -222,7 +222,7 @@
           
            
             
-           {{ (payment.EmployeeSalary + (payment.EmployeeOTRate * payment.OtHours))  | currency}}
+           {{ (payment.EmployeeSalary + (payment.EmployeeOTRate * payment.OtHours)).toFixed(2)  }}
             
             
           

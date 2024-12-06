@@ -5,7 +5,7 @@ import { UserDetails } from "../core/user/user-details";
 import { ZesnaTransportService } from "../service/zesna-services/zesna-transport.service";
 import { TransportReport } from "../core/transport/transport-report";
 import { ZesnaEmployeeService } from "../service/zesna-services/zesna-employee.service";
-import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, PaymentObject } from "../core/employee/employee-details";
+import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, PaymentObject } from "../core/employee/employee-details";
 
 export class ZesnaEmployeeModel {
 
@@ -68,11 +68,26 @@ export class ZesnaEmployeeModel {
         return promise;
     }
 
-    GetEmployeePaySheet(filter: TransportFilter) {
+    GetEmployeePaySheet(filter: TransportFilter, searchSpecific: boolean = false, recordsPerPage: number = 10, currentPage: number = 1 ) {
+        debugger
         var promise = new Promise((resolve, reject) => {
-            this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeePaySheet(filter).subscribe(
+            this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeePaySheet(filter, searchSpecific, recordsPerPage, currentPage).subscribe(
                 data => {
                     let returnData = <EmployeePaySheet[]>data;
+                    // Resolve the promise
+                    resolve(returnData);
+                })
+            );
+        });
+        // return the promise
+        return promise;
+    }
+    GetPermanentEmployeeSalarySheet(year: number, month: number, estateId: number) {
+        debugger
+        var promise = new Promise((resolve, reject) => {
+            this.allSubscriptions.push(this._zesnaEmployeeService.GetPermanentEmployeeSalarySheet(year, month, estateId).subscribe(
+                data => {
+                    let returnData = <EmployeeSalarySheet[]>data;
                     // Resolve the promise
                     resolve(returnData);
                 })

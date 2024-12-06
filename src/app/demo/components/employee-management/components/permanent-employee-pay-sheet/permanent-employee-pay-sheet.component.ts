@@ -1,14 +1,29 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { DEFAULT_PERM_EMP_PAY, EmployeeSalarySheet, DisplayEmployeeSalarySheet } from 'src/app/demo/core/employee/employee-details';
 import { EstateDetails } from 'src/app/demo/core/estate/estate-details';
+import { OverallCookies } from 'src/app/demo/core/overall-cookies';
+import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
+import { ZesnaEmployeeModel } from 'src/app/demo/model/zesna-employee-model';
+import { ZesnaEstateModel } from 'src/app/demo/model/zesna-estate-model';
+import { ZesnaCommonService } from 'src/app/demo/service/zesna-services/zesna-common.service';
+import { ZesnaEmployeeService } from 'src/app/demo/service/zesna-services/zesna-employee.service';
 
 @Component({
   selector: 'app-permanent-employee-pay-sheet',
   templateUrl: './permanent-employee-pay-sheet.component.html',
-  styleUrl: './permanent-employee-pay-sheet.component.scss'
+  styleUrl: './permanent-employee-pay-sheet.component.scss',
+  providers: [DialogService, MessageService, DatePipe]
 })
 export class PermanentEmployeePaySheetComponent {
+  //Store estate model
+  zesnaEstateModel: ZesnaEstateModel;
+  zesnaEmployeeModel: ZesnaEmployeeModel;
+  // Store the cookie interface
+  overallCookieInterface: OverallCookies;
   selectedEstate: EstateDetails = {
     Id: 0,
     Name: '',
@@ -21,59 +36,83 @@ export class PermanentEmployeePaySheetComponent {
   selectedDate: Date = new Date();
   updatedDate: Date = new Date();
   employeePayments: EmployeeSalarySheet[] = [];
-  displayEmployeePayments:  DisplayEmployeeSalarySheet[] = [];
-  constructor(private route: ActivatedRoute){}
+  displayEmployeePayments: DisplayEmployeeSalarySheet[] = [];
+  //Store logged user details
+  loggedUserId: number = 0;
+  loggedUserRole: string = '';
+  constructor(private route: ActivatedRoute, private datePipe: DatePipe,
+    private _zesnaCommonService: ZesnaCommonService,
+    private _zesnaEmployeeService: ZesnaEmployeeService,) {
+    this.zesnaEmployeeModel = new ZesnaEmployeeModel(this._zesnaEmployeeService);
+    this.overallCookieInterface = new OverallCookieModel();
+    this.loggedUserId = +this.overallCookieInterface.GetUserId();
+    this.loggedUserRole = this.overallCookieInterface.GetUserRole();
+  }
 
-  ngOnInit(){
-     // Retrieve the estateId from the route parameter
-     this.selectedEstate.Id = +this.route.snapshot.paramMap.get('estateId');
-     this.employeePayments.push(DEFAULT_PERM_EMP_PAY);
-     this.generateDisplayTable();
-     
+  ngOnInit() {
+    // Retrieve the estateId from the route parameter
+    this.selectedEstate.Id = +this.route.snapshot.paramMap.get('estateId');
+    let year = this.selectedDate.getFullYear();
+    let month = this.selectedDate.getMonth();
+    this.getEmployeesPaySheet(year, month+1);
+
   }
   onDateRangeChange(event: any) {
-    debugger
     const newDate = new Date(this.selectedDate);
     newDate.setDate(newDate.getDate() + 1);
     this.updatedDate = newDate;
+    let year = newDate.getFullYear();
+    let month = newDate.getMonth();
+    this.getEmployeesPaySheet(year, month+1);
   }
-  getTotalAmount(){
+  getEmployeesPaySheet(year: number, month: number) {
+   
+    this.zesnaEmployeeModel.GetPermanentEmployeeSalarySheet(year, month, this.selectedEstate.Id).then(
+      (data) => {
+        this.employeePayments = <EmployeeSalarySheet[]>data;
+        this.generateDisplayTable();
+      }
+
+    );
+   
+  }
+  getTotalAmount() {
     return 0;
   }
-  getFirstHalfSalary(payment: EmployeeSalarySheet){
+  getFirstHalfSalary(payment: EmployeeSalarySheet) {
     return 0;
   }
-  getSecondHalfSalary(payment: EmployeeSalarySheet){
+  getSecondHalfSalary(payment: EmployeeSalarySheet) {
     return 0;
   }
-  getFirstHalfOT(payment: EmployeeSalarySheet){
+  getFirstHalfOT(payment: EmployeeSalarySheet) {
     return 0;
   }
-  getSecondHalfOT(payment: EmployeeSalarySheet){
+  getSecondHalfOT(payment: EmployeeSalarySheet) {
     return 0;
   }
-  getTotalMonthlySalary(payment: EmployeeSalarySheet){
+  getTotalMonthlySalary(payment: EmployeeSalarySheet) {
     return 0;
   }
-  getEpf(payment: EmployeeSalarySheet){
+  getEpf(payment: EmployeeSalarySheet) {
     return 0;
   }
-  getEtf(payment: EmployeeSalarySheet){
+  getEtf(payment: EmployeeSalarySheet) {
     return 0;
   }
-  getNoPay(payment: EmployeeSalarySheet){
+  getNoPay(payment: EmployeeSalarySheet) {
     return 0;
   }
-  getNetSalary(payment: EmployeeSalarySheet){
+  getNetSalary(payment: EmployeeSalarySheet) {
     return 0;
   }
-  getSalaryDeduction(payment: EmployeeSalarySheet){
+  getSalaryDeduction(payment: EmployeeSalarySheet) {
     return 0;
   }
-  generateDisplayTable(){
+  generateDisplayTable() {
     this.displayEmployeePayments = [];
     for (let index = 0; index < this.employeePayments.length; index++) {
-      let obj : DisplayEmployeeSalarySheet = {
+      let obj: DisplayEmployeeSalarySheet = {
         Name: this.employeePayments[index].EmployeeDetails.Fullname,
         SalaryFirstHalf: this.getFirstHalfSalary(this.employeePayments[index]),
         OTFirstHalf: this.getFirstHalfOT(this.employeePayments[index]),
@@ -91,8 +130,8 @@ export class PermanentEmployeePaySheetComponent {
         SalaryDeduction: this.getSalaryDeduction(this.employeePayments[index])
       }
       this.displayEmployeePayments.push(obj);
-      
+
     }
-    console.log( this.displayEmployeePayments)
+    console.log(this.displayEmployeePayments)
   }
 }
