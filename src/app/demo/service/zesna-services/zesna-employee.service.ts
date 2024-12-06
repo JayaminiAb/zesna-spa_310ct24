@@ -6,7 +6,7 @@ import { API$DOMAIN } from '../../core/api-configs';
 import { ErrorMessage } from '../../core/error-message';
 import { Filter, TransportFilter } from '../../core/filter';
 import { TransportReport } from '../../core/transport/transport-report';
-import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, PaymentObject } from '../../core/employee/employee-details';
+import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, EventHoliday, PaymentObject } from '../../core/employee/employee-details';
 
 
 @Injectable({
@@ -26,11 +26,42 @@ export class ZesnaEmployeeService {
   private GetAllEmployeeAttendanceUrl = API$DOMAIN + 'api/Report/GetEmployeeAttendanceReport';
   private SetEmployeeAttendanceReportUrl = API$DOMAIN + 'api/Report/SetEmployeeAttendanceReport';
   private GetEmployeeAttendanceReportForMonthUrl = API$DOMAIN + 'api/Report/GetEmployeeAttendanceReportForMonth';
+  private SetAllHolidaysUrl = API$DOMAIN + 'api/Report/SetAllHolidays';
+  private GetAllEventHolidayUrl = API$DOMAIN + 'api/Report/GetAllHolidays';
 
 
   // Constructor
   constructor(private http: HttpClient, private router: Router) {
 
+  }
+
+  GetAllEventHoliday(year: number, month: number,  estateId: number) {
+    // Setting the params
+    let my_params = new HttpParams()
+    .set("year", year.toString())
+    .set("month", month.toString())
+    .set("estateId", estateId.toString());
+
+
+    return this.http.post<EventHoliday[]>(this.GetAllEventHolidayUrl, { params: my_params }).pipe(
+      catchError(error => {
+        return this.handleError('GetAllEventHoliday', error)
+      })
+    );
+  }
+  SetAllHolidays(eventHoliday: EventHoliday, selectedDate: string,  estateId: number,  actionType: string) {
+    // Setting the params
+    let my_params = new HttpParams()
+    .set("selectedDate", selectedDate.toString())
+    .set("actionType", actionType.toString())
+    .set("estateId", estateId.toString());
+
+
+    return this.http.post<boolean>(this.SetAllHolidaysUrl, eventHoliday, { params: my_params }).pipe(
+      catchError(error => {
+        return this.handleError('GetPermanentEmployeeSalarySheet', error)
+      })
+    );
   }
 
   GetEmployeeAttendanceReportForMonth(employeeId: number, yearInt: number, monthInt: number, estateId: number) {

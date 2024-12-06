@@ -53,7 +53,10 @@ export interface PaymentObject{
   SelectedDate: Date;
   AType: string;
 }
-
+export interface EventHoliday{
+  Id: number;
+  Name: string;
+}
 export interface EmployeeAdvancePayment {
   Id: number;
   Amount: number;

@@ -5,7 +5,7 @@ import { UserDetails } from "../core/user/user-details";
 import { ZesnaTransportService } from "../service/zesna-services/zesna-transport.service";
 import { TransportReport } from "../core/transport/transport-report";
 import { ZesnaEmployeeService } from "../service/zesna-services/zesna-employee.service";
-import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, PaymentObject } from "../core/employee/employee-details";
+import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, EventHoliday, PaymentObject } from "../core/employee/employee-details";
 
 export class ZesnaEmployeeModel {
 
@@ -156,5 +156,33 @@ export class ZesnaEmployeeModel {
         // return the promise
         return promise;
     }
+
+    SetAllHolidays(eventHoliday: EventHoliday, selectedDate: string,  estateId: number,  actionType: string) {
+        var promise = new Promise((resolve, reject) => {
+            this.allSubscriptions.push(this._zesnaEmployeeService.SetAllHolidays(eventHoliday, selectedDate, estateId, actionType).subscribe(
+                data => {
+                    let returnData = <boolean>data;
+                    // Resolve the promise
+                    resolve(returnData);
+                })
+            );
+        });
+        // return the promise
+        return promise;
+    }
+    GetAllEventHoliday(year: number, month: number,  estateId: number) {
+        var promise = new Promise((resolve, reject) => {
+            this.allSubscriptions.push(this._zesnaEmployeeService.GetAllEventHoliday(year, month, estateId).subscribe(
+                data => {
+                    let returnData = <EventHoliday[]>data;
+                    // Resolve the promise
+                    resolve(returnData);
+                })
+            );
+        });
+        // return the promise
+        return promise;
+    }
+
 
 }
