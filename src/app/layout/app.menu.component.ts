@@ -52,7 +52,8 @@ export class AppMenuComponent implements OnInit {
                         items: [
                             { label: 'Pay Sheet', icon: 'pi pi-fw pi-file-excel', routerLink: ['/main/employee/pay_sheet_main'] },
                             { label: 'Employee Management', icon: 'pi pi-fw pi-user', routerLink: ['/main/employee/manage'] },
-                            { label: 'Attendance', icon: 'pi pi-fw pi-book', routerLink: ['/main/employee/attendance'] }
+                            { label: 'Attendance', icon: 'pi pi-fw pi-book', routerLink: ['/main/employee/attendance'] },
+                            { label: 'Monthly Holidays', icon: 'pi pi-calendar-minus', routerLink: ['/main/employee/holidays'] }
                         ],
                         enableFor: ['Super Admin', 'Normal User','Accountant']
                     },

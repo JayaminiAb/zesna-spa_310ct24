@@ -28,6 +28,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { EmployeePaysheetMainComponent } from './components/employee-paysheet-main/employee-paysheet-main.component';
 import { TemporaryEmployeePaySheetComponent } from './components/temporary-employee-pay-sheet/temporary-employee-pay-sheet.component';
 import { PermanentEmployeePaySheetComponent } from './components/permanent-employee-pay-sheet/permanent-employee-pay-sheet.component';
+import { CompanyHolidaysComponent } from './components/company-holidays/company-holidays.component';
 @NgModule({
   declarations: [
     EmployeeMainComponent,
@@ -38,7 +39,8 @@ import { PermanentEmployeePaySheetComponent } from './components/permanent-emplo
 	MonthlyAttendanceComponent,
 	EmployeePaysheetMainComponent,
 	TemporaryEmployeePaySheetComponent,
-	PermanentEmployeePaySheetComponent
+	PermanentEmployeePaySheetComponent,
+	CompanyHolidaysComponent
   ],
   imports: [
     CommonModule,

@@ -6,7 +6,7 @@ import { API$DOMAIN } from '../../core/api-configs';
 import { ErrorMessage } from '../../core/error-message';
 import { Filter, TransportFilter } from '../../core/filter';
 import { TransportReport } from '../../core/transport/transport-report';
-import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, PaymentObject } from '../../core/employee/employee-details';
+import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, PaymentObject } from '../../core/employee/employee-details';
 
 
 @Injectable({
@@ -18,6 +18,7 @@ export class ZesnaEmployeeService {
   private GetAllEmployeeInfoDetailsWithPGUrl = API$DOMAIN + 'api/EmployeeManagement/GetAllEmployeeInfoDetailsWithPG';
   private GetEmployeeInfoDetailsByIdUrl = API$DOMAIN + 'api/EmployeeManagement/GetEmployeeInfoDetailsById';
   private SetlEmployeeInfoDetailsUrl = API$DOMAIN + 'api/EmployeeManagement/SetlEmployeeInfoDetails';
+  private GetPermanentEmployeeSalarySheetUrl = API$DOMAIN + 'api/EmployeeManagement/GetPermanentEmployeeSalarySheet';
   private GetEmployeePaySheetUrl = API$DOMAIN + 'api/Report/GetEmployeePaySheet';
 
   private SetEmployeePaySheetUrl = API$DOMAIN + 'api/Report/SetEmployeePaySheet';
@@ -111,14 +112,31 @@ export class ZesnaEmployeeService {
     );
   }
 
-  GetEmployeePaySheet(filter: TransportFilter) {
+  GetEmployeePaySheet(filter: TransportFilter, searchSpecific: boolean = false, recordsPerPage: number = 10, currentPage: number = 1) {
     // Setting the params
-    let my_params = new HttpParams();
+    let my_params = new HttpParams()
+    .set("searchForSpecific", searchSpecific.toString())
+    .set("currentPage", currentPage.toString())
+    .set("recordsPerPage", recordsPerPage.toString());
 
 
-    return this.http.post<EmployeePaySheet[]>(this.GetEmployeePaySheetUrl, filter).pipe(
+    return this.http.post<EmployeePaySheet[]>(this.GetEmployeePaySheetUrl, filter, { params: my_params }).pipe(
       catchError(error => {
         return this.handleError('GetEmployeePaySheet', error)
+      })
+    );
+  }
+  GetPermanentEmployeeSalarySheet(year: number, month: number, estateId: number) {
+    // Setting the params
+    let my_params = new HttpParams()
+    .set("selectedYear", year.toString())
+    .set("selectedMonth", month.toString())
+    .set("estateId", estateId.toString());
+
+
+    return this.http.get<EmployeeSalarySheet[]>(this.GetPermanentEmployeeSalarySheetUrl, { params: my_params }).pipe(
+      catchError(error => {
+        return this.handleError('GetPermanentEmployeeSalarySheet', error)
       })
     );
   }
