@@ -6,9 +6,8 @@ export interface EmployeeDetails {
   Fullname: string;
   Email: string;
   Phone: string;
+  Salary: number;
   BasicSalary: number;
-  FirstHalfSalary: number;
-  SecondHalfSalary: number;
   SalaryTypeCode: string;
   OTRate: number;
   JoinDate: Date;
@@ -54,7 +53,10 @@ export interface PaymentObject{
   SelectedDate: Date;
   AType: string;
 }
-
+export interface EventHoliday{
+  Id: number;
+  Name: string;
+}
 export interface EmployeeAdvancePayment {
   Id: number;
   Amount: number;
@@ -133,8 +135,7 @@ export const DEFAULT_PERM_EMP_PAY: EmployeeSalarySheet = {
     Email: "",
     Phone: "",
     BasicSalary: 0.0,
-    FirstHalfSalary: 0.0,
-    SecondHalfSalary:  0.0,
+    Salary: 0.0,
     SalaryTypeCode: 'MONTHLY' ,
     OTRate: 0.0,
     JoinDate: new Date(),

@@ -176,7 +176,8 @@ export class EmployeeAttendanceComponent {
     //   console.log('Initial View Month:', this.currentMonth);
     //   console.log('Initial View Year:', this.currentYear);
     // }
-
+    const calendarApi = this.calendarComponent.getApi();
+    this.updateCurrentViewInfo(calendarApi);
   }
 
   // On click on confirmation button
