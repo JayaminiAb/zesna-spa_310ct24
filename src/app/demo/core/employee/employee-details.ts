@@ -14,7 +14,7 @@ export interface EmployeeDetails {
   Duty: string;
   Address: Address;
   Total: number;
- 
+
 }
 
 export interface EmployeePaySheet {
@@ -47,15 +47,16 @@ export interface EmployeeAttendance {
   Comment: string;
   AddedDate: Date;
 }
-export interface PaymentObject{
+export interface PaymentObject {
   EmployeePaySheet: EmployeePaySheet;
   EstateId: number;
   SelectedDate: Date;
   AType: string;
 }
-export interface EventHoliday{
+export interface EventHoliday {
   Id: number;
   Name: string;
+  HolidayDate: Date;
 }
 export interface EmployeeAdvancePayment {
   Id: number;
@@ -90,7 +91,7 @@ export interface EmployeeSalarySheet {
   EmployeeAttendance: EmployeeAttendance[];
 }
 
-export interface DisplayEmployeeSalarySheet{
+export interface DisplayEmployeeSalarySheet {
   Name: string;
   SalaryFirstHalf: number;
   OTFirstHalf: number;
@@ -129,14 +130,14 @@ export const DEFAULT_PERM_EMP_PAY: EmployeeSalarySheet = {
   IsSecondHalfPaid: false,
   FirstHalfAdvanceList: [],
   SecondHalfAdvanceList: [],
-  EmployeeDetails:  {
+  EmployeeDetails: {
     Id: 0,
     Fullname: 'Test name',
     Email: "",
     Phone: "",
     BasicSalary: 0.0,
     Salary: 0.0,
-    SalaryTypeCode: 'MONTHLY' ,
+    SalaryTypeCode: 'MONTHLY',
     OTRate: 0.0,
     JoinDate: new Date(),
     Duty: "",
