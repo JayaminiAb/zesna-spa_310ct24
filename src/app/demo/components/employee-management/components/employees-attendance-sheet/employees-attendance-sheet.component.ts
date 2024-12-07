@@ -102,7 +102,7 @@ export class EmployeesAttendanceSheetComponent {
   }
   onDateRangeChange(event: any) {
     // Add 1 day
-    debugger
+    
     this.selectedDatePass =  new Date(this.deep(this.selectedDate));
     this.selectedDatePass.setDate(this.selectedDatePass.getDate() + 1); // Add one day
     this.getEmployeeListAttendance();

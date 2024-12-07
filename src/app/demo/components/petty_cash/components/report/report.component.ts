@@ -256,7 +256,7 @@ export class ReportComponent {
   }
 
   addThirdLevelExpenseBottom(indexStr: string) {
-    debugger
+    
     let indexList: string[] = indexStr.split('.');
     let insertIndex = +indexList[0];
     this.files[insertIndex - 1].children[+indexList[1] - 1].children.splice(+indexList[2], 0, this.deep(this.emptyMainExpense));
@@ -300,7 +300,7 @@ export class ReportComponent {
   }
 
   getTotalExpenses(){
-    debugger
+    
     let totalAmount = 0;
     this.files.forEach(element => {
       totalAmount = totalAmount + (+element.data.totalAmount);

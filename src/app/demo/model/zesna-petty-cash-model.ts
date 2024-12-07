@@ -68,7 +68,7 @@ export class ZesnaPettyCashModel{
 
     GetPettyCashReport( obj: TransportFilter) {
         var promise = new Promise((resolve, reject) => {
-            debugger
+            
             this.allSubscriptions.push(this._zesnaPettyCashService.GetPettyCashReport(obj).subscribe(
                 data => {
                     let returnData = <PettyCashReport[]>data;

@@ -56,7 +56,7 @@ export class ZesnaEmployeeService {
     .set("actionType", actionType.toString())
     .set("estateId", estateId.toString());
 
-    debugger
+    
     return this.http.post<boolean>(this.SetAllHolidaysUrl, eventHoliday, { params: my_params }).pipe(
       catchError(error => {
         return this.handleError('GetPermanentEmployeeSalarySheet', error)

@@ -182,7 +182,7 @@ constructor(public dialogService: DialogService,  private router: Router,
      this.router.navigate(['main/inventory/invoice_list']);
   }
   getInvoiceDetails(){
-    debugger
+    
     this.invoiceData = this.invoices.find(item => item.id === this.invoiceData.id);
   }
   addItem() {

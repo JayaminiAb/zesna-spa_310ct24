@@ -21,7 +21,7 @@ import { EstateDetails } from 'src/app/demo/core/estate/estate-details';
 })
 export class CompanyHolidaysComponent {
   @ViewChild('fullCalendar') calendarComponent!: FullCalendarComponent;
-
+  allOverallHolidays: EventHoliday[] = [];
   events: EventInput[] = []; // Store events
   //Store estate model
   zesnaEstateModel: ZesnaEstateModel;
@@ -43,7 +43,7 @@ export class CompanyHolidaysComponent {
       const { event } = arg;
       const eventContentContainer = document.createElement('div');
       eventContentContainer.classList.add('event-content'); // Add CSS class for styling
-      debugger
+      
       // Determine the background color based on taskcheck and current date
       // Set the inner HTML for the event content
       eventContentContainer.innerHTML = `
@@ -120,9 +120,13 @@ export class CompanyHolidaysComponent {
    * Event handler for clicking on a date
    */
   onDateClick(info: any) {
-    debugger
+    
     // Check if an event already exists for the clicked date
-    const eventExists = this.events.some(event => event.start === info.dateStr);
+    const eventExists = this.allOverallHolidays.some(event => {
+      const holidayDate = new Date(event.HolidayDate); // Convert string to Date object
+      const formattedDate = `${holidayDate.getFullYear()}-${String(holidayDate.getMonth() + 1).padStart(2, '0')}-${String(holidayDate.getDate()).padStart(2, '0')}`;
+      return formattedDate === info.dateStr;
+    });
 
     if (!eventExists) {
       // Add the event only if it doesn't already exist
@@ -133,7 +137,26 @@ export class CompanyHolidaysComponent {
         allDay: true
       });
     } else {
-      alert('An event already exists for this day!');
+      // const eventsArray = this.calendarOptions.events as any[]; // Cast to array
+      const clickedEvent = this.allOverallHolidays.find(event => {
+        const holidayDate = new Date(event.HolidayDate); // Convert string to Date object
+        const formattedDate = `${holidayDate.getFullYear()}-${String(holidayDate.getMonth() + 1).padStart(2, '0')}-${String(holidayDate.getDate()).padStart(2, '0')}`;
+        return formattedDate === info.dateStr;
+      });
+      // Access the `id` from `extendedProps`
+      const eventId = clickedEvent.Id;
+
+      let eventHol = {
+        Id: eventId,
+        HolidayDate: new Date(),
+        Name: "Holiday"
+      };
+      this.zesnaEmployeeModel.SetAllHolidays(eventHol, new Date().toString(), this.selectedEstate.Id, 'REMOVE').then(
+        (data) => {
+          this.getHolidays(this.currentYear, this.currentMonth);
+        }
+
+      );
     }
   }
 
@@ -142,7 +165,7 @@ export class CompanyHolidaysComponent {
    * @param event The event object to add
    */
   addEvent(event: EventInput) {
-    debugger
+    
     this.events = [...this.events, event]; // Add the new event to the array
     this.calendarOptions.events = [...this.events]; // Refresh the calendar options
     let eventHol: EventHoliday;
@@ -160,9 +183,14 @@ export class CompanyHolidaysComponent {
   }
 
   getHolidays(currentYear: number, currentMonth: number) {
+    this.calendarOptions = {
+      ...this.calendarOptions,
+      events: [] // Clear all events
+    };
     this.zesnaEmployeeModel.GetAllEventHoliday(currentYear, currentMonth, this.selectedEstate.Id).then(
       (data) => {
         let allHolidays: EventHoliday[] = <EventHoliday[]>data;
+        this.allOverallHolidays = allHolidays;
 
         allHolidays.forEach(obj => {
           let calendarEvents = allHolidays.map(task => {
@@ -175,6 +203,9 @@ export class CompanyHolidaysComponent {
               title: "Holiday",
               start: new Date(task.HolidayDate).toISOString(), // Convert to ISO string
               end: new Date(dueDate).toISOString(), // Use the incremented due date and convert to ISO string
+              extendedProps: {
+                id: task.Id
+              }
             };
           });
           // Update calendarOptions with the new events

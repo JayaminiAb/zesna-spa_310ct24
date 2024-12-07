@@ -69,7 +69,7 @@ export class ZesnaEmployeeModel {
     }
 
     GetEmployeePaySheet(filter: TransportFilter, searchSpecific: boolean = false, recordsPerPage: number = 10, currentPage: number = 1 ) {
-        debugger
+        
         var promise = new Promise((resolve, reject) => {
             this.allSubscriptions.push(this._zesnaEmployeeService.GetEmployeePaySheet(filter, searchSpecific, recordsPerPage, currentPage).subscribe(
                 data => {
@@ -83,7 +83,7 @@ export class ZesnaEmployeeModel {
         return promise;
     }
     GetPermanentEmployeeSalarySheet(year: number, month: number, estateId: number) {
-        debugger
+        
         var promise = new Promise((resolve, reject) => {
             this.allSubscriptions.push(this._zesnaEmployeeService.GetPermanentEmployeeSalarySheet(year, month, estateId).subscribe(
                 data => {
