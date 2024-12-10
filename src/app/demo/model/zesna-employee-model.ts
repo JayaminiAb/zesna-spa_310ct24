@@ -5,7 +5,7 @@ import { UserDetails } from "../core/user/user-details";
 import { ZesnaTransportService } from "../service/zesna-services/zesna-transport.service";
 import { TransportReport } from "../core/transport/transport-report";
 import { ZesnaEmployeeService } from "../service/zesna-services/zesna-employee.service";
-import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, EventHoliday, PaymentObject } from "../core/employee/employee-details";
+import { EmployeeAdvancePayment, EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, EventHoliday, PaymentObject } from "../core/employee/employee-details";
 
 export class ZesnaEmployeeModel {
 
@@ -175,6 +175,34 @@ export class ZesnaEmployeeModel {
             this.allSubscriptions.push(this._zesnaEmployeeService.GetAllEventHoliday(year, month, estateId).subscribe(
                 data => {
                     let returnData = <EventHoliday[]>data;
+                    // Resolve the promise
+                    resolve(returnData);
+                })
+            );
+        });
+        // return the promise
+        return promise;
+    }
+    SetPermanentEmployeeSalarySheet( employeeSalarySheet: EmployeeSalarySheet, selectedYear: number, selectedMonth: number, estateId: number, actionType: string) {
+        debugger
+        var promise = new Promise((resolve, reject) => {
+            this.allSubscriptions.push(this._zesnaEmployeeService.SetPermanentEmployeeSalarySheet(employeeSalarySheet, selectedYear, selectedMonth, estateId, actionType).subscribe(
+                data => {
+                    let returnData = <number>data;
+                    // Resolve the promise
+                    resolve(returnData);
+                })
+            );
+        });
+        // return the promise
+        return promise;
+    }
+    SetPermanentEmployeeAdvanceSalary( employeeSalarySheet: EmployeeAdvancePayment, salarySheetId: number, isFirstSalary: boolean, actionType: string) {
+        debugger
+        var promise = new Promise((resolve, reject) => {
+            this.allSubscriptions.push(this._zesnaEmployeeService.SetPermanentEmployeeAdvanceSalary(employeeSalarySheet, salarySheetId, isFirstSalary, actionType).subscribe(
+                data => {
+                    let returnData = <boolean>data;
                     // Resolve the promise
                     resolve(returnData);
                 })

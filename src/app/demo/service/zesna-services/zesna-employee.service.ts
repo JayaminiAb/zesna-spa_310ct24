@@ -6,7 +6,7 @@ import { API$DOMAIN } from '../../core/api-configs';
 import { ErrorMessage } from '../../core/error-message';
 import { Filter, TransportFilter } from '../../core/filter';
 import { TransportReport } from '../../core/transport/transport-report';
-import { EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, EventHoliday, PaymentObject } from '../../core/employee/employee-details';
+import { EmployeeAdvancePayment, EmployeeAttendance, EmployeeDetails, EmployeePaySheet, EmployeeSalarySheet, EventHoliday, PaymentObject } from '../../core/employee/employee-details';
 
 
 @Injectable({
@@ -28,13 +28,43 @@ export class ZesnaEmployeeService {
   private GetEmployeeAttendanceReportForMonthUrl = API$DOMAIN + 'api/Report/GetEmployeeAttendanceReportForMonth';
   private SetAllHolidaysUrl = API$DOMAIN + 'api/Report/SetAllHolidays';
   private GetAllEventHolidayUrl = API$DOMAIN + 'api/Report/GetAllHolidays';
-
+  private SetPermanentEmployeeSalarySheetUrl = API$DOMAIN + 'api/EmployeeManagement/SetPermanentEmployeeSalarySheet';
+  private SetPermanentEmployeeAdvanceSalaryUrl = API$DOMAIN + 'api/EmployeeManagement/SetPermanentEmployeeAdvanceSalary';
+ 
 
   // Constructor
   constructor(private http: HttpClient, private router: Router) {
 
   }
-
+  SetPermanentEmployeeSalarySheet(employeeSalarySheet: EmployeeSalarySheet, selectedYear: number, selectedMonth: number, estateId: number, actionType: string) {
+    // Setting the params
+    let my_params = new HttpParams()
+    .set("selectedYear", selectedYear.toString())
+    .set("selectedMonth", selectedMonth.toString())
+    .set("actionType", actionType.toString())
+    .set("estateId", estateId.toString());
+ 
+ 
+    return this.http.post<number>(this.SetPermanentEmployeeSalarySheetUrl, employeeSalarySheet, { params: my_params }).pipe(
+      catchError(error => {
+        return this.handleError('SetPermanentEmployeeSalarySheet', error)
+      })
+    );
+  }
+  SetPermanentEmployeeAdvanceSalary(employeeSalarySheet: EmployeeAdvancePayment, salarySheetId: number, isFirstSalary: boolean, actionType: string) {
+    // Setting the params
+    let my_params = new HttpParams()
+    .set("salarySheetId", salarySheetId.toString())
+    .set("isFirstSalary", isFirstSalary.toString())
+    .set("actionType", actionType.toString());
+ 
+ 
+    return this.http.post<boolean>(this.SetPermanentEmployeeAdvanceSalaryUrl, employeeSalarySheet, { params: my_params }).pipe(
+      catchError(error => {
+        return this.handleError('SetPermanentEmployeeAdvanceSalary', error)
+      })
+    );
+  }
   GetAllEventHoliday(year: number, month: number,  estateId: number) {
     // Setting the params
     let my_params = new HttpParams()

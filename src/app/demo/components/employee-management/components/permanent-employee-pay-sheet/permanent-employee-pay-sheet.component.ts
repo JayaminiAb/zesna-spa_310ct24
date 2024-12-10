@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { DEFAULT_PERM_EMP_PAY, EmployeeSalarySheet, DisplayEmployeeSalarySheet } from 'src/app/demo/core/employee/employee-details';
+import { DEFAULT_PERM_EMP_PAY, EmployeeSalarySheet, DisplayEmployeeSalarySheet, EmployeeAdvancePayment } from 'src/app/demo/core/employee/employee-details';
 import { EstateDetails } from 'src/app/demo/core/estate/estate-details';
 import { OverallCookies } from 'src/app/demo/core/overall-cookies';
 import { OverallCookieModel } from 'src/app/demo/model/zesna-cookie-model';
@@ -80,6 +80,7 @@ export class PermanentEmployeePaySheetComponent {
     return 0;
   }
   getFirstHalfSalary(payment: EmployeeSalarySheet) {
+    debugger
     // Declare the first half salary
     let firstHalfSalary = 0;
     let daySalary = 0;
@@ -327,6 +328,54 @@ export class PermanentEmployeePaySheetComponent {
       this.displayEmployeePayments.push(obj);
 
     }
+   
     console.log(this.displayEmployeePayments)
   }
+
+  setPaymentAdvanceDetails(paymentId: number, advance: EmployeeAdvancePayment, action: string){
+    let year = this.selectedDate.getFullYear();
+    let month = this.selectedDate.getMonth()+1;
+    this.zesnaEmployeeModel.SetPermanentEmployeeAdvanceSalary(advance, paymentId, true, action).then(
+      (data: number) => {
+        this.getEmployeesPaySheet(year, month);
+      }
+ 
+    );
+  }
+  removeAdvance(advance: EmployeeAdvancePayment, paymentId: number){
+    let year = this.selectedDate.getFullYear();
+    let month = this.selectedDate.getMonth()+1;
+    this.zesnaEmployeeModel.SetPermanentEmployeeAdvanceSalary(advance, paymentId, true, 'REMOVE').then(
+      (data: number) => {
+        this.getEmployeesPaySheet(year, month);
+      }
+ 
+    );
+  }
+  advanceAmount: number
+  onAddAdvancePayment(payment: EmployeeSalarySheet, index: number){
+    let year = this.selectedDate.getFullYear();
+    let month = this.selectedDate.getMonth()+1;
+    if(payment.Id === 0){
+      this.zesnaEmployeeModel.SetPermanentEmployeeSalarySheet(payment,year, month, this.selectedEstate.Id, 'INSERT').then(
+        (data: number) => {
+          let advance: EmployeeAdvancePayment = {Id: 0, Amount: this.advanceAmount, PaymentDate: new Date(), Description: ''};
+          this.setPaymentAdvanceDetails(data, advance, 'INSERT');
+        }
+  
+      );
+    }
+    else{
+      let advance: EmployeeAdvancePayment = {Id: 0, Amount: this.advanceAmount, PaymentDate: new Date(), Description: ''};
+ 
+      this.setPaymentAdvanceDetails(payment.Id, advance, 'INSERT');
+    }
+  
+  }
+
+  onToggleItem(event: MouseEvent, overlayPanel: any): void {
+    overlayPanel.toggle(event);
 }
+}
+
+

@@ -136,9 +136,12 @@ export class TemporaryEmployeePaySheetComponent {
 
   getTotalAmount(){
     let total = 0;
-    this.employeePayments.forEach(item => {
-     total = total + (item.OtHours*item.EmployeeOTRate) + item.EmployeeSalary;
-    });
+    if(this.employeePayments.length > 0){
+      this.employeePayments.forEach(item => {
+        total = total + (item.OtHours*item.EmployeeOTRate) + item.EmployeeSalary;
+       });
+    }
+   
     return total;
   }
   onChangeSearch(){
