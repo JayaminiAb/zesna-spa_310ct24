@@ -102,10 +102,41 @@
                 <td>{{payment.ETF}}</td>
                 <td>{{payment.NoPay}}</td>
                 <td>
-                    <span class="advanced_paymnt_btn" *ngIf="payment.Advance.length === 0">+ Advanced Payment</span>
-                    <span *ngFor="let item of payment.Advance; let last = last">{{item.Amount}} - {{item.PaymentDate |
-                        date : 'dd' }}<span *ngIf="last">&nbsp;<i class="fa fa-plus"></i></span><br
-                            *ngIf="!last" /></span>
+                    <!-- Add Advanced Payment Button -->
+                    <span 
+                        (click)="onToggleItem($event, overlayPanel)" 
+                        class="advanced_paymnt_btn" 
+                        *ngIf="payment.Advance.length === 0">
+                        + Advanced Payment
+                    </span>
+                
+                    <!-- Display Existing Payments -->
+                    <span *ngFor="let item of payment.Advance; let last = last">
+                        {{ item.Amount }} - on {{ item.PaymentDate | date: 'dd' }}
+                        <span *ngIf="last">
+                            &nbsp;
+                            <i class="fa fa-plus" (click)="onToggleItem($event, overlayPanel)"></i>
+                        </span>
+                        <br *ngIf="!last" />
+                        <i class="fa fa-trash" (click)="removeAdvance(item, payment.Id)"></i>
+                    </span>
+                
+                    <!-- Overlay Panel for Adding Payments -->
+                    <p-overlayPanel #overlayPanel>
+                        <input 
+                            class="advance_input" 
+                            [(ngModel)]="advanceAmount" 
+                            type="number" 
+                            placeholder="Enter amount" />
+                        <i 
+                            class="fa fa-check" 
+                            (click)="onAddAdvancePayment(payment, rowIndex, overlayPanel)">
+                        </i>
+                        <i 
+                            class="fa fa-times" 
+                            (click)="overlayPanel.hide()">
+                        </i>
+                    </p-overlayPanel>
                 </td>
                 <td>{{payment.NetSalary}}</td>
 
