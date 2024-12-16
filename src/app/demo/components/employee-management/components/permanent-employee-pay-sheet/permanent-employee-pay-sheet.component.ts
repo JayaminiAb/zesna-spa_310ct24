@@ -273,7 +273,6 @@ export class PermanentEmployeePaySheetComponent {
     return noPayValue;
   }
   getNetSalary(payment: EmployeeSalarySheet) {
-    debugger
     let monthlySal = this.getTotalMonthlySalary(payment);
     let firstOT = this.getFirstHalfOT(payment);
     let secondOT = this.getFirstHalfOT(payment);
