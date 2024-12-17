@@ -84,13 +84,33 @@ export class PermanentEmployeePaySheetComponent {
     // Declare the first half salary
     let firstHalfSalary = 0;
     let daySalary = 0;
+    let noOfDays = 0;
 
     // Check if the user has a day salary
-    if (payment.EmployeeDetails.SalaryTypeCode == 'DAILY') {
+    if (payment.EmployeeSlaryType == 'DAILY') {
       // Getting the day salary
       daySalary = payment.EmployeeDetails.Salary;
+
+      // Loop through the attendance
+      for (let i = 0; i < payment.EmployeeAttendance.length; i++) {
+        if (payment.EmployeeAttendance[i].AttendanceSattus == 'P') {
+          // Getting the attendance date
+          let attendanceDate = new Date(payment.EmployeeAttendance[i].AddedDate);
+
+          // Extract the date
+          const date = attendanceDate.getDate();
+
+          // Check the date comparison
+          if (date <= 15) {
+            noOfDays++;
+          }
+          // End of Check the date comparison
+        }
+      }
+      // End of Loop through the attendance
+
       // Calculate the salary for 15 days
-      firstHalfSalary = daySalary * 15;
+      firstHalfSalary = daySalary * noOfDays;
     }
     // End of Check if the user has a day salary
 
@@ -108,12 +128,34 @@ export class PermanentEmployeePaySheetComponent {
     const year = selectedYear.getFullYear();
     // Getting the no of days
     let noOfDays = this.getDaysFrom16ToEndOfMonth(month, year);
+
     // Check if the user has a day salary
-    if (payment.EmployeeDetails.SalaryTypeCode == 'DAILY') {
+    if (payment.EmployeeSlaryType == 'DAILY') {
       // Getting the day salary
       daySalary = payment.EmployeeDetails.Salary;
+
+      let calDays = 0;
+
+      // Loop through the attendance
+      for (let i = 0; i < payment.EmployeeAttendance.length; i++) {
+        if (payment.EmployeeAttendance[i].AttendanceSattus == 'P') {
+          // Getting the attendance date
+          let attendanceDate = new Date(payment.EmployeeAttendance[i].AddedDate);
+
+          // Extract the date
+          const date = attendanceDate.getDate();
+
+          // Check the date comparison
+          if (date > 15) {
+            calDays++;
+          }
+          // End of Check the date comparison
+        }
+      }
+      // End of Loop through the attendance
+
       // Calculate the salary for 15 days
-      secondHalfSalary = daySalary * noOfDays;
+      secondHalfSalary = daySalary * calDays;
     }
     // End of Check if the user has a day salary
 
@@ -127,34 +169,48 @@ export class PermanentEmployeePaySheetComponent {
 
     // Loop through the attendance
     for (let i = 0; i < payment.EmployeeAttendance.length; i++) {
-      // Getting the attendance date
-      let attendanceDate = new Date(payment.EmployeeAttendance[i].AddedDate);
+      if (payment.EmployeeAttendance[i].AttendanceSattus == 'P') {
+        // Getting the attendance date
+        let attendanceDate = new Date(payment.EmployeeAttendance[i].AddedDate);
 
-      // Extract the date
-      const date = attendanceDate.getDate();
+        // Extract the date
+        const date = attendanceDate.getDate();
 
-      // Getting the selected month and year
-      let selectedYear = this.selectedDate;
-      // Extract the month (0-based, so add 1 for 1-based month)
-      const month = selectedYear.getMonth() + 1;
-      // Extract the year
-      const year = selectedYear.getFullYear();
-      // Getting the no of days
-      let noOfDays = this.getDaysFrom16ToEndOfMonth(month, year);
-      // Check the date comparison
-      if (date > 15 && date <= (15 + noOfDays)) {
-        // Difference
-        // Calculate the difference in milliseconds
-        const durationInMilliseconds = new Date(payment.EmployeeAttendance[i].OffTime).getTime() - new Date(payment.EmployeeAttendance[i].OnTime).getTime();
-        // Convert milliseconds to hours
-        const durationInHours = durationInMilliseconds / (1000 * 60 * 60);
-        // Calculate excess hours above 8
-        let excessHours = durationInHours - 8;
-        excessHours = Math.max(0, Math.round(excessHours));
+        // Getting the selected month and year
+        let selectedYear = this.selectedDate;
+        // Extract the month (0-based, so add 1 for 1-based month)
+        const month = selectedYear.getMonth() + 1;
+        // Extract the year
+        const year = selectedYear.getFullYear();
+        // Getting the no of days
+        let noOfDays = this.getDaysFrom16ToEndOfMonth(month, year);
+        // Check the date comparison
+        if (date > 15 && date <= (15 + noOfDays)) {
+          // Difference
+          // Calculate the difference in milliseconds
+          const durationInMilliseconds = new Date(payment.EmployeeAttendance[i].OffTime).getTime() - new Date(payment.EmployeeAttendance[i].OnTime).getTime();
+          // Convert milliseconds to hours
+          const durationInHours = durationInMilliseconds / (1000 * 60 * 60);
+          // Calculate excess hours above 8
+          let excessHours = ((durationInHours - 8) < 0) ? 0 : durationInHours - 8;
+          let excessMins = excessHours * 60;
 
-        returnValue += (excessHours * otRate);
+          let totalHours = excessMins / 60;
+
+          let absNumber = totalHours.toString().split('.')[0];
+          let decimalNumber = totalHours.toString().split('.')[1];
+
+          returnValue += (+absNumber * otRate);
+
+          if (+decimalNumber > 50 && +decimalNumber < 75) {
+            //excessHours = Math.max(0, Math.round(excessHours));
+            returnValue += (0.5 * otRate);
+          } else if (+decimalNumber > 75) {
+            returnValue += (1 * otRate);
+          }
+        }
+        // End of Check the date comparison
       }
-      // End of Check the date comparison
     }
     // End of Loop through the attendance
 
@@ -168,26 +224,40 @@ export class PermanentEmployeePaySheetComponent {
 
     // Loop through the attendance
     for (let i = 0; i < payment.EmployeeAttendance.length; i++) {
-      // Getting the attendance date
-      let attendanceDate = new Date(payment.EmployeeAttendance[i].AddedDate);
+      if (payment.EmployeeAttendance[i].AttendanceSattus == 'P') {
+        // Getting the attendance date
+        let attendanceDate = new Date(payment.EmployeeAttendance[i].AddedDate);
 
-      // Extract the date
-      const date = attendanceDate.getDate();
+        // Extract the date
+        const date = attendanceDate.getDate();
 
-      // Check the date comparison
-      if (date <= 15) {
-        // Difference
-        // Calculate the difference in milliseconds
-        const durationInMilliseconds = new Date(payment.EmployeeAttendance[i].OffTime).getTime() - new Date(payment.EmployeeAttendance[i].OnTime).getTime();
-        // Convert milliseconds to hours
-        const durationInHours = durationInMilliseconds / (1000 * 60 * 60);
-        // Calculate excess hours above 8
-        let excessHours = durationInHours - 8;
-        excessHours = Math.max(0, Math.round(excessHours));
+        // Check the date comparison
+        if (date <= 15) {
+          // Difference
+          // Calculate the difference in milliseconds
+          const durationInMilliseconds = new Date(payment.EmployeeAttendance[i].OffTime).getTime() - new Date(payment.EmployeeAttendance[i].OnTime).getTime();
+          // Convert milliseconds to hours
+          const durationInHours = durationInMilliseconds / (1000 * 60 * 60);
+          // Calculate excess hours above 8
+          let excessHours = ((durationInHours - 8) < 0) ? 0 : durationInHours - 8;
+          let excessMins = excessHours * 60;
 
-        returnValue += (excessHours * otRate);
+          let totalHours = excessMins / 60;
+
+          let absNumber = totalHours.toString().split('.')[0];
+          let decimalNumber = totalHours.toString().split('.')[1];
+
+          returnValue += (+absNumber * otRate);
+
+          if (+decimalNumber > 50 && +decimalNumber < 75) {
+            //excessHours = Math.max(0, Math.round(excessHours));
+            returnValue += (0.5 * otRate);
+          } else if (+decimalNumber > 75) {
+            returnValue += (1 * otRate);
+          }
+        }
+        // End of Check the date comparison
       }
-      // End of Check the date comparison
     }
     // End of Loop through the attendance
 
@@ -208,11 +278,15 @@ export class PermanentEmployeePaySheetComponent {
     let noOfDays = this.getDaysFrom16ToEndOfMonth(month, year);
 
     // Check if the user has a day salary
-    if (payment.EmployeeDetails.SalaryTypeCode == 'DAILY') {
+    if (payment.EmployeeSlaryType == 'DAILY') {
       // Getting the day salary
       daySalary = payment.EmployeeDetails.Salary;
+
+
+      let count = payment.EmployeeAttendance.filter(obj => obj.AttendanceSattus == 'P').length;
+
       // Calculate the salary for 15 days
-      monthlySalary = daySalary * (noOfDays + 15);
+      monthlySalary = daySalary * count;
     } else {
       monthlySalary = payment.EmployeeDetails.Salary;
     }
@@ -261,7 +335,7 @@ export class PermanentEmployeePaySheetComponent {
     // End of Loop through the attendance
 
     // Check if the user has a day salary
-    if (payment.EmployeeDetails.SalaryTypeCode == 'DAILY') {
+    if (payment.EmployeeSlaryType == 'DAILY') {
       // Getting the day salary
       daySalary = payment.EmployeeDetails.Salary;
     } else {
@@ -283,13 +357,14 @@ export class PermanentEmployeePaySheetComponent {
     let etf = this.getEtf(payment);
     let noPay = this.getNoPay(payment);
 
-    let netSalary = (monthlySal + firstOT + secondOT + basicSal) - (epf + etf + noPay);
+    let netSalary = (monthlySal + firstOT + secondOT + payment.AdditionDaySalary) - (epf + etf + noPay);
 
     return netSalary;
   }
   getSalaryDeduction(payment: EmployeeSalarySheet) {
     return 0;
   }
+
   getDaysFrom16ToEndOfMonth(month: number, year: number): number {
     // JavaScript Date uses 0-based indexing for months (0 = January, 11 = December)
     const totalDaysInMonth = new Date(year, month, 0).getDate(); // Get total days in the month
@@ -307,7 +382,9 @@ export class PermanentEmployeePaySheetComponent {
   generateDisplayTable() {
     this.displayEmployeePayments = [];
     for (let index = 0; index < this.employeePayments.length; index++) {
+      debugger
       let obj: DisplayEmployeeSalarySheet = {
+        Id: this.employeePayments[index].Id,
         Name: this.employeePayments[index].EmployeeDetails.Fullname,
         SalaryFirstHalf: this.getFirstHalfSalary(this.employeePayments[index]),
         OTFirstHalf: this.getFirstHalfOT(this.employeePayments[index]),
@@ -327,54 +404,75 @@ export class PermanentEmployeePaySheetComponent {
       this.displayEmployeePayments.push(obj);
 
     }
-   
+
     console.log(this.displayEmployeePayments)
   }
 
-  setPaymentAdvanceDetails(paymentId: number, advance: EmployeeAdvancePayment, action: string){
+  setPaymentAdvanceDetails(paymentId: number, advance: EmployeeAdvancePayment, action: string) {
+    debugger
     let year = this.selectedDate.getFullYear();
-    let month = this.selectedDate.getMonth()+1;
+    let month = this.selectedDate.getMonth() + 1;
     this.zesnaEmployeeModel.SetPermanentEmployeeAdvanceSalary(advance, paymentId, true, action).then(
       (data: number) => {
         this.getEmployeesPaySheet(year, month);
       }
- 
+
     );
   }
-  removeAdvance(advance: EmployeeAdvancePayment, paymentId: number){
+  removeAdvance(advance: EmployeeAdvancePayment, paymentId: number) {
     let year = this.selectedDate.getFullYear();
-    let month = this.selectedDate.getMonth()+1;
+    let month = this.selectedDate.getMonth() + 1;
     this.zesnaEmployeeModel.SetPermanentEmployeeAdvanceSalary(advance, paymentId, true, 'REMOVE').then(
       (data: number) => {
         this.getEmployeesPaySheet(year, month);
       }
- 
+
     );
   }
   advanceAmount: number
-  onAddAdvancePayment(payment: EmployeeSalarySheet, index: number){
+  onAddAdvancePayment(payment: DisplayEmployeeSalarySheet, index: number) {
+    debugger
     let year = this.selectedDate.getFullYear();
-    let month = this.selectedDate.getMonth()+1;
-    if(payment.Id === 0){
-      this.zesnaEmployeeModel.SetPermanentEmployeeSalarySheet(payment,year, month, this.selectedEstate.Id, 'INSERT').then(
+    let month = this.selectedDate.getMonth() + 1;
+
+    if (payment.Id === 0) {
+      this.zesnaEmployeeModel.SetPermanentEmployeeSalarySheet(this.employeePayments[index], year, month, this.selectedEstate.Id, 'NEW').then(
         (data: number) => {
-          let advance: EmployeeAdvancePayment = {Id: 0, Amount: this.advanceAmount, PaymentDate: new Date(), Description: ''};
-          this.setPaymentAdvanceDetails(data, advance, 'INSERT');
+          this.zesnaEmployeeModel.GetPermanentEmployeeSalarySheet(year, month, this.selectedEstate.Id).then(
+            (data) => {
+              this.employeePayments = <EmployeeSalarySheet[]>data;
+              let advance: EmployeeAdvancePayment = { Id: 0, Amount: this.advanceAmount, PaymentDate: new Date(), Description: '' };
+              this.setPaymentAdvanceDetails(this.employeePayments[index].Id, advance, 'NEW');
+            }
+          );
         }
-  
+
       );
     }
-    else{
-      let advance: EmployeeAdvancePayment = {Id: 0, Amount: this.advanceAmount, PaymentDate: new Date(), Description: ''};
- 
-      this.setPaymentAdvanceDetails(payment.Id, advance, 'INSERT');
+    else {
+      let advance: EmployeeAdvancePayment = { Id: 0, Amount: this.advanceAmount, PaymentDate: new Date(), Description: '' };
+
+      this.setPaymentAdvanceDetails(payment.Id, advance, 'NEW');
     }
-  
+
   }
 
   onToggleItem(event: MouseEvent, overlayPanel: any): void {
     overlayPanel.toggle(event);
-}
+  }
+
+  updatePayment(rowIndex: number, additionSalary: number) {
+
+    let year = this.selectedDate.getFullYear();
+    let month = this.selectedDate.getMonth() + 1;
+
+    this.employeePayments[rowIndex].AdditionDaySalary = additionSalary;
+
+    this.zesnaEmployeeModel.SetPermanentEmployeeSalarySheet(this.employeePayments[rowIndex], year, month, this.selectedEstate.Id, 'UPDATE').then(
+      (data: number) => {
+      }
+    );
+  }
 }
 
 

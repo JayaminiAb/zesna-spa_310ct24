@@ -89,52 +89,48 @@
                     <p-cellEditor>
                         <ng-template pTemplate="input">
                             <input pInputText type="number" [(ngModel)]="payment.AdditionDaySalary"
-                                (change)="updatePayment(payment)" />
+                                (change)="updatePayment(rowIndex,payment.AdditionDaySalary)"
+                                (keydown.Enter)="updatePayment(rowIndex,payment.AdditionDaySalary)"
+                                (keydown.Tab)="updatePayment(rowIndex,payment.AdditionDaySalary)"
+                                (change)="updatePayment(rowIndex,payment.AdditionDaySalary)"
+                                (blur)="updatePayment(rowIndex,payment.AdditionDaySalary)" />
 
                         </ng-template>
                         <ng-template pTemplate="output">
-                            {{ payment.AdditionDaySalary }}
+                            {{ payment.AdditionalPayment }}
                         </ng-template>
                     </p-cellEditor>
                 </td>
                 <td>{{payment.BasicSalary}}</td>
-                <td>{{payment.EPF}}</td>
-                <td>{{payment.ETF}}</td>
+                <td>{{payment.EPF.toFixed(2)}}</td>
+                <td>{{payment.ETF.toFixed(2)}}</td>
                 <td>{{payment.NoPay}}</td>
                 <td>
                     <!-- Add Advanced Payment Button -->
-                    <span 
-                        (click)="onToggleItem($event, overlayPanel)" 
-                        class="advanced_paymnt_btn" 
+                    <span (click)="onToggleItem($event, overlayPanel)" class="advanced_paymnt_btn"
                         *ngIf="payment.Advance.length === 0">
                         + Advanced Payment
                     </span>
-                
+
                     <!-- Display Existing Payments -->
-                    <span *ngFor="let item of payment.Advance; let last = last">
+                    <div *ngFor="let item of payment.Advance; let last = last" class="advanceList">
                         {{ item.Amount }} - on {{ item.PaymentDate | date: 'dd' }}
+
+                        <i class="fa fa-trash" (click)="removeAdvance(item, payment.Id)"></i>
                         <span *ngIf="last">
                             &nbsp;
                             <i class="fa fa-plus" (click)="onToggleItem($event, overlayPanel)"></i>
                         </span>
-                        <br *ngIf="!last" />
-                        <i class="fa fa-trash" (click)="removeAdvance(item, payment.Id)"></i>
-                    </span>
-                
+
+                    </div>
+
                     <!-- Overlay Panel for Adding Payments -->
                     <p-overlayPanel #overlayPanel>
-                        <input 
-                            class="advance_input" 
-                            [(ngModel)]="advanceAmount" 
-                            type="number" 
+                        <input class="advance_input" [(ngModel)]="advanceAmount" type="number"
                             placeholder="Enter amount" />
-                        <i 
-                            class="fa fa-check" 
-                            (click)="onAddAdvancePayment(payment, rowIndex, overlayPanel)">
+                        <i class="fa fa-check" (click)="onAddAdvancePayment(payment, rowIndex, overlayPanel)">
                         </i>
-                        <i 
-                            class="fa fa-times" 
-                            (click)="overlayPanel.hide()">
+                        <i class="fa fa-times" (click)="overlayPanel.hide()">
                         </i>
                     </p-overlayPanel>
                 </td>

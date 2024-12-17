@@ -92,6 +92,7 @@ export interface EmployeeSalarySheet {
 }
 
 export interface DisplayEmployeeSalarySheet {
+  Id: number,
   Name: string;
   SalaryFirstHalf: number;
   OTFirstHalf: number;
